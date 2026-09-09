@@ -1,0 +1,12 @@
+# core: plans, runner, vision active learning, statistics, report
+numpy==2.4.4
+scipy==1.17.1
+pandas==3.0.2
+PyYAML==6.0.3
+matplotlib==3.10.9
+tqdm==4.70.0
+psutil==7.2.2
+pytest==9.1.1
+pytest-timeout==2.4.0
+nvidia-ml-py==13.610.43
+huggingface_hub==1.28.0
