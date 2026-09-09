@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "caenl-revision"
+version = "5.4.3"
+description = "CAENL Franklin Open major-revision experiment pipeline (standalone, single-GPU, file-logged, resumable)"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.26",
+  "scipy>=1.11",
+  "pandas>=2.1",
+  "PyYAML>=6.0",
+  "matplotlib>=3.8",
+  "torch>=2.3",
+  "torchvision>=0.18",
+  "tqdm>=4.66",
+  "psutil>=5.9",
+]
+
+[project.optional-dependencies]
+full = [
+  "transformers>=4.45",
+  "datasets>=2.20",
+  "diffusers>=0.30",
+  "accelerate>=0.33",
+  "torch-fidelity>=0.3.0",
+  "soundfile>=0.12",
+  "py7zr>=0.21",
+  "nvidia-ml-py>=12.0",
+  "pycocoevalcap>=1.2",
+  "yt-dlp>=2025.1.1",
+  "huggingface_hub>=0.25",
+  "pytest>=8.0",
+  "pytest-timeout>=2.3",
+]
+
+[project.scripts]
+caenl = "caenl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["timeout: maximum runtime for integration/gate tests"]
