@@ -1,0 +1,169 @@
+campaign_id: caenl-c4-calibration-v2
+campaign_role: pilot
+results_root: "${CAENL_RESULTS_ROOT:-/mnt/caenl/active/results}"
+data_root: "${CAENL_DATA_ROOT:-/mnt/caenl/active/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/mnt/caenl/active/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+
+hardware:
+  expected_gpu_name_regex: "L40S"
+  min_gpu_memory_gb: 44
+  min_system_memory_gb: 108
+  min_logical_cpus: 20
+  min_nvidia_driver: 550
+  torch_cuda: "12.4"
+
+preflight:
+  require_gpu: true
+  min_free_gb: 20
+
+defaults:
+  statistics:
+    minimum_paired_seeds_for_inference: 3
+  collapse:
+    truncated_spectral_rank: 128
+  language:
+    dataset: allenai/c4
+    subset: en
+    model: gpt2
+    init: pretrained
+    sequence_length: 1024
+    train_tokens: 10000000
+    validation_tokens: 500000
+    batch_tokens: 8192
+    lr: 0.00005
+    weight_decay: 0.01
+    warmup_steps: 100
+    monitored_layers: [6, 12]
+    dcr_token_subsample: 2048
+    configured_rank: {h6: 16, h12: 4}
+    target_effective_rank: {h6: 16, h12: 4}
+    controller_error_mode: absolute_log_ratio
+    ctrl_val_sequences: 64
+    monitoring_cadence_steps: 25
+    eval_every_steps: 250
+    checkpoint_every_steps: 250
+    log_every_steps: 25
+  macc_lite:
+    eta_lambda: 0.002
+    lambda_initial: 0.005
+    lambda_min: 0.0
+    lambda_max: 0.08
+    deadband: 0.10
+  full_macc:
+    lambda_initial: 0.005
+    lambda_min: 0.0
+    lambda_max: 0.08
+    hidden_dimensions: [128, 128]
+    policy_learning_rate: 0.0003
+    exploration_epsilon_start: 0.15
+    exploration_epsilon_end: 0.02
+    reward_baseline_ema: 0.10
+    entropy_coefficient: 0.001
+    action_space:
+      lambda_delta_choices: [-0.005, -0.0025, 0.0, 0.0025, 0.005]
+      layer_flags: [0, 1]
+      threshold_quantiles: [0.90]
+    reward:
+      validation_delta_weight: 1.0
+      validation_delta_scale: 5.0
+      value_delta_clip: 0.10
+      query_penalty_beta: 0.0
+      target_deviation_gamma: 0.005
+  quality_gates:
+    require_controller_updates: true
+    minimum_controller_updates: 5
+
+methods:
+  baseline:
+    regularizer: none
+    dcr_lambda: 0.0
+  fixed_r16_4_l0005:
+    regularizer: fixed_dcr
+    dcr_lambda: 0.005
+  fixed_r16_4_l001:
+    regularizer: fixed_dcr
+    dcr_lambda: 0.01
+  fixed_r32_8_l0005:
+    regularizer: fixed_dcr
+    dcr_lambda: 0.005
+  macc_lite_r16_4:
+    regularizer: macc_lite
+    dcr_lambda: 0.005
+  full_macc_r16_4:
+    regularizer: full_macc
+    dcr_lambda: 0.005
+
+stages:
+  - name: prepare_c4
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - name: c4
+          options:
+            tokenizer: gpt2
+            train_shards: ["en/c4-train.00000-of-01024.json.gz"]
+            validation_shards: ["en/c4-validation.00000-of-00008.json.gz"]
+            sequence_length: 1024
+            train_tokens: 10000000
+            validation_tokens: 500000
+    job: {}
+
+  - name: c4_calibration
+    type: language_c4
+    depends_on: [prepare_c4]
+    parallel: 1
+    analysis_role: pilot
+    include_in_science: true
+    include_in_inference: false
+    matrix:
+      seed: [201, 202]
+      method:
+        - baseline
+        - fixed_r16_4_l0005
+        - fixed_r16_4_l001
+        - fixed_r32_8_l0005
+        - macc_lite_r16_4
+        - full_macc_r16_4
+    overrides_by_method:
+      fixed_r16_4_l0005:
+        language:
+          configured_rank: {h6: 16, h12: 4}
+          target_effective_rank: {h6: 16, h12: 4}
+      fixed_r16_4_l001:
+        language:
+          configured_rank: {h6: 16, h12: 4}
+          target_effective_rank: {h6: 16, h12: 4}
+      fixed_r32_8_l0005:
+        language:
+          configured_rank: {h6: 32, h12: 8}
+          target_effective_rank: {h6: 32, h12: 8}
+      macc_lite_r16_4:
+        language:
+          configured_rank: {h6: 16, h12: 4}
+          target_effective_rank: {h6: 16, h12: 4}
+      full_macc_r16_4:
+        language:
+          configured_rank: {h6: 16, h12: 4}
+          target_effective_rank: {h6: 16, h12: 4}
+    expected:
+      seeds: [201, 202]
+      methods:
+        - baseline
+        - fixed_r16_4_l0005
+        - fixed_r16_4_l001
+        - fixed_r32_8_l0005
+        - macc_lite_r16_4
+        - full_macc_r16_4
+    job: {}
+
+  - name: aggregate
+    type: aggregate
+    depends_on: [c4_calibration]
+    cpu_only: true
+    matrix: {}
+    job: {}
