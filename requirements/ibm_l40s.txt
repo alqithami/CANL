@@ -1,0 +1,7 @@
+# PyTorch is installed by scripts/bootstrap_ibm_l40s.sh from the official cu124 index:
+#   torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0
+# This file records the IBM-L40S execution contract; task dependencies remain
+# pinned in core.txt, robustness.txt, language.txt, diffusion.txt, and audio.txt.
+torch==2.6.0
+torchvision==0.21.0
+torchaudio==2.6.0
