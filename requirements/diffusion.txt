@@ -1,0 +1,4 @@
+# diffusion (DDPM fine-tuning, FID/KID/IS)
+diffusers==0.40.0
+accelerate==1.14.0
+torch-fidelity==0.4.0
