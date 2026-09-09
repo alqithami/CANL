@@ -1,0 +1,53 @@
+campaign_id: caenl-imagenet100-pilot-v1
+campaign_role: pilot
+results_root: "${CAENL_RESULTS_ROOT:-/dev/shm/caenl-active/results}"
+data_root: "${CAENL_DATA_ROOT:-/dev/shm/caenl-active/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/dev/shm/caenl-active/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+hardware: {expected_gpu_name_regex: "L40S", min_gpu_memory_gb: 44, min_system_memory_gb: 108, min_logical_cpus: 20, min_nvidia_driver: 550, torch_cuda: "12.4"}
+preflight: {require_gpu: true, min_free_gb: 28}
+defaults:
+  dataset_options: {cache_resolution: 144, train_resolution: 128, test_resolution: 128}
+  training: {batch_size: 128, lr: 0.1, weight_decay: 0.0001, initial_epochs: 20, epochs_per_round: 8, warmup_epochs: 1.0, rrc_scale: [0.25, 1.0]}
+  active_learning: {initial_fraction: 0.1, rounds: 2, fraction_per_round: 0.1, candidate_size: 10000, controller_validation_fraction: 0.05, class_stats_max_examples: 20000}
+  robustness:
+    intermediate: {enabled: true, also_final: true, n_examples: 500, pgd_steps: 10}
+    final: {enabled: true, n_examples: 1000, chunk: 250, version: standard}
+    epsilon_sweep: {enabled: false}
+    corruptions: {enabled: false}
+  collapse: {monitoring_cadence_steps: 50, configured_rank: 64}
+  full_macc:
+    acquisition_reward_steps: 100
+    reward_baseline_ema: 0.10
+    reward: {validation_delta_weight: 1.0, validation_delta_scale: 2.0, value_delta_clip: 0.5, query_penalty_beta: 0.0, target_deviation_gamma: 0.05}
+  quality_gates: {require_controller_updates: true, minimum_controller_updates: 5}
+stages:
+  - name: prepare_imagenet100
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - {name: imagenet100, options: {cache_resolution: 144}}
+    job: {}
+  - name: imagenet100_pilot
+    type: vision_al
+    depends_on: [prepare_imagenet100]
+    parallel: 1
+    matrix:
+      dataset: [imagenet100]
+      arch: [resnet50]
+      seed: [101, 102]
+      method: [random, entropy, badge, coreset, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    expected:
+      seeds: [101, 102]
+      methods: [random, entropy, badge, coreset, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    job: {}
+  - name: aggregate
+    type: aggregate
+    depends_on: [imagenet100_pilot]
+    cpu_only: true
+    matrix: {}
+    job: {}
