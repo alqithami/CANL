@@ -1,0 +1,35 @@
+CÆNL v5.4.3 C4 confirmatory package validation
+Date: 2026-09-08
+
+Calibration basis
+- Input archive: caenl-c4-calibration-v2-20260908T033251Z.tar.gz
+- External SHA-256 verified: e1a3576d7efa2776168152223dae45838470c749970f86cdbea4cd83ef76a295
+- Internal retained-file SHA-256 checks: 177/177 passed
+- Calibration jobs: 12/12 succeeded; aggregate: 1/1 succeeded
+- Selected fixed DCR: ranks h6/h12 = 16/4, lambda = 0.01
+- MACC-Lite and Full MACC retained for confirmatory evaluation
+
+Static/package validation
+- All Python source and test files compile
+- All shell scripts pass `bash -n`
+- Confirmatory plan validation: valid=true, warnings=0, errors=0
+- Confirmatory plan fingerprint: 7a14c92b24470805
+- Expanded jobs: 26 total (1 preparation + 24 GPU + 1 aggregate)
+- Active/result roots resolve under /mnt/caenl
+
+Automated tests executed in this environment
+- 57 passed, 2 skipped in the core/storage/report/IBM/Full-MACC/C4 contract set
+- 19 passed, 2 skipped in vision regression tests
+- Skips require optional external runtime/data integrations and are exercised by IBM preflight
+
+New v5.4.3 safeguards
+- Plan-level frozen defaults now control report statistics
+- Six paired confirmatory seeds are required before inference
+- Configured cross-modal method comparisons are mandatory
+- Strict confirmatory validation requires nonempty crossmodal_significance.csv
+- Deterministic source-tree fingerprint and source-snapshot file checksum are recorded
+- Obsolete C4 pilot/calibration/confirmatory-v1 plans remain blocked
+- One-dataset lock and mounted-volume checks remain enabled
+
+The package has not executed the 100M-token confirmatory campaign in this local environment.
+The IBM L40S preflight and run are the next required steps.
