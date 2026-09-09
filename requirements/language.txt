@@ -1,0 +1,5 @@
+# language modelling (C4 / GPT-2)
+transformers==5.15.1
+datasets==5.0.1
+tokenizers==0.22.2
+safetensors==0.8.0
