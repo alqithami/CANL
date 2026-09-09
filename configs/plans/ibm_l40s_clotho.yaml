@@ -1,0 +1,44 @@
+campaign_id: ibm-l40s-clotho
+results_root: "${CAENL_RESULTS_ROOT:-/mnt/caenl/results}"
+data_root: "${CAENL_DATA_ROOT:-/mnt/caenl/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/mnt/caenl/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+hardware: {expected_gpu_name_regex: "L40S", min_gpu_memory_gb: 44, min_system_memory_gb: 108, min_logical_cpus: 20, min_nvidia_driver: 550, torch_cuda: "12.4"}
+preflight: {require_gpu: true, min_free_gb: 100}
+defaults:
+  audio:
+    dataset: clotho
+    manifest: null
+    manifest_min_coverage: null
+    manifest_verify_hashes: sample
+    captioning: {epochs: 10, batch_size: 16, metrics: [cider_d, bleu4, rouge_l, meteor, spice, validation_loss], official_metrics: true, java_metrics: true, spice: true}
+    retrieval: {epochs: 40, batch_size: 64}
+stages:
+  - name: prepare_clotho
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix: {dataset_spec: [{name: clotho}]}
+    job: {}
+  - name: captioning_clotho
+    type: audio_captioning
+    depends_on: [prepare_clotho]
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    expected: {seeds: [0, 1, 2], methods: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {}
+  - name: retrieval_clotho
+    type: audio_retrieval
+    depends_on: [prepare_clotho]
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    expected: {seeds: [0, 1, 2], methods: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {}
+  - name: aggregate
+    type: aggregate
+    depends_on: [captioning_clotho, retrieval_clotho]
+    cpu_only: true
+    matrix: {}
+    job: {}
