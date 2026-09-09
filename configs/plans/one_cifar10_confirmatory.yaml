@@ -1,0 +1,44 @@
+campaign_id: caenl-cifar10-confirmatory-v1
+campaign_role: confirmatory
+results_root: "${CAENL_RESULTS_ROOT:-/dev/shm/caenl-active/results}"
+data_root: "${CAENL_DATA_ROOT:-/dev/shm/caenl-active/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/dev/shm/caenl-active/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+hardware: {expected_gpu_name_regex: "L40S", min_gpu_memory_gb: 44, min_system_memory_gb: 108, min_logical_cpus: 20, min_nvidia_driver: 550, torch_cuda: "12.4"}
+preflight: {require_gpu: true, min_free_gb: 18}
+defaults:
+  quality_gates: {require_controller_updates: true, minimum_controller_updates: 20}
+stages:
+  - name: prepare_cifar10
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix: {dataset_spec: [{name: cifar10}]}
+    job: {}
+  - name: cifar10
+    type: vision_al
+    depends_on: [prepare_cifar10]
+    parallel: 1
+    matrix:
+      dataset: [cifar10]
+      arch: [resnet18_cifar]
+      seed: [0, 1, 2, 3, 4, 5]
+      method: [random, entropy, margin, coreset, badge, noise_stability, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    expected:
+      seeds: [0, 1, 2, 3, 4, 5]
+      methods: [random, entropy, margin, coreset, badge, noise_stability, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    job: {}
+  - name: supervised
+    type: vision_al
+    depends_on: [prepare_cifar10]
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4, 5], method: [supervised_full]}
+    job: {}
+  - name: aggregate
+    type: aggregate
+    depends_on: [cifar10, supervised]
+    cpu_only: true
+    matrix: {}
+    job: {}
