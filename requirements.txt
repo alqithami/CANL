@@ -1,0 +1,10 @@
+# Pinned dependencies of the CAENL revision pipeline (verified 2026-08-21 with Python 3.11).
+# PyTorch is NOT pinned here: install the CUDA build that matches the pod's driver first
+# (RunPod PyTorch images ship one; scripts/bootstrap_runpod.sh checks torch>=2.3 with CUDA).
+# The exact environment of a campaign is frozen into requirements.lock by the bootstrap script
+# after the GPU smoke succeeds, and pip freeze output is stored with every job summary.
+-r requirements/core.txt
+-r requirements/robustness.txt
+-r requirements/language.txt
+-r requirements/diffusion.txt
+-r requirements/audio.txt
