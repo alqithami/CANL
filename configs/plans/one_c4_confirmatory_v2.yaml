@@ -1,0 +1,143 @@
+campaign_id: caenl-c4-confirmatory-v2
+campaign_role: confirmatory
+results_root: "${CAENL_RESULTS_ROOT:-/mnt/caenl/active/results}"
+data_root: "${CAENL_DATA_ROOT:-/mnt/caenl/active/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/mnt/caenl/active/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+
+hardware:
+  expected_gpu_name_regex: "L40S"
+  min_gpu_memory_gb: 44
+  min_system_memory_gb: 108
+  min_logical_cpus: 20
+  min_nvidia_driver: 550
+  torch_cuda: "12.4"
+
+preflight:
+  require_gpu: true
+  min_free_gb: 80
+
+defaults:
+  statistics:
+    minimum_paired_seeds_for_inference: 6
+    crossmodal_comparisons:
+      - target: fixed_dcr
+        references: [baseline]
+      - target: macc_lite
+        references: [baseline]
+      - target: full_macc
+        references: [baseline, macc_lite]
+  collapse:
+    truncated_spectral_rank: 128
+  language:
+    dataset: allenai/c4
+    subset: en
+    model: gpt2
+    init: pretrained
+    sequence_length: 1024
+    train_tokens: 100000000
+    validation_tokens: 2000000
+    batch_tokens: 8192
+    lr: 0.00005
+    weight_decay: 0.01
+    warmup_steps: 200
+    monitored_layers: [6, 12]
+    dcr_token_subsample: 2048
+    configured_rank: {h6: 16, h12: 4}
+    target_effective_rank: {h6: 16, h12: 4}
+    controller_error_mode: absolute_log_ratio
+    ctrl_val_sequences: 64
+    monitoring_cadence_steps: 25
+    eval_every_steps: 500
+    checkpoint_every_steps: 500
+    log_every_steps: 50
+  macc_lite:
+    eta_lambda: 0.002
+    lambda_initial: 0.005
+    lambda_min: 0.0
+    lambda_max: 0.08
+    deadband: 0.10
+  full_macc:
+    lambda_initial: 0.005
+    lambda_min: 0.0
+    lambda_max: 0.08
+    hidden_dimensions: [128, 128]
+    policy_learning_rate: 0.0003
+    exploration_epsilon_start: 0.15
+    exploration_epsilon_end: 0.02
+    reward_baseline_ema: 0.10
+    entropy_coefficient: 0.001
+    action_space:
+      lambda_delta_choices: [-0.005, -0.0025, 0.0, 0.0025, 0.005]
+      layer_flags: [0, 1]
+      threshold_quantiles: [0.90]
+    reward:
+      validation_delta_weight: 1.0
+      validation_delta_scale: 5.0
+      value_delta_clip: 0.10
+      query_penalty_beta: 0.0
+      target_deviation_gamma: 0.005
+  quality_gates:
+    require_controller_updates: true
+    minimum_controller_updates: 100
+
+methods:
+  baseline:
+    regularizer: none
+    dcr_lambda: 0.0
+  fixed_dcr:
+    regularizer: fixed_dcr
+    dcr_lambda: 0.01
+  macc_lite:
+    regularizer: macc_lite
+    dcr_lambda: 0.005
+  full_macc:
+    regularizer: full_macc
+    dcr_lambda: 0.005
+
+stages:
+  - name: prepare_c4
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - name: c4
+          options:
+            tokenizer: gpt2
+            train_shards:
+              - "en/c4-train.00000-of-01024.json.gz"
+              - "en/c4-train.00001-of-01024.json.gz"
+              - "en/c4-train.00002-of-01024.json.gz"
+              - "en/c4-train.00003-of-01024.json.gz"
+            validation_shards:
+              - "en/c4-validation.00000-of-00008.json.gz"
+              - "en/c4-validation.00001-of-00008.json.gz"
+            sequence_length: 1024
+            train_tokens: 100000000
+            validation_tokens: 2000000
+    job: {}
+
+  - name: c4_confirmatory
+    type: language_c4
+    depends_on: [prepare_c4]
+    parallel: 1
+    analysis_role: confirmatory
+    include_in_science: true
+    include_in_inference: true
+    matrix:
+      seed: [301, 302, 303, 304, 305, 306]
+      method: [baseline, fixed_dcr, macc_lite, full_macc]
+    expected:
+      seeds: [301, 302, 303, 304, 305, 306]
+      methods: [baseline, fixed_dcr, macc_lite, full_macc]
+    job: {}
+
+  - name: aggregate
+    type: aggregate
+    depends_on: [c4_confirmatory]
+    cpu_only: true
+    matrix: {}
+    job: {}
