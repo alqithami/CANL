@@ -1,0 +1,36 @@
+campaign_id: caenl-diffusion-confirmatory-v1
+campaign_role: confirmatory
+results_root: "${CAENL_RESULTS_ROOT:-/dev/shm/caenl-active/results}"
+data_root: "${CAENL_DATA_ROOT:-/dev/shm/caenl-active/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/dev/shm/caenl-active/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+hardware: {expected_gpu_name_regex: "L40S", min_gpu_memory_gb: 44, min_system_memory_gb: 108, min_logical_cpus: 20, min_nvidia_driver: 550, torch_cuda: "12.4"}
+preflight: {require_gpu: true, min_free_gb: 20}
+defaults:
+  diffusion: {dataset: cifar10, model: google/ddpm-cifar10-32, init: pretrained, train_steps: 10000, batch_size: 64, lr: 0.00002, monitoring_cadence_steps: 50, checkpoint_every_steps: 500, eval_every_steps: 500, sampling_steps: 100, num_samples: 50000, sampling_batch_size: 64}
+  quality_gates: {require_controller_updates: true, minimum_controller_updates: 20}
+stages:
+  - name: prepare_diffusion
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - {name: cifar10}
+        - {name: ddpm_cifar10, options: {model: google/ddpm-cifar10-32, dataset: cifar10}}
+    job: {}
+  - name: diffusion
+    type: diffusion_ddpm
+    depends_on: [prepare_diffusion]
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    expected: {seeds: [0, 1, 2], methods: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {}
+  - name: aggregate
+    type: aggregate
+    depends_on: [diffusion]
+    cpu_only: true
+    matrix: {}
+    job: {}
