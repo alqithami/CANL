@@ -51,5 +51,28 @@
       "figures",
       "reported results"
     ]
+  },
+  "proofreading_revision": {
+    "results_starts_on_page": 13,
+    "forced_results_page_break_removed": true,
+    "layout": "Native two-column text and full-width floats, with appendix floats flushed before the bibliography.",
+    "edited_prose": [
+      "abstract",
+      "contribution paragraph",
+      "discussion opening",
+      "conclusion",
+      "acronym and layer definitions",
+      "duplicated statistical wording",
+      "neutral result heading"
+    ],
+    "preserved": [
+      "title",
+      "all numerical table bodies",
+      "equation and proof bodies",
+      "both algorithmic bodies",
+      "all four figures"
+    ],
+    "comparison_basis": "Submitted FRAOPE-D-25-02381 manuscript; private comparison note excluded from public manuscript.",
+    "no_new_training": true
   }
 }

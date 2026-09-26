@@ -16,27 +16,8 @@
 % replace its fonts without resetting STIX symbol slots (corrupting +/-, etc.).
 \usepackage{seqsplit}
 \usepackage{xurl,placeins}
-% The results use balanced two-column text blocks between placed tables.
-% This keeps each task's tables with its discussion and prevents a float backlog.
-\usepackage{multicol}
-\setlength{\multicolsep}{5pt plus 1pt minus 1pt}
-\raggedcolumns
-\makeatletter
-\newenvironment{placedtable}{%
-  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
-  \centering\sffamily\small
-  \def\@captype{table}%
-  \long\def\@makecaption##1##2{%
-    \noindent\parbox{\linewidth}{%
-      \sffamily\small\raggedright\textbf{##1}\par##2\par\vskip4pt}%
-  }%
-}{\end{minipage}\par\addvspace{8pt}}
-\newenvironment{placedfigure}{%
-  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
-  \centering\def\@captype{figure}%
-}{\end{minipage}\par\addvspace{8pt}}
-\makeatother
-
+% Native two-column flow with full-width table/figure floats.
+% No column-mode transition or forced page break precedes Results.
 \urlstyle{same}
 \Urlmuskip=0mu plus 1mu\relax
 \hypersetup{hidelinks,pdfauthor={Saad Alqithami},pdfsubject={Objective-aligned representation control and task-specific spectral regularization}}
@@ -139,36 +120,35 @@ with Objective-Aligned Representation Control}
 \cortext[1]{Corresponding author.}
 
 \begin{abstract}
-Representation regularization can alter feature geometry without improving
-prediction. We study objective-aligned representation control within an
-active-learning protocol. Collapse-Based Active Neural Learning (C\AE{}NL)
-separates acquisition from Dynamic
-Collapse Regularization (DCR), which penalizes a normalized within-class
-to between-class scatter ratio and includes a separation safeguard.
+We investigate whether feedback on class-conditional feature geometry
+improves learning under a fixed annotation budget. Collapse-Based Active
+Neural Learning (C\AE{}NL) separates label acquisition from Dynamic Collapse
+Regularization (DCR). Its classification objective penalizes a normalized
+within-class to between-class scatter ratio, includes a separation
+safeguard, and exposes the same statistic to coefficient control.
 We compare fixed strength, bounded deterministic feedback (MACC-Lite),
 and learned regularization control (Full MACC). Supporting analysis
-characterizes the scatter statistic, an isolated regularizer step,
-coefficient bounds, and a conditional nearest-centroid error bound.
-Across 12 ImageNet-100 conditions and six paired seeds, entropy acquisition
-with aligned DCR and MACC-Lite reaches $73.360\pm0.208\%$ accuracy
-(mean $\pm$ seed SD) at 60\% annotations. Its gain over entropy alone is
-1.897 percentage points, with an individual 95\% paired-$t$ interval of
-$[1.625,2.169]$. This follow-up comparison passes its within-family
-Holm-adjusted paired-$t$ test. A later matched fixed-strength control
-reaches $72.263\pm0.381\%$; Lite exceeds it in every seed, by 1.097 points
-on average with interval $[0.714,1.479]$. Both contrasts in this new
-two-comparison family pass the adjusted paired-$t$ test, while the
-six-seed adjusted exact tests cannot reach the rejection threshold.
-This isolates a setting-specific advantage over the specified fixed
-coefficient, without establishing superiority to a tuned fixed schedule.
-Full MACC shows no
-additional classification benefit, and robust accuracy under AutoAttack
-at $8/255$ is near zero. Separate spectral-regularization studies find a
-small GPT-2/C4 loss reduction with fixed DCR, worse CIFAR-10 diffusion FID,
-and no established AudioCaps CIDEr-D improvement. The findings support a
-specific classification treatment and a favorable Lite-versus-fixed
-contrast, while delineating the limits of mechanism attribution and
-cross-task scope.
+characterizes the statistic, local regularizer descent, coefficient
+bounds, and a conditional nearest-centroid error bound.
+An initial nine-condition ImageNet-100 study and three follow-up conditions
+use six paired seeds. At 60\% annotations, entropy acquisition with aligned
+DCR and MACC-Lite reaches $73.360\pm0.208\%$ accuracy (mean $\pm$ seed SD),
+compared with $71.463\pm0.320\%$ for entropy alone and
+$72.263\pm0.381\%$ for matched fixed-strength DCR. The respective gains are
+1.897 and 1.097 percentage points, with individual 95\% paired-$t$ intervals
+of $[1.625,2.169]$ and $[0.714,1.479]$. Both differences are positive in every
+seed and pass their study-specific Holm-adjusted paired-$t$ tests;
+the six-seed adjusted exact tests lack sufficient resolution for rejection.
+These sequential follow-ups support the tested treatment without
+establishing superiority to independently tuned fixed schedules.
+Full MACC provides no additional classification benefit, and AutoAttack
+accuracy at $8/255$ remains near zero. Separate spectral-regularization
+studies show a small GPT-2/C4 loss reduction with fixed DCR, worse CIFAR-10
+diffusion FID, and no established AudioCaps CIDEr-D improvement.
+The results identify a useful combination of entropy acquisition and
+simple representation feedback within the evaluated classification
+protocol, while showing that geometric intervention alone does not ensure
+robustness or gains across tasks.
 
 \end{abstract}
 
@@ -224,15 +204,18 @@ acquisition rule while retaining the same loss and controller. The last
 comparison matters because an improvement in the complete pipeline need
 not be an improvement in acquisition itself.
 
-Our contribution has three parts. First, we specify a normalized
-scatter objective with a separation safeguard and compare fixed,
-deterministic, and learned coefficient control. The construction combines
-established discriminative moments with explicit objective--feedback
-consistency; it does not introduce a new definition of neural collapse.
-Second, we give supporting mathematical characterizations and state the
-assumptions under which they apply. Third, we provide a paired-seed
-empirical study that distinguishes component comparisons from complete
-pipeline comparisons and retains unfavorable outcomes.
+Our contribution has three parts. First, we formulate a one-sided,
+normalized scatter penalty with frozen targets and a separation safeguard,
+and specify fixed, deterministic, and learned coefficient controls.
+The design combines established discriminative moments with explicit
+objective--feedback consistency. Second, we characterize the statistic's
+invariances, the local effect of an isolated regularizer step, and the
+bounds of the deterministic coefficient update, stating the additional
+conditions needed to connect geometry to prediction. Third, matched
+experiments separate acquisition choice, regularization, and coefficient
+control. They identify gains from simple feedback under both geometric
+and entropy acquisition, and test the limits of the broader
+representation-control hypothesis across tasks.
 
 The strongest observed ImageNet-100 treatment combines entropy acquisition
 with aligned DCR and MACC-Lite. It improves mean accuracy by 1.897
@@ -509,6 +492,10 @@ computes the moments in $O(nKd_l)$ operations per layer, with
 fixed $K=16$, without forming a $d_l\times d_l$ covariance matrix.
 
 \subsection{Aligned MACC-Lite}
+
+The Meta-Adaptive Collapse Controller (MACC) denotes the coefficient-control
+component. We evaluate a deterministic variant, MACC-Lite, and a learned
+variant, Full MACC; the latter adapts online within each run.
 
 Let $\widehat q_{l,t}$ be the training moving average at controller
 event $t$, with per-step observation weight $0.05$, and let
@@ -833,7 +820,6 @@ Prepared in TikZ with ChatGPT (OpenAI) assistance.}
 \end{figure*}
 
 
-
 \subsection{Spectral formulation for language, diffusion, and audio}
 \label{sec:spectral}
 
@@ -919,7 +905,7 @@ Normalization cancels a common positive scale when neither
 representation activates the norm floor.
 \end{proof}
 
-\begin{lemma}[Quadratic deviation is not covariance trace]
+\begin{lemma}[Expected quadratic deviation]
 \label{lem:mahalanobis}
 Let $Z$ have mean $\mu$ and covariance $\Sigma$, and let $A$ be
 a fixed symmetric matrix. If second moments exist,
@@ -1095,7 +1081,8 @@ Pool labels are consulted only after selection.
 \subsection{Classification optimization and matching}
 
 The backbone is a randomly initialized ResNet-50 with a 100-class
-head~\cite{he2016deep}. Each seed has one shared 40-nominal-epoch
+head~\cite{he2016deep}. Geometry is measured at the spatially pooled
+outputs of layer3 and layer4. Each seed has one shared 40-nominal-epoch
 cross-entropy initialization, reused by the original methods and
 later matched conditions.
 A physical minibatch contains 16 uniformly selected represented
@@ -1414,10 +1401,9 @@ or aligned-classification controller settings.
 
 The unused-shard evaluator compares fixed DCR, Lite, and Full separately
 with baseline, giving three contrasts per endpoint. It reports individual
-paired-$t$ intervals, raw paired-$t$ and exact sign-flip values, and Holm
-adjustment of the paired-$t$ values within each three-contrast family.
+paired-$t$ intervals and raw paired-$t$ and exact sign-flip values.
 Holm adjustment is applied separately to the paired-$t$ and exact
-values within each endpoint family. NLL is primary; perplexity is its
+values within each three-contrast endpoint family. NLL is primary; perplexity is its
 monotone transformation, while token accuracy and ECE remain secondary.
 
 
@@ -1686,9 +1672,6 @@ Numerical outputs are derived from the recorded experiments and
 reproducible calculations. The verification scope is described in
 Appendix~\ref{app:provenance}.
 
-\clearpage
-\onecolumn
-\begin{multicols}{2}
 \section{Results and analysis}\label{sec:results}
 
 \subsection{ImageNet-100 comparison across matched seeds}
@@ -1705,9 +1688,9 @@ aligned MACC-Lite attains $72.120\pm0.490\%$. Adding fixed aligned DCR to
 geometric acquisition gives +0.850 percentage points, and replacing fixed
 strength with Lite gives another +1.080 points. Both component differences
 are positive in all six paired seeds.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{All 12 ImageNet-100 conditions at 60\% annotations.
 Values are mean $\pm$ sample SD over six paired seeds; clean and standard
 AutoAttack accuracy use all 5,000 validation images. Study I denotes the
@@ -1738,9 +1721,9 @@ UHerding-Margin & B & $71.747\pm0.626$ & $0.007\pm0.010$ & $1.127922\pm0.021039$
 Entropy + aligned fixed DCR & C & $72.263\pm0.381$ & $0.000\pm0.000$ & $1.092014\pm0.013386$ & $0.071037\pm0.004253$ \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 Figure~\ref{fig:label_budget} shows the available per-phase clean-accuracy
 measurements, separating acquisition rules from aligned regularization.
 The budget trajectories are descriptive; the final 60\% endpoint remains
@@ -1748,9 +1731,9 @@ the basis of the declared clean-accuracy comparisons. The
 entropy-plus-Lite and entropy-plus-fixed trajectories are shown
 separately in Figure~\ref{fig:entropy_budget}, together with paired gains
 over entropy. All displayed points are measured phase endpoints.
-\end{multicols}
 
-\begin{figure}[!tbp]
+
+\begin{figure*}[pos=tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/figure2_budget.pdf}
 \caption{Acquisition and aligned regularization under the common
@@ -1763,9 +1746,9 @@ DCR conditions; entropy regularization follow-ups appear in
 Figure~\ref{fig:entropy_budget}. Connecting lines guide the eye, and no new
 area-under-curve test or inferential family is introduced.}
 \label{fig:label_budget}
-\end{figure}
+\end{figure*}
 
-\begin{multicols}{2}
+
 The two component contrasts pass the planned adjusted
 paired-$t$ threshold.
 Lite versus entropy does not: its raw paired-$t$ value
@@ -1787,9 +1770,9 @@ The acquisition-rule ablation shows
 that geometric acquisition is not necessary for the strongest
 observed result. No equal-performance full-supervision
 comparison establishes a 40\% annotation saving.
-\end{multicols}
 
-\begin{figure}[!tbp]
+
+\begin{figure*}[pos=tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/figure3_effects.pdf}
 \caption{All seven planned clean-accuracy contrasts in the original
@@ -1802,9 +1785,9 @@ not statistical significance. Multiplicity-adjusted tests are reported in
 Table~\ref{tab:planned_contrasts}; Lite versus entropy does not pass the
 adjusted paired-$t$ threshold.}
 \label{fig:paired_effects}
-\end{figure}
+\end{figure*}
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{All seven original clean-accuracy contrasts in percentage
 points. Intervals are individual unadjusted 95\% paired-$t$
 intervals. Each $p$-value column is separately Holm-adjusted
@@ -1833,9 +1816,9 @@ Random + aligned fixed DCR $-$ random &
 +0.820 & $[+0.297,+1.343]$ & 0.0309 & 0.2188 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 \subsection{Acquisition-rule ablation under aligned MACC-Lite}
 \label{sec:entropy_lite}
 
@@ -1872,9 +1855,9 @@ One image survives the attack for seed 802 and none for the
 other seeds, giving mean robust accuracy $0.0033\%$.
 This descriptive result does not change the robustness
 conclusion or the original robustness family.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{Two acquisition-rule clean-accuracy contrasts.
 Positive values favor entropy with aligned DCR and Lite.
 Intervals are individual unadjusted paired-$t$ intervals;
@@ -1893,9 +1876,9 @@ Geometry acquisition + aligned MACC-Lite &
 +1.240 & $[+0.707,+1.773]$ & 0.001875 & 0.0625 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 \subsection{Matched fixed-strength control within entropy acquisition}
 \label{sec:entropy_fixed}
 
@@ -1929,9 +1912,9 @@ as uniform throughout acquisition. Fixed DCR has zero robust-correct
 images in every seed under standard AutoAttack $8/255$ on all 5,000
 validation images. The new condition does not alter the near-zero
 robustness conclusion.
-\end{multicols}
 
-\begin{figure}[!tbp]
+
+\begin{figure*}[pos=tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/figure4_entropy.pdf}
 \caption{Matched entropy treatments across annotation budgets and seeds.
@@ -1946,9 +1929,9 @@ early budgets, but exceeds both comparators in all six final-budget seeds.
 Only the final 60\% comparisons enter the declared follow-up tests. All
 points derive from recorded measurements.}
 \label{fig:entropy_budget}
-\end{figure}
+\end{figure*}
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{The later fixed-control study's two clean-accuracy contrasts.
 Differences and individual unadjusted 95\% paired-$t$ intervals are in
 percentage points. Holm correction is applied separately to the two
@@ -1966,9 +1949,9 @@ Entropy + Lite $-$ entropy + fixed & +1.097 & $[+0.714,+1.479]$ &
 0.000721 & 0.001442 & 0.03125 / 0.0625 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 \subsection{Comparison with UHerding-Margin}
 \label{sec:uherding_results}
 
@@ -1997,9 +1980,9 @@ seeds 802 and 805, and none otherwise:
 mean robust accuracy $0.0067\%$.
 The comparison adds an executed recent mechanism while retaining
 its representation and selection-domain adaptations.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{The UHerding comparison's two clean-accuracy contrasts,
 in percentage points. Intervals are individual unadjusted 95\%
 paired-$t$ intervals; each test column is Holm-adjusted
@@ -2017,9 +2000,9 @@ Entropy + aligned Lite $-$ UHerding-Margin &
 +1.613 & $[+0.957,+2.270]$ & 0.002923 & 0.0625 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 \subsection{Representation changes and learned-controller behavior}
 
 Within the original matrix, geometry with aligned Lite has the
@@ -2029,9 +2012,8 @@ from task performance. These statistics are not a causal
 mediation analysis, and the all-class assessment ratio does not
 establish attainment of the 16-class anchor target.
 
-\end{multicols}
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{Final all-class normalized geometry, mean $\pm$ seed SD.
 The statistic averages layer3 and layer4
 $\log((W+\epsilon)/(B+\epsilon))$.}
@@ -2052,9 +2034,9 @@ Entropy + aligned fixed & $1.0027\pm0.0125$ \\
 Entropy + aligned Lite & $0.4725\pm0.0434$ \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 Full MACC executes 370, 368, 368, 374, 365, and 373
 learned-policy updates for seeds 801--806.
 Its mean accuracy is 0.237 points below aligned fixed DCR,
@@ -2072,7 +2054,7 @@ long-run stability analysis.
 Proposition~\ref{prop:bounded} bounds coefficients,
 not the network's geometric state or task error.
 
-\subsection{Adversarial robustness is not recovered}
+\subsection{Adversarial evaluation}
 
 Final checkpoints retain zero or one correct adversarial
 prediction out of 5,000. Mean robust accuracy is approximately
@@ -2088,9 +2070,10 @@ $8/255$; extending its selected-checkpoint diagnostic from
 Smaller-radius post-hoc diagnostics did not establish an
 overall advantage over random acquisition.
 The final study retains the original attack radius.
-Improved clean performance and supervised geometry therefore
-do not support the earlier robustness-benefit interpretation.
+Improved clean accuracy and supervised geometry therefore coexist
+with negligible adversarial accuracy under this threat model.
 
+\FloatBarrier
 \subsection{C4: a small spectral-regularization effect}
 \label{sec:c4_results}
 
@@ -2113,9 +2096,9 @@ $[0.00187898,0.00201560]$. Full is inconclusive relative to baseline:
 $+0.00023624$, interval $[-0.00018778,+0.00066025]$, raw paired-$t$ value
 0.2115. This is not an equivalence result. The secondary comparison
 outputs are retained in Appendix~\ref{app:c4_secondary}.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{Unused-local-shard C4 evaluation of the same 24 final
 GPT-2 checkpoints. Values are mean $\pm$ sample SD over six
 training seeds, with 1,999,872 next-token predictions per checkpoint.
@@ -2141,9 +2124,9 @@ $3.384448\pm0.000462$ & $29.50170\pm0.01362$ &
 $0.012438\pm0.000584$ & $0.380040\pm0.000111$ \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{All three unused-shard C4 NLL contrasts. Differences and individual
 95\% paired-$t$ intervals are in $10^{-4}$ nats/token; negative differences
 favor regularization. Holm adjustment is within the three NLL contrasts,
@@ -2160,9 +2143,9 @@ Spectral MACC-Lite & $+19.47289$ & $[+18.78979,+20.15599]$ & $8.9651\times10^{-9
 Spectral Full MACC & $+2.36236$ & $[-1.87778,+6.60250]$ & 0.21152 & 0.21152 & 0.21875 & 0.21875 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 The language controller records 488 actions per seed.
 Lite spends much of training at the 0.08 coefficient cap;
 Full records 428--445 learned-policy updates.
@@ -2182,9 +2165,9 @@ relative to that baseline by 0.156, 0.415, and 0.154.
 Each increase occurs in every seed.
 Improvement over the unchanged pretrained model therefore
 does not establish added value from DCR.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{Diffusion confirmation with 50,000 generated images per
 condition and seed. Values are mean $\pm$ sample SD over six
 seed streams. FID is primary. Reference variation is sampling
@@ -2208,9 +2191,9 @@ Spectral Full MACC &
 $8.211\pm0.116$ & $6.744\pm0.088$ & $8.729\pm0.050$ \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{All four diffusion FID contrasts.
 Positive differences indicate worse FID for the target.
 Intervals are individual unadjusted paired-$t$ intervals.
@@ -2233,9 +2216,9 @@ Full MACC $-$ baseline &
 +0.15431 & $[+0.06205,+0.24658]$ & 0.0077204 & 0.125 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 All four contrasts pass their adjusted paired-$t$ tests.
 Each raw exact value is 0.03125, giving adjusted value 0.125.
 The consistent adverse direction is retained with the
@@ -2275,9 +2258,9 @@ Every primary interval spans zero, and both adjusted test
 families give $p=1.0000$ for all three contrasts.
 This is an inconclusive comparison, not proof of equivalence,
 zero population effect, or universal ineffectiveness.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{AudioCaps results on the fixed available subset:
 mean $\pm$ sample SD over seeds 1301--1306.
 Each run uses 866 test clips with five references each.
@@ -2302,9 +2285,9 @@ $0.6703\pm0.0175$ & $0.2382\pm0.0094$ &
 $0.2319\pm0.0023$ & $0.1659\pm0.0041$ & $0.4181\pm0.0100$ \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{All three primary audio CIDEr-D contrasts.
 Positive differences favor the target.
 Intervals are individual unadjusted paired-$t$ intervals;
@@ -2324,9 +2307,9 @@ Spectral Full MACC &
 $-0.003329$ & $[-0.015313,+0.008656]$ & 1.0000 & 1.0000 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 Seed-level CIDEr-D values are reported in Appendix~\ref{app:classification_details}.
 
 Raw paired-$t$ values are 0.8971, 0.4673, and 0.5072;
@@ -2367,9 +2350,9 @@ Loading, serialization, evaluation, and orchestration are not
 fully represented by summing these columns.
 All references record geometry, and initialization is allocated
 once per conceptual condition.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{Recorded ImageNet-100 timing components in seconds
 per conceptual condition run, averaged over six seeds.
 Training and feedback include their allocated shared-initialization
@@ -2392,18 +2375,18 @@ Random + aligned fixed & 5240.51 & 182.30 & 0.86 & 811.51 \\
 \model{} + aligned Full & 5240.13 & 182.30 & 738.97 & 783.91 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 The maximum PyTorch-allocated memory is 6,075,090,432 bytes
 for every conceptual run in the original nine-condition matrix.
 Shared initialization may dominate that maximum;
 equal values do not establish zero additional controller memory.
 The phase-specific comparison below is narrower but still
 does not isolate a complete controller footprint.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{Post-initialization training time and peak allocation.
 Duration is the mean sum over five post-initialization
 training phases. Peaks describe PyTorch allocation in
@@ -2420,9 +2403,9 @@ Entropy + aligned MACC-Lite & 5,391.31 & 6,066,701,824 \\
 Difference & +136.29 & +262,144 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 The duration in Table~\ref{tab:phase_cost} and the synchronized
 training-compute component in Table~\ref{tab:compute} have different
 measurement boundaries. The former is a phase-duration record; the
@@ -2478,20 +2461,22 @@ setup, final decoding, metrics, and saved-result audits.
 Feature extraction is reused from the pilot.
 Rejected initialization attempts and verification are separate.
 No universal sub-10\% or end-to-end overhead claim follows.
-\end{multicols}
-\begin{multicols}{2}
+
+
+\FloatBarrier
 \section{Discussion and limitations}\label{sec:discussion}
 
-\subsection{What objective alignment contributes}
+\subsection{Classification gains and their interpretation}
 
-The principal classification finding is a favorable
-\emph{combined aligned-loss-and-Lite treatment} within the
-evaluated training regime.
-The original matrix supplies matched fixed-versus-none
-and Lite-versus-fixed comparisons under geometric acquisition.
-The acquisition-rule ablation supplies a favorable combined-treatment
-comparison and shows that the geometry score is unnecessary
-for the strongest observed mean.
+The classification experiments show that simple coefficient feedback
+can improve accuracy within the evaluated active-learning protocol.
+Lite exceeds fixed DCR by 1.080 percentage points under geometric
+acquisition and by 1.097 points under entropy acquisition. The strongest
+observed condition combines entropy with aligned DCR and Lite, reaching
+73.360\% mean accuracy. Thus, the benefit is compatible with a standard
+uncertainty-based query rule and does not require geometric acquisition.
+This distinction makes representation control a component that can be
+evaluated separately from the choice of acquisition criterion.
 
 The later entropy-plus-fixed control separates two observed treatment
 contrasts: +0.800 points for adding the fixed aligned loss and safeguard,
@@ -2525,9 +2510,9 @@ training. The combined entropy-plus-Lite result is not
 a general rejection of uncertainty-weighted coverage.
 
 Table~\ref{tab:claim_boundaries} summarizes the empirical scope.
-\end{multicols}
 
-\begin{placedtable}
+
+\begin{table*}[pos=tbp]
 \caption{Supported observations and claims not established.
 These distinctions apply to the reported protocols rather
 than all possible implementations of the framework.}
@@ -2564,9 +2549,9 @@ Six-seed available-subset test comparison without established CIDEr-D gain &
 Equivalence, full-original-benchmark comparability, or general audio gains \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{multicols}{2}
+
 \subsection{Limits of the classification and statistical evidence}
 
 The visual study uses one backbone, one 100-class subset,
@@ -2654,18 +2639,27 @@ verification limits in Appendix~\ref{app:provenance} remain applicable;
 source availability is not a claim of independently repeated training.
 
 \section{Conclusion}\label{sec:conclusion}
-Objective-aligned representation control improves classification in the
-specified ImageNet-100 protocol. Entropy acquisition with aligned DCR and
-MACC-Lite reaches $73.360\pm0.208\%$ accuracy at 60\% annotations and exceeds
-matched fixed strength by 1.097 percentage points. This supports the tested
-adaptive treatment; it does not establish superiority over tuned fixed
-schedules or meaningful adversarial robustness. Full MACC adds no
-established classification benefit. The separate spectral studies yield a
-small C4 loss reduction, worse diffusion FID, and inconclusive audio effects.
-Representation control should therefore be judged by task performance,
-with its objective, feedback rule, computational cost, and evaluation scope
-made explicit.
+\model{} combines an objective-aligned scatter penalty with bounded
+coefficient control inside an active-learning protocol. On ImageNet-100,
+entropy acquisition with aligned DCR and MACC-Lite reaches
+$73.360\pm0.208\%$ accuracy at 60\% annotations, improving over entropy
+alone by 1.897 percentage points and matched fixed-strength DCR by
+1.097 points. Both gains occur in all six paired seeds. The result supports
+simple representation feedback as a useful addition to entropy acquisition
+under the evaluated protocol; the strongest condition does not require
+the proposed geometric query score.
 
+The evidence remains specific to the tested backbone, data subset,
+coefficient settings, and sequential study design. Full MACC provides no
+additional classification benefit, and clean-accuracy gains do not yield
+meaningful AutoAttack robustness. The separate spectral studies give a
+small C4 loss reduction, worse diffusion FID, and inconclusive audio
+effects. These outcomes motivate evaluating representation control through
+matched task-level comparisons, with explicit separation of acquisition,
+loss design, and feedback, rather than treating geometric change as a
+sufficient indicator of learning quality.
+
+\FloatBarrier
 \section*{Funding}
 This research received no external funding or in-kind support.
 
@@ -2679,7 +2673,7 @@ Saad Alqithami: Conceptualization, Methodology, Data curation,
 Formal analysis, Investigation, Project administration, Resources,
 Software, Validation, Visualization, Writing -- original draft,
 Writing -- review and editing.
-\end{multicols}
+
 \medskip
 \appendix
 
@@ -2690,7 +2684,7 @@ comparisons. The experimental units and statistical families are defined
 in Section~\ref{sec:statistics}.
 
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{Matched entropy treatments at 60\% annotations. Clean accuracies
 are percentages; differences are percentage points. Entropy and Lite are
 reused completed results. Lite robust-correct counts use standard
@@ -2714,10 +2708,10 @@ Mean & 71.463 & 72.263 & 73.360 & +0.800 & +1.097 & --- \\
 Sample SD & 0.320 & 0.381 & 0.208 & 0.288 & 0.364 & --- \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{Matched UHerding comparison at 60\% annotations.
 Entropy references are reused completed results.
 UHerding uses the fixed-initial-R50 adaptation of
@@ -2741,9 +2735,9 @@ Mean $\pm$ SD & $71.463\pm0.320$ &
 $71.747\pm0.626$ & $73.360\pm0.208$ & --- \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{All six paired audio CIDEr-D values from the final
 confirmation test evaluation.}
 \label{tab:audio_seeds}
@@ -2760,7 +2754,7 @@ Seed & Baseline & Fixed & Lite & Full \\
 1306 & 0.669446 & 0.672400 & 0.665875 & 0.675435 \\
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
 \subsection{What the development studies established}
 
@@ -2837,7 +2831,7 @@ presentation. Perplexity is descriptive rather than an independent
 primary outcome. Positive differences are adverse for perplexity and ECE;
 negative differences are adverse for token accuracy.
 
-\begin{placedtable}
+\begin{table*}[pos=tbp]
 \caption{Complete secondary unused-shard C4 comparisons. Each panel has its
 own three-contrast Holm family. Confidence intervals are individual and
 unadjusted. The indicated scaling applies to both differences and intervals;
@@ -2866,14 +2860,15 @@ Spectral Full MACC & $-0.26752$ & $[-0.63924,+0.10420]$ & 0.12355 & 0.2471 & 0.0
 
 \bottomrule
 \end{tabularx}
-\end{placedtable}
+\end{table*}
 
 
 % Flush every appendix float before the bibliography.
 
+\FloatBarrier
 \begingroup
 \small
-\begin{multicols}{2}
+
 
 \section*{Declaration of generative AI and AI-assisted technologies
 in the manuscript preparation process}
@@ -3188,7 +3183,7 @@ in: \emph{IEEE International Conference on Computer Vision},
 
 
 \end{thebibliography}
-\end{multicols}
+
 \endgroup
 
 
