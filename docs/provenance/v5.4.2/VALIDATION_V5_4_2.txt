@@ -1,0 +1,144 @@
+CÆNL v5.4.2 C4 calibration package validation
+2026-09-08T02:10:57Z
+
+== Python compilation ==
+PASS
+
+== Shell syntax ==
+PASS
+
+== Calibration plan validation ==
+{
+  "campaign_id": "caenl-c4-calibration-v2",
+  "campaign_root": "/mnt/caenl/active/results/caenl-c4-calibration-v2",
+  "jobs_total": 14,
+  "fingerprint": "af54dd2e934400ce",
+  "errors": [],
+  "warnings": [],
+  "valid": true
+}
+
+== Focused and regression tests ==
+.............................ss.......................................s. [ 97%]
+s.                                                                       [100%]
+70 passed, 4 skipped in 29.00s
+
+== Existing C4 archive report regression ==
+{
+  "root": "/mnt/data/v542_report_regression_c4",
+  "campaign_role": "pilot",
+  "report_dir": "pilot_report",
+  "n_jobs": 10,
+  "n_finished_jobs_all_roles": 10,
+  "generated_at": "2026-09-08T02:11:50+00:00",
+  "quick": false,
+  "bootstrap_replicates": 10000,
+  "permutation_replicates": 10000,
+  "minimum_paired_seeds_for_inference": 3,
+  "report_meta": {
+    "role": "pilot",
+    "report_dir": "pilot_report",
+    "banner": "PILOT \u2014 NOT CONFIRMATORY",
+    "language": {
+      "model": "gpt2",
+      "train_tokens": 10000000,
+      "validation_tokens": 500000,
+      "sequence_length": 1024
+    },
+    "diffusion": {
+      "model": "DDPM",
+      "train_steps": null,
+      "num_samples": null,
+      "sampling_steps": null,
+      "sampler": "DDIM"
+    },
+    "audio": {
+      "dataset": null,
+      "caption_epochs": null,
+      "retrieval_epochs": null
+    },
+    "protocol_version": 5
+  },
+  "tables": [
+    "/mnt/data/v542_report_regression_c4/pilot_report/tables/language_c4.tex"
+  ],
+  "figures": [
+    "/mnt/data/v542_report_regression_c4/pilot_report/figures/language_c4_validation_nll.pdf",
+    "/mnt/data/v542_report_regression_c4/pilot_report/figures/language_c4_perplexity.pdf"
+  ],
+  "vision_rows": 0,
+  "crossmodal_rows": 152,
+  "publication_check": {
+    "/mnt/data/v542_report_regression_c4": {
+      "campaign_root": "/mnt/data/v542_report_regression_c4",
+      "campaign_role": "pilot",
+      "report_dir": "pilot_report",
+      "generated_at": "2026-09-08T02:11:50+00:00",
+      "ok": true,
+      "errors": []
+    }
+  },
+  "publication_stages": {
+    "/mnt/data/v542_report_regression_c4": [
+      {
+        "stage": "prepare_c4",
+        "type": "prepare_data",
+        "generated_at": "2026-09-08T02:11:50+00:00",
+        "plan_fingerprint": "182b07d91fcf3764",
+        "expected": {
+          "job_ids": [
+            "prepare-c4"
+          ]
+        },
+        "n_expected": 1,
+        "n_ok": 1,
+        "ok": true,
+        "errors": []
+      },
+      {
+        "stage": "c4_pilot",
+        "type": "language_c4",
+        "generated_at": "2026-09-08T02:11:50+00:00",
+        "plan_fingerprint": "182b07d91fcf3764",
+        "expected": {
+          "job_ids": [
+            "baseline/seed101",
+            "fixed_dcr/seed101",
+            "macc_lite/seed101",
+            "full_macc/seed101",
+            "baseline/seed102",
+            "fixed_dcr/seed102",
+            "macc_lite/seed102",
+            "full_macc/seed102"
+          ],
+          "seeds": [
+            101,
+            102
+          ],
+          "methods": [
+            "baseline",
+            "fixed_dcr",
+            "full_macc",
+            "macc_lite"
+          ]
+        },
+        "n_expected": 8,
+        "n_ok": 8,
+        "ok": true,
+        "errors": []
+      }
+    ]
+  }
+}
+PASS
+
+== Final packaging recheck ==
+2026-09-08T02:20:00Z
+Focused C4/core/storage tests: 30 passed in 3.36s
+Calibration plan: 14 jobs, valid=true, no errors or warnings
+PASS
+
+== Obsolete-plan safety guard ==
+C4 calibration/storage guard tests: 14 passed in 2.77s
+Legacy caenl-c4-pilot-v1 and caenl-c4-confirmatory-v1 execution blocked
+PASS

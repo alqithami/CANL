@@ -1,0 +1,46 @@
+{
+  "validation_date_utc": "2026-09-13",
+  "package": "caenl_aligned_imagenet100_v1",
+  "local_environment": {
+    "python": "3.13.5",
+    "versions": {
+      "torch": "2.10.0+cpu",
+      "torchvision": "0.25.0+cpu",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "matplotlib": "3.10.8"
+    },
+    "cuda_available": false
+  },
+  "checks": {
+    "python_compile": "PASS",
+    "shell_syntax": "PASS",
+    "cpu_self_test_checks": 78,
+    "real_224px_resnet50_cpu_aligned_forward_backward_optimizer": "PASS (batch 4)",
+    "all_nine_method_branches_cpu_fixture": "PASS",
+    "two_acquisition_rounds_with_exact_budget_cpu_fixture": "PASS",
+    "full_macc_interrupted_resume_bitwise_cpu_state_and_history": "PASS",
+    "54_record_reporting_contract": "PASS on synthetic records isolated in a temporary directory",
+    "all_zero_robustness_statistical_guard": "PASS",
+    "complete_archive_internal_checksum_validation": "PASS on temporary report/export fixture",
+    "archive_excludes_checkpoint_weights": "PASS",
+    "vendor_source": "audited aligned.py and original FullMACC copied byte-for-byte; digests in VENDORED_SOURCE.json"
+  },
+  "not_executed_here": [
+    "IBM Linux/PyTorch 2.6 GPU campaign",
+    "full-resolution full-dataset training",
+    "official AutoAttack live evaluation (dependency absent locally)",
+    "actual end-to-end runtime or performance benefit"
+  ],
+  "mandatory_automatic_server_preflight": [
+    "package and protocol hashes",
+    "mounted /mnt/caenl and existing environment",
+    "NVIDIA L40S with PyTorch 2.6 and CUDA runtime 12.4",
+    "exact installed AutoAttack commit",
+    "batch-128 native ResNet50 aligned gradient/optimizer check",
+    "live official standard AutoAttack toy check",
+    "all 131689 dataset image SHA256 values and frozen class mapping"
+  ],
+  "integrity_scope": "Software validation and input binding do not assert a positive experimental result.",
+  "statistical_role": "Frozen independent-seed end-to-end protocol. Any outcome-driven changes require a separately named development/confirmatory revision."
+}

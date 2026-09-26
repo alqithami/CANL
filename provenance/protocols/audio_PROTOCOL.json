@@ -1,0 +1,269 @@
+{
+  "binding": "f9a511239012548a17b74c6cc936258e91b1f856055424d0f47b67c7388da757",
+  "data": {
+    "complete_record_sha256": "e2c59ee22ffe76e91560ad6c4cb298f27c2e182b3bbf9817dc65fd8b64769482",
+    "counts": {
+      "test": 866,
+      "train": 44466,
+      "valid": 440
+    },
+    "directory": "/mnt/caenl/persistent/datasets/audiocaps_opensound_v1/disjoint_v1",
+    "manifest_sha256": "6a19d868feb14ab49ea2a0fba29e2ffa2e6c4b26f0335831db13a8ab7da915b1",
+    "summary_sha256": "4571c00d591fe547b47d1d4eae037d358da976e5ef7ba96c95ef8ef23a475aa4"
+  },
+  "engine_sha256": "d3d01297c43357b9c34d81701b21f1b80c3a3a395bb65ef341026c61c918ac15",
+  "features": {
+    "new_extraction": false,
+    "parent": "/mnt/caenl/active/results/caenl-audiocaps-train-pilot-v1",
+    "parent_ready_sha256": "f757c0e35c86235b8d0878aa7a5c003e9dc10816984fcbbacdf45ad88129aba3",
+    "read_only": true,
+    "record": {
+      "binding": "3e6f47879d0f7297738daab2045a563666924a779fe84ce013a0ea017662113d",
+      "feature_extraction_wall_seconds_this_attempt": 978.2093755118549,
+      "files": {
+        "features.npy": "995a62c73983a54cd704b694414fc9cfa5d0bf6da5c1bed69423a159241c925a",
+        "meta.json": "ca1b157880b66ea8271ad6375b922ef22971dc6f6ba9948ac1bc334cca6f0b0f",
+        "n_tokens.npy": "edb38ca031831abb8e48f250213a613dada68c52b8467e1a135319a7d8d1b470"
+      },
+      "n_clips": 45772,
+      "preprocessing_audit_sha256": "b0761e485b215e926bda82c7836a93e93c34585a7c05c7f356adbe06114b7d88",
+      "status": "READY",
+      "timing_includes_resume_verification_and_final_hashing": true
+    },
+    "row_order": "unchanged finalized manifest"
+  },
+  "helper_sha256": "20acc1c0c585041ff5356d22c021d29e270d56f8f82d020d1c1b83714c3af879",
+  "metric_copy_sha256": "a6ad3c0ed5424873c147ba4c5090c84bdf1c87c13d1318292033fb15cfaa1876",
+  "models": {
+    "MIT/ast-finetuned-audioset-10-10-0.4593": {
+      "files": {
+        "config.json": "a93d525511d77e8ecc933d09674b85099815bbbb417c228a4edd655e252fb9ff",
+        "model.safetensors": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d",
+        "preprocessor_config.json": "8d04ba5a9c6fca5d39d0de2b1fd05ecf79deb589fbba279728bbebac39934231"
+      },
+      "original_snapshot_path": "/dev/shm/data/hf/models--MIT--ast-finetuned-audioset-10-10-0.4593/snapshots/f826b80d28226b62986cc218e5cec390b1096902",
+      "path": "/mnt/caenl/active/results/caenl-audiocaps-confirm-v1/assets/ast",
+      "resolved_before_task_training": true,
+      "snapshot_revision": "f826b80d28226b62986cc218e5cec390b1096902",
+      "trust_remote_code": false
+    },
+    "gpt2": {
+      "files": {
+        "config.json": "0daed7749b4f02b8f76240d5444551d7b08712dab4d0adb8239c56ba823bb7b4",
+        "generation_config.json": "ed0b32ac72c0f5f44a719abb2d7786ea5146c871f83717b7f2018065954de02b",
+        "merges.txt": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+        "model.safetensors": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+        "tokenizer.json": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6",
+        "tokenizer_config.json": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f",
+        "vocab.json": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783"
+      },
+      "original_snapshot_path": "/dev/shm/data/hf/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e",
+      "path": "/mnt/caenl/active/results/caenl-audiocaps-confirm-v1/assets/gpt2",
+      "resolved_before_task_training": true,
+      "snapshot_revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+      "trust_remote_code": false
+    }
+  },
+  "preserved_inputs_sha256": "f338fbb518aaab2b7fabe22caf7e8d1dca55531da2606547c4deced0ec83300a",
+  "protocol": {
+    "authoring_runtime_execution": false,
+    "backbone": "MIT/ast-finetuned-audioset-10-10-0.4593",
+    "backbone_frozen": true,
+    "batch_size": 32,
+    "checkpoint_selection": "final scheduled step, regardless of validation trend or result; no early stopping or best-score selection",
+    "completion_criterion": "all scheduled steps and finite required outputs, not a minimum gain",
+    "confirmation": {
+      "authoring_runtime_executed": false,
+      "batch_size": 32,
+      "changed_after_pilot_before_confirmation": [
+        "six new seeds",
+        "10 rather than 2 epochs and corresponding cosine horizon",
+        "final official-test caption evaluation"
+      ],
+      "checkpoint_selection": "final scheduled step, regardless of validation trend or result; no early stopping or best-score selection",
+      "controller_and_development_split": "unchanged pilot manifest-order partition of official validation",
+      "controller_validation_count": 64,
+      "data_rights": "mirror declares CC BY-NC 4.0; uploader rights not independently established; no raw-audio redistribution",
+      "dataset": "original AudioCaps available subset from pinned OpenSound mirror, with existing conflict/duration/split exclusions",
+      "dataset_counts": {
+        "test": 866,
+        "train": 44466,
+        "valid": 440
+      },
+      "development_validation_count": 376,
+      "epoch_definition": "new deterministic permutation of 44466 training pairs each epoch; drop final 18 pairs, unchanged from pilot",
+      "epochs": 10,
+      "evidence_role": "independent_six_training_seed_confirmation_conditional_on_fixed_pretrained_models_and_dataset",
+      "final_evaluation": "all 866 retained official-test recordings with five original captions each; no test feedback or checkpoint selection",
+      "initialization": "original pretrained GPT-2, frozen AST features and new per-seed random audio encoder/prefix; no pilot-final weights",
+      "methods": [
+        "baseline",
+        "fixed_dcr",
+        "macc_lite",
+        "full_macc"
+      ],
+      "name": "caenl-audiocaps-confirm-v1",
+      "negative_results_retained": true,
+      "no_dataset_or_model_downloads": true,
+      "no_new_feature_extraction": true,
+      "pretraining_overlap": "AST AudioSet pretraining may include underlying AudioCaps recordings; no verified absence of pretraining overlap",
+      "primary_contrasts": [
+        {
+          "reference": "baseline",
+          "target": "fixed_dcr"
+        },
+        {
+          "reference": "baseline",
+          "target": "macc_lite"
+        },
+        {
+          "reference": "baseline",
+          "target": "full_macc"
+        }
+      ],
+      "primary_endpoint": "CIDEr-D from retained pycocoevalcap/PTB implementation; higher is better",
+      "secondary_endpoints": [
+        "bleu1",
+        "bleu2",
+        "bleu3",
+        "bleu4",
+        "rouge_l",
+        "meteor",
+        "spice",
+        "spider",
+        "test token NLL",
+        "development token NLL",
+        "development mismatched-audio NLL",
+        "controller diagnostics",
+        "recorded costs"
+      ],
+      "secondary_inference": "descriptive only; do not replace the primary endpoint with a more favorable secondary metric",
+      "seeds": [
+        1301,
+        1302,
+        1303,
+        1304,
+        1305,
+        1306
+      ],
+      "source_boundary": "third-party available-recording subset, not the full original AudioCaps dataset or an official acoustic-authenticity certificate",
+      "statistics": "paired-t and all 64 exact sign flips; separate Holm correction across THREE primary contrasts; individual unadjusted 95% paired-t intervals",
+      "steps_per_epoch": 1389,
+      "steps_per_job": 13890,
+      "training_jobs": 24,
+      "unchanged_pilot_components": [
+        "spectral objective and targets",
+        "coefficient/control settings",
+        "AdamW rates and decay",
+        "100-step warmup",
+        "batch size",
+        "feature representation",
+        "beam decoding",
+        "Java metric implementation"
+      ],
+      "within_seed_matching": "same initial task weights, epoch permutations, per-step dropout seed and scheduled optimizer budget across methods"
+    },
+    "data_rights": "third-party mirror declares CC BY-NC 4.0; uploader rights not independently established; no redistribution",
+    "dataset": "original AudioCaps available subset via OpenSound mirror",
+    "decoder": "gpt2",
+    "earlier_exclusions_remain_excluded": true,
+    "epoch_definition": "deterministic permutation of 44466 training pairs; last 18 pairs dropped per epoch, with a new permutation each epoch",
+    "epochs": 10,
+    "evidence_role": "independent_six_training_seed_confirmation_conditional_on_fixed_pretrained_models_and_dataset",
+    "feature_extraction": {
+      "AST_forward_batch_size": 4,
+      "cache_dtype": "float16",
+      "channel_mix": "arithmetic mean as in retained loader",
+      "clips_longer_than_window": "first 10.24 seconds only; original bytes unmodified",
+      "max_windows": 1,
+      "model_forward_dtype": "float32",
+      "official_test_feature_extraction": "frozen pretrained backbone only; no caption-model or task evaluation",
+      "target_sr": 16000,
+      "tokens_per_window": 64,
+      "window_seconds": 10.24,
+      "zero_waveforms": "retain and report according to frozen dataset policy"
+    },
+    "initialization": "same pretrained GPT-2 and per-seed randomly initialized prefix/encoder across methods",
+    "methods": [
+      "baseline",
+      "fixed_dcr",
+      "macc_lite",
+      "full_macc"
+    ],
+    "mirror_revision": "b29b3243d6ce49c2cd0d48d4b5f0701ae7969ded",
+    "model": "retained 2-layer audio-token encoder, 8-token learned prefix and trainable GPT-2",
+    "official_caption_revision": "d004db3ea1b01cf4fd0347dd8d27db90cadc8809",
+    "official_test_caption_outcomes": true,
+    "optimizer": {
+      "decoder_lr": 5e-05,
+      "encoder_prefix_lr": 0.0001,
+      "grad_clip": 1.0,
+      "name": "AdamW",
+      "parameter_dtype": "float32",
+      "schedule": "retained cosine",
+      "training_autocast": "bfloat16",
+      "warmup_steps": 100,
+      "weight_decay": 0.01
+    },
+    "pretraining_overlap": "AST AudioSet pretraining may include underlying AudioCaps recordings; not an untouched-pretraining claim",
+    "retained_counts": {
+      "test": 866,
+      "train": 44466,
+      "valid": 440
+    },
+    "seeds": [
+      1301,
+      1302,
+      1303,
+      1304,
+      1305,
+      1306
+    ],
+    "spectral_control": {
+      "acquisition_head": false,
+      "cadence": 50,
+      "configured_target_rank": 16,
+      "fixed_lambda": 0.01,
+      "full_terminal_credit": "pending last action rewarded without drawing an unused next action",
+      "initial_adaptive_lambda": 0.01,
+      "lambda_bounds": [
+        0.0,
+        0.05
+      ],
+      "layers": [
+        "prefix",
+        "audio_enc"
+      ],
+      "lite_deadband": 0.1,
+      "lite_eta": 0.001,
+      "minimum_full_macc_learned_updates_for_technical_validation": 20,
+      "monitor_ema_decay": 0.99,
+      "not_supervised_aligned_classification_DCR": true,
+      "retained_spectrum_size": 64
+    },
+    "steps_per_epoch": 1389,
+    "steps_per_job": 13890,
+    "training_randomness": "reset CPU/CUDA dropout stream from seed and optimizer step before each training batch",
+    "validation": {
+      "beam_size": 3,
+      "caption_metrics": [
+        "CIDEr-D",
+        "BLEU-1..4",
+        "ROUGE-L",
+        "METEOR",
+        "SPICE",
+        "SPIDEr"
+      ],
+      "conditioning_diagnostic": "deterministic mismatched-audio development NLL",
+      "controller": "first 64 official-validation IDs in the frozen manifest order",
+      "decode_batch_size": 32,
+      "development": "remaining 376 official-validation IDs, all 5 reference captions",
+      "final_evaluation": "all 866 retained official-test recordings with five original captions each; no test feedback or checkpoint selection",
+      "implementation": "retained pycocoevalcap/PTB path; required metric failures stop, without fallback",
+      "max_new_tokens": 30,
+      "nll": "pooled next-token cross-entropy weighted by actual target-token count"
+    }
+  },
+  "runner_sha256": "bdd63d76a8241ad8ba167792ff4867005eb4f1beae46601a8ec462e58bfcdb9e",
+  "source_manifest_sha256": "e8a7a3039390e60491431376ec1d28aad07e674fbaf64ca89aaa18e52f6b9451"
+}

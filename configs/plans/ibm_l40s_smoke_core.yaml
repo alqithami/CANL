@@ -1,0 +1,175 @@
+# Real-GPU software smoke for one IBM Cloud gx3-24x120x1l40s instance.
+# Uses synthetic data only.  It exercises every task family, every controller,
+# real pinned AutoAttack, interruption/resume, local reporting, and the
+# publication gate before licensed or long-running data are introduced.
+campaign_id: ibm-l40s-smoke-core
+results_root: "${CAENL_RESULTS_ROOT:-/mnt/caenl/results}"
+data_root: "${CAENL_DATA_ROOT:-/mnt/caenl/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/mnt/caenl/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+
+hardware:
+  expected_gpu_name_regex: "L40S"
+  min_gpu_memory_gb: 44
+  min_system_memory_gb: 108
+  min_logical_cpus: 20
+  min_nvidia_driver: 550
+  torch_cuda: "12.4"
+preflight:
+  require_gpu: true
+  require_pinned_autoattack: true
+  min_free_gb: 20
+
+defaults:
+  reproducibility: {save_pip_freeze: false, telemetry_interval_s: 2}
+  dataset_options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}
+  arch_options: {width_mult: 0.25}
+  active_learning:
+    initial_fraction: 0.20
+    rounds: 2
+    fraction_per_round: 0.10
+    candidate_size: 300
+    controller_validation_fraction: 0.10
+    acquisition_batch_size: 64
+    eval_batch_size: 64
+  training:
+    initial_epochs: 2
+    epochs_per_round: 1
+    batch_size: 64
+    amp: true
+    channels_last: true
+    log_every_steps: 5
+  collapse: {monitoring_cadence_steps: 5, truncated_spectral_rank: 16, covariance_ema_decay: 0.9}
+  full_macc: {acquisition_reward_steps: 5}
+  robustness:
+    final: {enabled: true, version: custom, attacks: [apgd-ce], n_examples: 32, batch_size: 8, chunk: 16, apgd_restarts: 1, apgd_iterations: 5}
+    intermediate: {enabled: true, n_examples: 24, batch_size: 8, apgd_restarts: 1, apgd_iterations: 5, pgd_steps: 2}
+    epsilon_sweep: {enabled: false}
+    corruptions: {enabled: true, n_examples: 24, severities: [1]}
+  diagnostics: {margin_examples: 24}
+
+stages:
+  - name: prepare
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix: {}
+    job:
+      datasets:
+        - {name: synthetic, options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}}
+        - {name: synthetic_imagefolder, options: {num_classes: 6, per_class: 40, per_class_val: 8, layout: flat_csv}}
+
+  - name: vision_init
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [0], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: vision_al
+    type: vision_al
+    depends_on: [vision_init]
+    parallel: 1
+    matrix:
+      dataset: [synthetic]
+      arch: [resnet18_cifar]
+      seed: [0]
+      method: [random, entropy, margin, coreset, badge, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    overrides_by_method:
+      noise_stability: {method: {params: {noise_samples: 2, noise_scale: 0.001, sketch_dim: 32}}}
+    expected:
+      seeds: [0]
+      methods: [random, entropy, margin, coreset, badge, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+
+  - name: vision_resume
+    type: vision_al
+    depends_on: [vision_init]
+    parallel: 1
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [1], method: [caenl_full_macc]}
+    interrupt: {env: {CAENL_DEBUG_STOP_AT_ROUND: "1"}, verify: {from_round_min: 1, full_macc_acquisition_updates: true}}
+
+  - name: autoattack_standard
+    type: vision_aa_sanity
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [0]}
+    job:
+      sanity: {pretrained: false}
+      robustness:
+        final: {enabled: true, version: standard, n_examples: 16, batch_size: 4, chunk: 8}
+
+  - name: overhead
+    type: vision_overhead
+    depends_on: [prepare]
+    exclusive: true
+    parallel: 1
+    matrix: {arch: [resnet18_cifar], dataset: [cifar10], seed: [0]}
+    job:
+      dataset_options: {num_classes: 10}
+      overhead: {steps: 4, warmup_steps: 2, repeats: 1, batch_size: 32, configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10], acquisition_bench: {n_candidates: 120, budget: 12}}
+      adversarial_training: {steps: 2}
+
+  - name: language
+    type: language_c4
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      language: {dataset: synthetic, vocab_size: 256, train_tokens: 30000, validation_tokens: 6000, sequence_length: 64, model: tiny_random, model_options: {n_embd: 64, n_layer: 2, n_head: 2}, batch_tokens: 1024, lr: 0.001, warmup_steps: 3, monitored_layers: [1, 2], dcr_token_subsample: 512, configured_rank: 16, target_effective_rank: 16, monitoring_cadence_steps: 5, eval_every_steps: 10, checkpoint_every_steps: 10, log_every_steps: 5, ctrl_val_sequences: 4, eval_sequences: 12}
+
+  - name: diffusion
+    type: diffusion_ddpm
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      diffusion: {dataset: synthetic, dataset_options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}, model: tiny_random, model_options: {channels: [32, 64]}, num_train_timesteps: 100, train_steps: 20, batch_size: 16, lr: 0.0005, ema_decay: 0.9, dcr_timestep_range: [0, 60], configured_rank: 8, monitoring_cadence_steps: 5, eval_every_steps: 10, checkpoint_every_steps: 10, log_every_steps: 5, val_examples: 32, sampling_steps: 4, num_samples: 64, sampling_batch_size: 32, fid_reference: dataset, save_samples: 16}
+
+  - name: audio_captioning
+    type: audio_captioning
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      audio:
+        dataset: synthetic
+        synthetic_options: {n_clips: 40}
+        backbone: mel_cnn
+        tokens_per_window: 16
+        max_windows: 1
+        configured_rank: 8
+        monitoring_cadence_steps: 3
+        captioning: {decoder: tiny_random, prefix_length: 4, epochs: 1, batch_size: 8, lr: 0.001, decoder_lr: 0.001, beam_size: 2, max_new_tokens: 16, log_every_steps: 2, checkpoint_every_steps: 5, ctrl_val_clips: 4, metrics: [cider_d, bleu4, rouge_l, validation_loss], official_metrics: false, java_metrics: false, spice: false, heads: 2}
+
+  - name: audio_retrieval
+    type: audio_retrieval
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      audio:
+        dataset: synthetic
+        synthetic_options: {n_clips: 40}
+        backbone: mel_cnn
+        tokens_per_window: 16
+        max_windows: 1
+        configured_rank: 8
+        monitoring_cadence_steps: 3
+        retrieval: {text_encoder: hashing, d_model: 64, embed_dim: 32, heads: 2, epochs: 1, batch_size: 16, lr: 0.001, log_every_steps: 2, checkpoint_every_steps: 5, ctrl_val_clips: 8}
+
+  - name: gate_probe
+    type: fault_injection
+    depends_on: [language]
+    expect_failure: true
+    cpu_only: true
+    matrix: {seed: [0], method: [baseline]}
+    job: {fault: {kind: nan_metric, emulate: language_c4, final: {validation_nll: nan, perplexity: 20.0, token_ece: 0.05}}}
+
+  - name: aggregate
+    type: aggregate
+    depends_on: [vision_al, vision_resume, autoattack_standard, overhead, language, diffusion, audio_captioning, audio_retrieval, gate_probe]
+    cpu_only: true
+    matrix: {}
+    job: {}

@@ -1,0 +1,221 @@
+{
+  "binding": "05bb9cc074b108ff12abdefe68859da9f7a7c02fd9f44075d306066f6b57e545",
+  "protocol": {
+    "campaign": "caenl-uherding-v1",
+    "role": "supplementary_recent_baseline_shared_initializations",
+    "dataset_root": "/mnt/caenl/persistent/datasets/imagenet100_cmc",
+    "result_root": "/mnt/caenl/active/results/caenl-uherding-v1",
+    "archive_root": "/mnt/caenl/active/results/caenl-uherding-v1",
+    "expected_image_manifest_sha256": "0ba19db4a9d1aeb633d1339a5f9ec11f55dc219d884a266bb4d805eca8d6dc1f",
+    "expected_class_list_sha256": "5ee5db69d488bb799a286d8e181801c3d02798776c1ce9203e5450f64e086e07",
+    "expected_train_count": 126689,
+    "expected_val_count": 5000,
+    "num_classes": 100,
+    "seeds": [
+      801,
+      802,
+      803,
+      804,
+      805,
+      806
+    ],
+    "methods": [
+      {
+        "name": "uherding_margin_initial_r50",
+        "acquisition": "uherding_margin",
+        "regularizer": "none"
+      }
+    ],
+    "initial_labels": 12669,
+    "holdout_count": 633,
+    "acquisition_per_round": 12669,
+    "rounds": 5,
+    "initial_epochs": 40,
+    "round_epochs": 20,
+    "batch_classes": 16,
+    "samples_per_class": 8,
+    "lr_initial": 0.05,
+    "lr_round": 0.025,
+    "warmup_initial_epochs": 3,
+    "warmup_round_epochs": 1,
+    "momentum": 0.9,
+    "nesterov": true,
+    "weight_decay": 0.0001,
+    "clip_grad_norm": 5.0,
+    "batchnorm": "update during shared initial training; freeze running statistics during all five AL rounds in every method",
+    "workers": 8,
+    "eval_workers": 4,
+    "eval_batch": 64,
+    "image_size": 224,
+    "resize": 256,
+    "precision": "bf16_autocast_fp32_parameters; full_precision_reporting_and_attacks",
+    "layers": [
+      "layer3",
+      "layer4"
+    ],
+    "control_interval": 100,
+    "calibration_batches": 16,
+    "training_ema_beta": 0.05,
+    "alignment": {
+      "target_kappa_factor": 0.9,
+      "between_floor_factor": 0.5,
+      "scatter_epsilon": 1e-06,
+      "feature_norm_epsilon": 1e-06,
+      "huber_delta": 0.25,
+      "floor_weight": 0.01
+    },
+    "lambda_initial": 0.03,
+    "lambda_fixed": 0.03,
+    "lambda_max": 0.1,
+    "lite_smoothing": 0.2,
+    "full_macc": {
+      "hidden_dims": [
+        128,
+        128
+      ],
+      "lambda_delta_choices": [
+        -0.01,
+        -0.005,
+        0.0,
+        0.005,
+        0.01
+      ],
+      "policy_lr": 0.0003,
+      "epsilon_start": 0.1,
+      "epsilon_end": 0.02,
+      "entropy_coefficient": 0.001,
+      "reward_baseline_ema": 0.05,
+      "reward_geometry_weight": 0.1,
+      "reward_effort_weight": 0.01
+    },
+    "targets": "once per independent seed, after shared 40-epoch initial training, on fixed center-cropped 16x8 training anchors; shared by all methods; never tuned with official validation",
+    "acquisition": {
+      "candidate_size": 10000,
+      "per_pass_fraction": 0.1,
+      "quantile": 0.9,
+      "layer_weights": {
+        "layer3": 0.5,
+        "layer4": 0.5
+      },
+      "covariance": "fresh diagonal class covariance from currently labeled training images; shrinkage 1e-5",
+      "mahalanobis_shrinkage": 1e-05,
+      "noise_samples": 5,
+      "noise_scale": 0.001,
+      "badge": "exact factorized last-linear-weight gradient kernel; no random projection; bias excluded",
+      "noise_stability": "independent full-parameter Gaussian output-deviation implementation; five draws; exact concatenation/no projection; greedy k-center; not authors repository reproduction",
+      "full_macc_acquisition_head": false
+    },
+    "checkpoint_every_steps": 1000,
+    "checkpoint_each_epoch": true,
+    "minimum_policy_updates_per_completed_run": 100,
+    "autoattack": {
+      "commit": "a39220048b3c9f2cca9a4d3a54604793c68eca7e",
+      "norm": "Linf",
+      "epsilon": 0.03137254901960784,
+      "version": "standard",
+      "batch_size": 64,
+      "chunk_size": 256,
+      "all_validation_images": true
+    },
+    "statistics": {
+      "alpha": 0.05,
+      "primary_endpoints": [
+        "clean_accuracy"
+      ],
+      "comparisons": [
+        [
+          "uherding_margin_initial_r50",
+          "entropy"
+        ],
+        [
+          "entropy_aligned_lite",
+          "uherding_margin_initial_r50"
+        ]
+      ],
+      "test": "paired t and exact sign flip; Holm within these TWO new comparisons only; earlier families unchanged"
+    },
+    "new_adversarial_training": false,
+    "negative_results_are_valid": true,
+    "no_legacy_checkpoints_loaded": true,
+    "sources": [
+      "https://ojs.aaai.org/index.php/AAAI/article/view/29270",
+      "https://github.com/JordanAsh/badge",
+      "https://github.com/fra31/auto-attack/tree/a39220048b3c9f2cca9a4d3a54604793c68eca7e"
+    ]
+  },
+  "plan": {
+    "paper": "Uncertainty Herding: One Active Learning Method for All Label Budgets, ICLR 2025",
+    "paper_url": "https://arxiv.org/abs/2412.20644",
+    "author_code_reference": "https://github.com/BorealisAI/uherding",
+    "implementation": "independent implementation of weighted RBF-coverage greedy selection; no author code executed",
+    "replaces_tentative_candidate": "AutoAL was only proposed and was not run",
+    "fixed_feature_map": "per-seed shared-initial ResNet-50 normalized layer4; NO separately pretrained self-supervised model",
+    "acquisition_weights": "1 - (highest_probability - second_highest_probability), temperature-scaled",
+    "temperature": "minimum 15-bin ECE on budgeted 633-image holdout; 81 log-spaced temperatures in [0.1,10]",
+    "radius": "minimum positive Euclidean distance among all currently annotated fixed features; squared distances <=1e-12 treated as numerical zero",
+    "kernel": "exp(-squared_distance/sigma_squared)",
+    "numerical_policy": "float64 kernel, distance and gain computations; lazy greedy verified against exhaustive greedy",
+    "matching_choices": [
+      "fixed initial task features instead of the paper benchmark SSL features",
+      "CAENL candidate-pass convention: at most 10000, 10 percent per pass until exact quota",
+      "CAENL warm-started ResNet-50 training with frozen BatchNorm after shared initialization, not authors cold-start benchmarks",
+      "same physical batches, optimization schedule, targets for logging, label totals, final validation and attacks",
+      "holdout labels used only for temperature selection; not optimizer updates",
+      "regularization OFF for this external comparator"
+    ],
+    "claims_excluded": [
+      "reproduction of authors published benchmark scores",
+      "new independent seeds for previous conditions",
+      "universal state-of-the-art superiority",
+      "completed audio or diffusion experiments"
+    ],
+    "seeds": [
+      801,
+      802,
+      803,
+      804,
+      805,
+      806
+    ],
+    "primary_endpoint": "final clean_accuracy",
+    "new_contrasts_only": [
+      [
+        "uherding_margin_initial_r50",
+        "entropy"
+      ],
+      [
+        "entropy_aligned_lite",
+        "uherding_margin_initial_r50"
+      ]
+    ],
+    "statistics": "paired t and all 64 exact sign flips; separate Holm corrections across these TWO new contrasts only; individual unadjusted intervals",
+    "design_timing": "specified after earlier results, before any new baseline training; supplementary/post-hoc",
+    "robustness": "unchanged full-set standard 8/255 endpoint; descriptive external-baseline result",
+    "original_binding": "159fe52901f774e7abeb40a3afe96de81f1084a1bde0f63d070c7d2ecda325e1",
+    "previous_supplement_binding": "c6009897fdc2d87df4e257cd89e710bbb2465d6f80a98e4349e36ea01f2af058",
+    "source_files": {
+      "PROTOCOL.md": "b461bdb000d0a12d0c1243827cf45a0ab076a45828f5dd064a3917fee10dcf83",
+      "README.md": "646e8af5537194f7c98c8360343aae1533fa89a9dabda133c5581e2d49cdcf38",
+      "VALIDATION.json": "c111fd974b973c8a7229e20f3e72aa523311cdd1c35a108d097c8552239e7ed8",
+      "VENDORED_SOURCE.json": "3d822e316d01c71bf798d983428bc6e0dad6e0d4bc09edabdcc9ab414eb4e528",
+      "acquisition.py": "c6b8538083c44d4679ba5e3db7fef3ea72fe1cc603d78891c199a28f99a49264",
+      "aligned.py": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+      "control.py": "e7841d16086d4d828a93679793384d0308821bb47af493bc97e0bdd90e071387",
+      "env.sh": "37fe1f686283c7a4fe07dc0c8b1e3d4fd8ce00c669db36f7b00f73b211185e72",
+      "evaluation.py": "a992249469d83a97b984d71e768170441c0198f533183ebef9acc42acdbcccce",
+      "protocol.json": "9dfd0201a5d69d05dd8992ee9d642bb43c3a5d3b0b07b51c28ab03bd3c55e08e",
+      "reporting.py": "0d32d715706d353c56709a120603596c9abf29943f696a75ff09fd304e1d9273",
+      "run.sh": "4efc6b20a2b54157e2d329916f05903d682ab767c261c7c23a534f6641c7c335",
+      "run_campaign.py": "dfaccd69dc9b6027eb4ea04adb2323a62b530eac4bdda3c91df0886e2b095d5f",
+      "self_test.py": "031e9cf7b1765e0a2dc6e22bee76aa0904ea4ca46ce3170fe63c93719d808a1b",
+      "start.sh": "c3aa1852bf205817f7651ac38b5c2e89915c9735b44cdc71348d63c0bdae70c6",
+      "status.sh": "b49e0c86fd9348965535d58deebe67e452e63a88e838d34f2c3ab47c4d214be2",
+      "support.py": "bbe7f2f7f7ea1d0249225ff85e2d13377be5129f8f48de136229429fc1a7dfa2",
+      "training.py": "c2901463dd8fc76da7c2b55ac161874ba445455fe7ebb7fbff651421c6bc7365",
+      "vendor/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "vendor/controllers.py": "9e5fb0237e49643a9a2e8b24077a5b9f1cfd81487be298aa549d432a5345b88e"
+    },
+    "runner_sha256": "32e1af513fff66c0cabfe899328909f87c5a3a8bdb48fea1f08a0694095e68e8",
+    "input_files_digest": "518f0d79871de2368c9141b7110996c8423a64604948b989d9b3f22bf91c3b8d"
+  }
+}

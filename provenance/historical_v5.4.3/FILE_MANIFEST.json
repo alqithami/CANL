@@ -1,0 +1,728 @@
+{
+  "package": "caenl_revision_pipeline_v5.4.3_c4_confirmatory",
+  "version": "5.4.3",
+  "created_utc": "2026-09-08",
+  "file_count_excluding_manifest": 144,
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 75,
+      "sha256": "295b4b918cc2989a48a7b2091abdcd8d814e758871a380c7f052572b353c1abb"
+    },
+    {
+      "path": "README.md",
+      "size": 696,
+      "sha256": "f5a4e727c88002148439798d19cbd79a916e89611a8985fe66f1e00473105b6c"
+    },
+    {
+      "path": "V5_4_3_COMPLETION_REPORT.md",
+      "size": 556,
+      "sha256": "e49462549b7206a2d1b0219b5d261b7278c54e89cef7c05e63324a221615c3e1"
+    },
+    {
+      "path": "VALIDATION_V5_4_3.txt",
+      "size": 1735,
+      "sha256": "a1fe1ae579b8a37600bfdf46067a2b8816d60aa7fe7e23dd2028d2bd853ac7ec"
+    },
+    {
+      "path": "configs/plans/README_C4_PLAN_STATUS.md",
+      "size": 603,
+      "sha256": "6ded347bb9b11d729b337abca1a4393211d9bb220ddf0a87639a8fac5de04ad7"
+    },
+    {
+      "path": "configs/plans/franklin_budget_8gpu.yaml",
+      "size": 12932,
+      "sha256": "cc3ede58e874a44d8d38403969c92cb660e50bffb6f9d8ba69ec5a8c10e5d0ab"
+    },
+    {
+      "path": "configs/plans/franklin_complete_8gpu.yaml",
+      "size": 17208,
+      "sha256": "98abdf7176a40a6a0137cca28a1e1a0a6e4c725e648cca24557c58378243b309"
+    },
+    {
+      "path": "configs/plans/franklin_imagenet1k_revision.yaml",
+      "size": 8005,
+      "sha256": "9ce22c80b35971f1bd21b63342e08cda82f5b144b2494340be0b2b5edc44706d"
+    },
+    {
+      "path": "configs/plans/franklin_pod_a_resnet.yaml",
+      "size": 10847,
+      "sha256": "57bbcb889634d090ee6a0f405afb291fda023dd47d39bc1bcdcdc6866f9fa13e"
+    },
+    {
+      "path": "configs/plans/franklin_pod_b_vit.yaml",
+      "size": 4100,
+      "sha256": "fca56de4e256014f29e0ef678e72679e5002ddf7bfa9bd0e21f0135243e4beb9"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_audiocaps.yaml",
+      "size": 1864,
+      "sha256": "ba945c401f7c023cd8b2808b0985a0d22bd18ecd0f7f86d43b96a96dc0c34248"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_c4.yaml",
+      "size": 1535,
+      "sha256": "06cde4ab734a0e5d6d7df76b08c217cf6c169dbf7abb32012e4469600f2b0497"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_clotho.yaml",
+      "size": 1697,
+      "sha256": "d479d3245febdbed56dcf73f8cb9fd6d026fca2b216536ddb8a0021f925cd827"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_diffusion.yaml",
+      "size": 1409,
+      "sha256": "91086983195829e8e6ffe9db1d36c44562eb74fa635cdab25d56b1c13e97603b"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_imagenet_r50.yaml",
+      "size": 4651,
+      "sha256": "92b7674a19912cc2d317e64d7d1d55246afa46beaa41cc2b19249341d9fe7757"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_imagenet_vit.yaml",
+      "size": 5063,
+      "sha256": "c4082d26acf2c3b9e93ca2092627c69c1538bcde40581d6da98d503dc10a2f47"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_smoke_core.yaml",
+      "size": 7603,
+      "sha256": "350c09e756050b47f5c89e194c1e72574d71295c1358ae3d4b69ccf955173b56"
+    },
+    {
+      "path": "configs/plans/ibm_l40s_supporting.yaml",
+      "size": 4817,
+      "sha256": "b5b99dc98897fe4709694e4236af15aec0fddc363daf46916170368ead1f15bb"
+    },
+    {
+      "path": "configs/plans/one_audiocaps_confirmatory.yaml",
+      "size": 2256,
+      "sha256": "6378459a52a8bdebeb8ed4500e0b764aee028dde7809032b0b2a5db11d0ab2c0"
+    },
+    {
+      "path": "configs/plans/one_audiocaps_pilot.yaml",
+      "size": 2826,
+      "sha256": "c417068522c119bd191a03280c45db59f59e26aefbfe2829b2cc757cc8d3ff79"
+    },
+    {
+      "path": "configs/plans/one_c4_calibration_v2.yaml",
+      "size": 4504,
+      "sha256": "e343f0a5d36f72a8de78af1f75fe05162f2040e4c66031d3d5fce8b416f5d68d"
+    },
+    {
+      "path": "configs/plans/one_c4_confirmatory.yaml",
+      "size": 1864,
+      "sha256": "4b38fffa568a34140154d8f4ebf001cddb573b7fb712bbe551e8232b047b8372"
+    },
+    {
+      "path": "configs/plans/one_c4_confirmatory_v2.yaml",
+      "size": 3857,
+      "sha256": "033e5fb313fdcf0f882c22468237ad8a784af4ebc6498f70f92d7ad2104ace8f"
+    },
+    {
+      "path": "configs/plans/one_c4_pilot.yaml",
+      "size": 2399,
+      "sha256": "c56d17e9fc5b6755bd1fea116ec3afe1def93d2d2ea7d3b98bd4b7cf82e150e9"
+    },
+    {
+      "path": "configs/plans/one_cifar10_confirmatory.yaml",
+      "size": 1715,
+      "sha256": "b4c6a53a456e61e90f77b38c57bea31ecf5162dfdbf0d80bb3d262ba71108fdd"
+    },
+    {
+      "path": "configs/plans/one_diffusion_confirmatory.yaml",
+      "size": 1596,
+      "sha256": "b33cfd311cdd0613b53fb93fb62683ac21a0c9ab59f45cd60e42ba0f3c3217b1"
+    },
+    {
+      "path": "configs/plans/one_diffusion_pilot.yaml",
+      "size": 1821,
+      "sha256": "4642b4a4db4a421b1b56290d684bcf9a6c5d49f12f6e91a5d89d33a9cfb55165"
+    },
+    {
+      "path": "configs/plans/one_imagenet100_confirmatory.yaml",
+      "size": 1758,
+      "sha256": "25865cddbf6bf0eb93dccfedae43b3c615fb27e3c1924b8512ece2762d5ded65"
+    },
+    {
+      "path": "configs/plans/one_imagenet100_pilot.yaml",
+      "size": 2431,
+      "sha256": "5e62b45e58804516741082bcc0449dd0731040ef07cf08abbf34b9b6bb785af3"
+    },
+    {
+      "path": "configs/plans/smoke_cpu.yaml",
+      "size": 10069,
+      "sha256": "a6ffe665251988616d81d0ad8d2e6f95b5ff9248e4a03e7921ead11bdc37d4e9"
+    },
+    {
+      "path": "configs/plans/smoke_dev.yaml",
+      "size": 2484,
+      "sha256": "84802a46cac25c3bb630ee60e32be6d7cddd22423db03ab15e6f4c11ffa4feb9"
+    },
+    {
+      "path": "configs/plans/smoke_gpu.yaml",
+      "size": 9882,
+      "sha256": "f897fb849c3891a17bf2d3895df946f745d739dc1b92d554b22fe5d210c44f12"
+    },
+    {
+      "path": "configs/plans/supporting_1gpu.yaml",
+      "size": 9525,
+      "sha256": "cabc10f7c33d0e5db155572d72c2590a2cccbfbf1ceb88b84d5eff0e612603c5"
+    },
+    {
+      "path": "configs/protocol/revision_protocol.yaml",
+      "size": 12232,
+      "sha256": "a2110153df1329f674acc861b803f600e1ff6a6180f9bf89aa9407f0ab5b06e4"
+    },
+    {
+      "path": "configs/templates/one_c4_confirmatory_v2_PRECALIBRATION_OBSOLETE.yaml",
+      "size": 3898,
+      "sha256": "f4fa9bc44d5e8e1d363e9ac8096db516e5e3db0f864bbabd6697e077b5b0c5e5"
+    },
+    {
+      "path": "docker/Dockerfile",
+      "size": 2528,
+      "sha256": "c1910dd5332bf627bfe28cc8b561376992e14538ba696bd140bd27af6b3b6f9e"
+    },
+    {
+      "path": "docker/entrypoint.sh",
+      "size": 468,
+      "sha256": "b2dcba0d7f39e85e295d82989bfa8590ca679c1e6f73cf420b9709bc83641c4e"
+    },
+    {
+      "path": "docs/BASELINES.md",
+      "size": 6416,
+      "sha256": "79e7654df790cb98e019d1716c23b17f7d35cf68e2a5ce0832ef33c959a4cf26"
+    },
+    {
+      "path": "docs/C4_CALIBRATION_V2_SELECTION.md",
+      "size": 1563,
+      "sha256": "28a61bbfbfa3ef25f6865f96302140488a26bb6cfb9e36b6e17f820e844cde20"
+    },
+    {
+      "path": "docs/C4_CONFIRMATORY_V2_RUNBOOK.md",
+      "size": 2210,
+      "sha256": "ae729e50e0c81d2494fc21449404d0e2e06161cb2564cab7ad8db53791e3c3f4"
+    },
+    {
+      "path": "docs/CHANGELOG.md",
+      "size": 19091,
+      "sha256": "8619bc0382fb74fbcbc025b2abcdd89811a497a5dddb30aa77a64268b4c53594"
+    },
+    {
+      "path": "docs/PROTOCOL.md",
+      "size": 15388,
+      "sha256": "1d60b31029ac649fb82e2a1b4028b0809b516d3583eb00ad703ef9193e9413a6"
+    },
+    {
+      "path": "docs/provenance/v5.4.2/C4_CALIBRATION_V2_RUNBOOK.md",
+      "size": 3361,
+      "sha256": "6720ffbb03c06961c85d9174225d4fe8cfa3da3ca0a03da3d0969e7da6eee243"
+    },
+    {
+      "path": "docs/provenance/v5.4.2/V5_4_2_COMPLETION_REPORT.md",
+      "size": 3276,
+      "sha256": "e1da6ac3ec2029c916f409124bbd71f08ad1348367d461b01f97303d940c8011"
+    },
+    {
+      "path": "docs/provenance/v5.4.2/VALIDATION_V5_4_2.txt",
+      "size": 3776,
+      "sha256": "48c1cfe0d9ee23097dd4eb85683bafac713cc88c4f5368851ed557e376984b28"
+    },
+    {
+      "path": "pyproject.toml",
+      "size": 1117,
+      "sha256": "96a7b9cd4652a547465087b29c21e6a483fed994ca4b61552b4b543712e9f722"
+    },
+    {
+      "path": "requirements/audio.txt",
+      "size": 214,
+      "sha256": "b8730b14d650fd97a82a82128a2b24220ce75bdbf648d6671bf8150e581ce389"
+    },
+    {
+      "path": "requirements/core.txt",
+      "size": 251,
+      "sha256": "be57360fdb3d077c6df646358c1d53b66610b54372767a55ec46c3f4bdc91181"
+    },
+    {
+      "path": "requirements/diffusion.txt",
+      "size": 102,
+      "sha256": "ffcd32759a70596d21db6902b27e8d6c06057f680de2ebd80c53d5abaa8058e1"
+    },
+    {
+      "path": "requirements/ibm_l40s.txt",
+      "size": 353,
+      "sha256": "296588a96bf1624a33145cd7dcb828035b0b0c787561b130c35c3f41c5d26b4b"
+    },
+    {
+      "path": "requirements/language.txt",
+      "size": 109,
+      "sha256": "835eecabe37fb005a3e5814304f3944e8b88a3ffeb001372a065f54558fff9aa"
+    },
+    {
+      "path": "requirements/robustness.txt",
+      "size": 190,
+      "sha256": "fe13bacb73c9af3d055c15b1deb8b1fac902832a0341a51b8a388f5cbeff51ce"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 599,
+      "sha256": "7d1fc94535246dd38c7c04d7634940be04c1a89127fcccf1df8bda2a9006bf08"
+    },
+    {
+      "path": "scripts/bootstrap_ibm_l40s.sh",
+      "size": 5957,
+      "sha256": "c6ff49cee83144873a69a04c2e501225cef52d49c32a8d1c5bc2b22ea450cad3"
+    },
+    {
+      "path": "scripts/bootstrap_runpod.sh",
+      "size": 6968,
+      "sha256": "25f21d77d4ee8f87c3487aceebf5fcd210fe2881a6dee696e28fa896c0d8eb09"
+    },
+    {
+      "path": "scripts/cleanup_caenl.sh",
+      "size": 8435,
+      "sha256": "4ca751ed3b6fe01453024483a3603b7ede42c45daf6d7550fe37c3a7486171f3"
+    },
+    {
+      "path": "scripts/configure_ibm_volume.sh",
+      "size": 1498,
+      "sha256": "a6096514fb4a9d0b78ca383bd4abed7950d5e2e039d9419c43b5eeb1ec076322"
+    },
+    {
+      "path": "scripts/export_campaign_lean.sh",
+      "size": 3198,
+      "sha256": "2ea7c895257927612b9cc4f3440f4550bfc2f37fa1ae6f10bb5179c63788371a"
+    },
+    {
+      "path": "scripts/export_results.sh",
+      "size": 4031,
+      "sha256": "7201b7d6609316a5a53bd21f39d959bae920a31cd8d1347f519d177e9f2ec079"
+    },
+    {
+      "path": "scripts/get_imagenet_kaggle.sh",
+      "size": 5387,
+      "sha256": "d74ad918b23d1e4bf7ebf8ba08e0c81fd84df7348ace8b2583784e87343eab0f"
+    },
+    {
+      "path": "scripts/ibm_env.sh",
+      "size": 2521,
+      "sha256": "0d01c023c65d9272d4f1a763a99bee3e651df41ebd49770050709b502f072f9a"
+    },
+    {
+      "path": "scripts/ibm_first_inspection.sh",
+      "size": 744,
+      "sha256": "e1e68dd6654763ff9cdd60a1f383851a938854ffaffab30365a01124eb230046"
+    },
+    {
+      "path": "scripts/ibm_mount_volume.sh",
+      "size": 3528,
+      "sha256": "6b63c4dbf1b937a12e97b21dc5858760d9b6b145d28dfa46dff4b6a5d4f5cc61"
+    },
+    {
+      "path": "scripts/ibm_one_dataset_env.sh",
+      "size": 2927,
+      "sha256": "2aad8b599e624349238fdf3654d1f6b45508e9bc2ae1a90603cab1a87ff679d8"
+    },
+    {
+      "path": "scripts/ibm_verify_host.sh",
+      "size": 3290,
+      "sha256": "d60a8b3862c2e3a20a73165a6be3fea78cd98cd4c8fc22c6fd462129adac3aef"
+    },
+    {
+      "path": "scripts/install_ibm_media_runtime.sh",
+      "size": 2886,
+      "sha256": "155fa38c46843fda22b690656f007348f34b5137116e4c501d5376f0b52bb9ac"
+    },
+    {
+      "path": "scripts/make_budget_plan.py",
+      "size": 5259,
+      "sha256": "36110db0d95dd68b1f2d2df50d912350f0a3cd942096fe79c4b0221c3c1877b8"
+    },
+    {
+      "path": "scripts/make_pod_plans.py",
+      "size": 4689,
+      "sha256": "595f32ec27e00485d9a7b196c9f909c47d4e48bf27a87c30b83727d130103fa9"
+    },
+    {
+      "path": "scripts/merge_ibm_reports.sh",
+      "size": 1068,
+      "sha256": "84f0e5b7f094527c561a115e9bc36097d0cfa5283820c4f46c82e2862b5133f1"
+    },
+    {
+      "path": "scripts/migrate_legacy_model_cache.sh",
+      "size": 1250,
+      "sha256": "0a13f1e3ed9f582a65d2ff7acaacb671b0878af07818b3034f9cdac135654cbe"
+    },
+    {
+      "path": "scripts/prepare_ibm_l40s_phase.sh",
+      "size": 851,
+      "sha256": "7acddee93ef43150b50f98ea7062e1290997c151f2983ad1367efaf9608542a9"
+    },
+    {
+      "path": "scripts/run_ibm_l40s_campaign.sh",
+      "size": 947,
+      "sha256": "1c33ab904c72a1f5f5cf046fadc81486f7ef8119606f782650fa11ea5036e984"
+    },
+    {
+      "path": "scripts/run_ibm_l40s_phase.sh",
+      "size": 981,
+      "sha256": "acd0c48f9f9ca9d9e8db957bb31c4dc746b336f518bbd2cc1e35bcf97942d66f"
+    },
+    {
+      "path": "scripts/run_ibm_l40s_smoke.sh",
+      "size": 564,
+      "sha256": "8b47ca839968f4570e03526b0f2b8d6d82984f5c9c441018ca3b9abbf545152b"
+    },
+    {
+      "path": "scripts/run_one_dataset.sh",
+      "size": 4232,
+      "sha256": "c4052d1b99bf7b0254b3a0a041cf836c2d3f0631ddb69ac79fa02b41582e2e55"
+    },
+    {
+      "path": "scripts/start_one_dataset_tmux.sh",
+      "size": 987,
+      "sha256": "eb4bea51507a4988a8c1fc1121d159a43e8c9d7991bc565758ce38ad03be5331"
+    },
+    {
+      "path": "scripts/status_one_dataset.sh",
+      "size": 993,
+      "sha256": "b380a9f0f239dd27b3efaf02e49212b9898bea7807802eb974ab173ac7271c3c"
+    },
+    {
+      "path": "scripts/upgrade_existing_ibm_v53.sh",
+      "size": 1384,
+      "sha256": "14159a22abf6fb79174dc06c63aff8caed7f0e754215d0d4dc15ad17fdab21ca"
+    },
+    {
+      "path": "scripts/upgrade_existing_ibm_v541.sh",
+      "size": 1788,
+      "sha256": "fba1ad71bc4ad93d59f480b35bbeafff75c05da1a01a9fee88cdbe6f579910e9"
+    },
+    {
+      "path": "scripts/upgrade_existing_ibm_v542.sh",
+      "size": 1762,
+      "sha256": "e1d58f47e90e27e4f16422d7d6624fe4723e0c16e56b17cd144f275db9720a2c"
+    },
+    {
+      "path": "src/caenl/__init__.py",
+      "size": 462,
+      "sha256": "3d92269625bdc9229558bc847e6192ee144a7c0e19932b0b45fa02e92bc9c7ff"
+    },
+    {
+      "path": "src/caenl/audio/__init__.py",
+      "size": 92,
+      "sha256": "38707e0cc6359e87d891113495db7027d68a5a7105cc4dd158ef477ddec41f15"
+    },
+    {
+      "path": "src/caenl/audio/audiocaps.py",
+      "size": 20377,
+      "sha256": "e7aa1b9747dd1c66693b1619627028b2272ea0c1036c0241d7b1eb84d88dc424"
+    },
+    {
+      "path": "src/caenl/audio/captioning.py",
+      "size": 16162,
+      "sha256": "438c3284238702d31cebab8835d1f87242c5fae20d7eea969cb1011797ba7281"
+    },
+    {
+      "path": "src/caenl/audio/common.py",
+      "size": 4616,
+      "sha256": "432c7c003ebd598f34ff133e3ad9ae7ebd5ead490001612b3c8ba7b7fc9de5cc"
+    },
+    {
+      "path": "src/caenl/audio/data.py",
+      "size": 16879,
+      "sha256": "15587567bf11ddc5fe089c12cf23a7ace4ed44fb63c3965b758cbd499323ec20"
+    },
+    {
+      "path": "src/caenl/audio/metrics.py",
+      "size": 10815,
+      "sha256": "25380bd44ac9d41cdf7cca0cf85a0886bfb0038df474b998e8f8fd5f0fdf0ef5"
+    },
+    {
+      "path": "src/caenl/audio/retrieval.py",
+      "size": 14250,
+      "sha256": "9bb69893c3fa0026487913ba3d948da4cc8283e033047ed44fe5cf961c6208da"
+    },
+    {
+      "path": "src/caenl/cli.py",
+      "size": 6495,
+      "sha256": "c44704407f287721a3c2015477a98661878c8b7b4a27c8b24dad1cb6493ccfc5"
+    },
+    {
+      "path": "src/caenl/core/__init__.py",
+      "size": 116,
+      "sha256": "d4a65385b155ae1b241f1be97e19a92879d91bb6406715450de106f94c5341a8"
+    },
+    {
+      "path": "src/caenl/core/control_loop.py",
+      "size": 6627,
+      "sha256": "47d7c12c84463c2287a5ab2223bfa8049878382fc3457dfe807f8ba87c0e1aba"
+    },
+    {
+      "path": "src/caenl/core/controllers.py",
+      "size": 30398,
+      "sha256": "9e5fb0237e49643a9a2e8b24077a5b9f1cfd81487be298aa549d432a5345b88e"
+    },
+    {
+      "path": "src/caenl/core/dcr.py",
+      "size": 7676,
+      "sha256": "0283aac8e0407ddf15a19a8e947f689be61a7dbac5cad1e597df0d1423183644"
+    },
+    {
+      "path": "src/caenl/core/monitor.py",
+      "size": 11665,
+      "sha256": "598f2c326d664f66e1c73431e6ed78a73a1402affe12900007f3c3babdd1e2c9"
+    },
+    {
+      "path": "src/caenl/core/nc.py",
+      "size": 7485,
+      "sha256": "3177a827e3c84a6bc55cd04607b6af3541af012dab0a61b20b7f8c201c460319"
+    },
+    {
+      "path": "src/caenl/core/stats.py",
+      "size": 9080,
+      "sha256": "b78e9db592d2e8614cc5a13de680a5452dc7597a9e297acd6d1205ad20f49e6b"
+    },
+    {
+      "path": "src/caenl/diffusion/__init__.py",
+      "size": 80,
+      "sha256": "43a1b9949b8c9dad5a83172bd7a39b574b672cde2957a9b23a96c48d9eb6a4ad"
+    },
+    {
+      "path": "src/caenl/diffusion/task.py",
+      "size": 21871,
+      "sha256": "51eefd38caab642b38a102be0b201f21e824774110438bbd266abcd4efcbc820"
+    },
+    {
+      "path": "src/caenl/language/__init__.py",
+      "size": 93,
+      "sha256": "58d13b5516361843a5abb9036c41416f91cf6439996c7555a23316fa21d312df"
+    },
+    {
+      "path": "src/caenl/language/data.py",
+      "size": 5183,
+      "sha256": "66d0245af5a0f14cac0bcdff4149ade68b3e11a7595a0af87b612da4528034c6"
+    },
+    {
+      "path": "src/caenl/language/task.py",
+      "size": 17079,
+      "sha256": "ffc8dbcd12db919f64066aeaccb70cb3bdaf99dc316cc1ee749c08cd3e7937f1"
+    },
+    {
+      "path": "src/caenl/plan.py",
+      "size": 10095,
+      "sha256": "058fd5fd3d1bacb4d616e0efff88cd3152dcfaf55146a889f8e9414208f45a7d"
+    },
+    {
+      "path": "src/caenl/publication.py",
+      "size": 25909,
+      "sha256": "6659a8de7ad4558b908a8fd501d88364c6782773480f2dc2a5ae2f2ab8251a68"
+    },
+    {
+      "path": "src/caenl/report/__init__.py",
+      "size": 92,
+      "sha256": "3ca76e25d5cdc666595728deb56db5fb7fbd193269d54a948d053462f64122c4"
+    },
+    {
+      "path": "src/caenl/report/aggregate.py",
+      "size": 25597,
+      "sha256": "2994999f3711205110e89ba784d88ca1d8c7591e10649ddf0b42429f198b58b4"
+    },
+    {
+      "path": "src/caenl/report/context.py",
+      "size": 4449,
+      "sha256": "5251c2776e0a7f6792f9a052c26692508e333a4a02b66bad06adb61f43231006"
+    },
+    {
+      "path": "src/caenl/report/figures.py",
+      "size": 20542,
+      "sha256": "da3e658577903f55c0ebd4b3994dbe1870d41644cc5fd12dd5a592e38eea1cc6"
+    },
+    {
+      "path": "src/caenl/report/style.py",
+      "size": 6973,
+      "sha256": "c2c0bc29eaeccfcc1a6f2a3dfe17db84578b6c8b48cc545685aca6a0e5236c0f"
+    },
+    {
+      "path": "src/caenl/report/summary.py",
+      "size": 8954,
+      "sha256": "956f1fb4d0426b60e27559d50f8d33333d87b1ae79a04b7664f2aa87318cbcdf"
+    },
+    {
+      "path": "src/caenl/report/tables.py",
+      "size": 27547,
+      "sha256": "ac31c40471f4177b21957934db35da56e92396a3c656bf3343f3bd4e51237938"
+    },
+    {
+      "path": "src/caenl/runner.py",
+      "size": 35440,
+      "sha256": "3633c42889a64152574744830da7357d51fc0372ab46f7d00850cb04748683a3"
+    },
+    {
+      "path": "src/caenl/tasks/__init__.py",
+      "size": 1005,
+      "sha256": "4c2514d39330a920476ba53af6e345f63a84972b20d35a3bad8c662a3d87daf5"
+    },
+    {
+      "path": "src/caenl/tasks/fault_injection.py",
+      "size": 1652,
+      "sha256": "c20d978e8be009f8b33396a26fc38480a6f786b0b08b399204f9bf6179f7ae78"
+    },
+    {
+      "path": "src/caenl/tasks/prepare_data.py",
+      "size": 3333,
+      "sha256": "106145b483b34480a3f2f762131f3bc6e2e571687a477c92f0bae770ef3aa293"
+    },
+    {
+      "path": "src/caenl/utils/__init__.py",
+      "size": 313,
+      "sha256": "0ca16488882d2cbea2cd275cb4c48e48f7569166036c1dc63b9f6fcff82a3e01"
+    },
+    {
+      "path": "src/caenl/utils/io.py",
+      "size": 6045,
+      "sha256": "901756b641c55bece17a575163c98f7dccf7956066a43b444f02727592f7a750"
+    },
+    {
+      "path": "src/caenl/utils/jobctx.py",
+      "size": 9384,
+      "sha256": "2298f8c5ae73f918e2afe9d0d52101eb5bc02cb74d3b7f44fe35557f23b81336"
+    },
+    {
+      "path": "src/caenl/utils/seeding.py",
+      "size": 2361,
+      "sha256": "33b837c944f367e10f743f60b0d19ec290290d3ee776fc7861c15b8b8386e0a4"
+    },
+    {
+      "path": "src/caenl/utils/telemetry.py",
+      "size": 6020,
+      "sha256": "a95da4ea7527f46b7f301f7111c418618b99201ab3125e110b586506a4560bc5"
+    },
+    {
+      "path": "src/caenl/validate.py",
+      "size": 28915,
+      "sha256": "57cac36b041427a317a8cebdf1e8be0b67dae7f8dd0942717d34f9fbf06e197b"
+    },
+    {
+      "path": "src/caenl/vision/__init__.py",
+      "size": 102,
+      "sha256": "9fa32c33666f37b9f0b56170529df8a6585118c371044bb303c39a42edcd5937"
+    },
+    {
+      "path": "src/caenl/vision/aa_sanity.py",
+      "size": 5554,
+      "sha256": "e016b8dba6c758198887c5c30e4895a7bde0a862985658aaa52a4432a21464ab"
+    },
+    {
+      "path": "src/caenl/vision/acquisition.py",
+      "size": 22398,
+      "sha256": "6abeb46f7f20a5ce6f7a9809b0b109cedc1bffc9f345d8dbe58a39bd946d795c"
+    },
+    {
+      "path": "src/caenl/vision/augment.py",
+      "size": 3657,
+      "sha256": "0d4b4e951c04e2d6e8e7dadcb81495828027dc296d54d3da4a20c8ee16bd21fb"
+    },
+    {
+      "path": "src/caenl/vision/corruptions.py",
+      "size": 3313,
+      "sha256": "54505ed557d0cfff41cc72a1f712a2a2376f61bdb14d410c000c8ca0a7cdfd5c"
+    },
+    {
+      "path": "src/caenl/vision/data.py",
+      "size": 33082,
+      "sha256": "db19385befa56ff58e27c45d355c283e695be43627b6c03d60ffe4c1a8dbec1c"
+    },
+    {
+      "path": "src/caenl/vision/diagnostics.py",
+      "size": 5016,
+      "sha256": "7451f547201930e9f64f730a7607243370777fd4521b6a94c000b8ee20c6b005"
+    },
+    {
+      "path": "src/caenl/vision/mae.py",
+      "size": 7496,
+      "sha256": "2be96344e591d15e5cf8f107e6d23368316ccc4e1de401947de21650b49d7543"
+    },
+    {
+      "path": "src/caenl/vision/models.py",
+      "size": 10734,
+      "sha256": "1acf200d3e0220c5ee3b431c8fa169fe8aef93c3f24910bdf512e22bde15702f"
+    },
+    {
+      "path": "src/caenl/vision/overhead.py",
+      "size": 11505,
+      "sha256": "d783142f3d9a40bf8e31bec01d8dd4dd84998ac4b627f41514058a70b4fb3ce4"
+    },
+    {
+      "path": "src/caenl/vision/robustness.py",
+      "size": 10107,
+      "sha256": "18b8af3441359a21ee0d2fc5080fade090615022e454c7982d39bda2314b6cc5"
+    },
+    {
+      "path": "src/caenl/vision/schedule.py",
+      "size": 3586,
+      "sha256": "d8e472cf936ddabed32091cca8df3aa57bcb53676ca21045add11e167147f75e"
+    },
+    {
+      "path": "src/caenl/vision/task.py",
+      "size": 44377,
+      "sha256": "efc9dfe678e9d933badf5218c01246059af2012dbf74507735cf6de1a4ff439d"
+    },
+    {
+      "path": "src/caenl/vision/train.py",
+      "size": 17053,
+      "sha256": "bce18cf0a9764d69e74d3c00c666ee3a853152b4171ee119a9f95e60a14850d5"
+    },
+    {
+      "path": "tests/conftest.py",
+      "size": 503,
+      "sha256": "a6ce93b2877488790dc89cfc1b82532e81640077b442c3e65ca0657ab832f7dd"
+    },
+    {
+      "path": "tests/test_c4_calibration_v542.py",
+      "size": 4430,
+      "sha256": "2c0797f1aed59e8ed71561a3cdb7f9f379eeb03bfb9f056f2c2a0371dd904eba"
+    },
+    {
+      "path": "tests/test_c4_confirmatory_v543.py",
+      "size": 5093,
+      "sha256": "b789d039365d91211f8d69e8c0f2e7b02b0c72ec924aecacf2933ab10836ba43"
+    },
+    {
+      "path": "tests/test_core.py",
+      "size": 10563,
+      "sha256": "2a48ebdfac3e150f01db6f4308670e04f06527f76ffa9eeacbde6db8aa6f27a5"
+    },
+    {
+      "path": "tests/test_ibm_l40s.py",
+      "size": 5877,
+      "sha256": "3f8ad5598bd77c75c688fbd867f2e1df38ad564b14d581b16c789c8875e6a7a5"
+    },
+    {
+      "path": "tests/test_integration_full_macc.py",
+      "size": 5847,
+      "sha256": "6666eb9fd343c3688d7a37ca96112c9f279f800161dddedd93b8bd14891ab9b7"
+    },
+    {
+      "path": "tests/test_plan_and_report.py",
+      "size": 20163,
+      "sha256": "2294847f9dbcea20f6fab1238cfff70a53b45c858f4fc300be6c0fdbce20fa13"
+    },
+    {
+      "path": "tests/test_runner_gate.py",
+      "size": 9679,
+      "sha256": "19787e22613edb160b391af7b17cbdbef62bba9f072d0413a2a4d2934ff1d3fe"
+    },
+    {
+      "path": "tests/test_storage_aware.py",
+      "size": 3452,
+      "sha256": "5ca876c15154a694a05af0309cc6427d034bee48a2b4fcd8ae5ff8e1f9ec3f68"
+    },
+    {
+      "path": "tests/test_vision.py",
+      "size": 12226,
+      "sha256": "ba2381469a79917a6f7ec2c8b7ae7d51c11dbd389b95c6f53c993a27c85b70f8"
+    }
+  ]
+}

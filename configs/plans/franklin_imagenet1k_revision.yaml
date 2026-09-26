@@ -1,0 +1,138 @@
+# =============================================================================
+# PRODUCTION CAMPAIGN for the Franklin Open major revision (FRAOPE-D-25-02381):
+# ImageNet-1K active learning, ResNet-50, six paired seeds, 224 px, 20 epochs per round.
+#
+# This plan produces the numbers the revised manuscript's ImageNet tables must cite.
+# CIFAR-10/100 and ImageNet-100 (configs/plans/supporting_1gpu.yaml) are SUPPORTING
+# experiments only and must be labelled as such in the manuscript.
+#
+# Protocol (frozen in configs/protocol/revision_protocol.yaml, dataset_overrides.imagenet1k):
+#   * class-balanced 10% seed set (controller-validation carve-out of 2% of the seed set counted
+#     in the budget), 5 acquisition rounds of +10%  -> 10/20/30/40/50/60% labels;
+#   * 50k candidates per scoring pass, top 10% per pass (CAENL: quantile tau), ~26 passes/round;
+#   * one frozen schedule for every method and seed: initial phase 60 epochs on the seed set,
+#     then 20 warm-started epochs after every round (SGD+Nesterov, bs 256, lr 0.1, cosine,
+#     round LR factor 0.5), RandomResizedCrop(224, scale 0.25-1) + flip from a 256 px cache,
+#     centre-224 evaluation, AMP bf16, channels-last;
+#   * full supervision = 100% labels (minus the same carve-out), 90 epochs, same optimiser;
+#   * AutoAttack standard (Linf, 8/255) on a fixed 5,000-image validation subset at 60% labels
+#     (RobustBench ImageNet convention; identical subset for every method and seed), APGD-CE /
+#     PGD-20 proxies on a fixed 2,000-image subset after every round, epsilon sweep, corruptions;
+#   * paired statistics over seeds 0-5 (mean +- std, t-CIs, paired t-tests with Holm correction,
+#     sign-flip permutation, bootstrap CIs, Cohen's d_z, per-example McNemar on AutoAttack masks).
+#
+# Data: ImageNet-1K is NOT auto-downloadable. Put it under $CAENL_DATA_ROOT/imagenet
+#   (train/<wnid>/*.JPEG plus val/<wnid>/*.JPEG, or flat val/ + LOC_val_solution.csv, or the
+#   Kaggle ILSVRC/Data/CLS-LOC tree), or set CAENL_IMAGENET_SOURCE=hf with HF_TOKEN for the
+#   gated Hugging Face copy.  `caenl preflight --plan <this> --download` fails (non-zero) until
+#   the data and every dependency are in place.  The 256 px uint8 cache needs ~262 GB of disk
+#   (train 252 GB + val 10 GB; ~400 GB free in total with results); it is always served from the
+#   memmap (force_memmap) so that the eight parallel jobs share one page cache instead of eight
+#   private copies.
+#
+# Compute (A100-80GB SXM; H100 ~0.6x the hours).  Measured throughput assumptions:
+#   ResNet-50 ~2,300 img/s training, ViT-B/16 ~900 img/s.  Per job:
+#   r50 init (10%, 60 ep) ~1 h | r50 AL run (5 rounds x 20 ep + acquisition + AutoAttack) ~7.5 h |
+#   r50 full supervision (90 ep) ~14 h | vit init ~2.5 h | vit AL run ~17 h | vit supervision ~36 h.
+#   Stage totals: r50_init 24 jobs ~26 h | r50_al 60 jobs ~450 h | r50_supervised 6 jobs ~84 h |
+#   vit_init 9 jobs ~22 h | vit_al 18 jobs ~306 h | vit_supervised 3 jobs ~107 h | overhead ~1 h.
+#   => ResNet-50 programme ~560 A100-h (~23 A100-days); ViT-B/16 confirmation ~435 A100-h.
+#   On one GPU this is ~6 weeks: run it on an 8-GPU pod with
+#       caenl run --plan configs/plans/franklin_imagenet1k_revision.yaml --gpus 0,1,2,3,4,5,6,7 --parallel 8
+#   (one job per GPU; overhead/aggregate stages always run alone) -> ~5.5 days wall-clock.
+#   At RunPod list prices (Aug 2026: A100 SXM $1.59/h, H100 SXM $3.29/h) the whole plan is
+#   ~US$1,600 on A100s or ~US$2,000 on H100s, plus ~$35/month for a 500 GB network volume.
+#   If the budget only covers the ResNet-50 programme, drop the three vit_* stages before the
+#   first run (the plan is frozen at campaign start) and report ViT as future work.
+#
+# Every stage is resumable (resume is the default; --no-resume restarts).  A stage whose
+# publication-readiness validation fails stops the campaign (see docs/RUNBOOK.md).
+# =============================================================================
+campaign_id: franklin-imagenet1k-revision
+results_root: "${CAENL_RESULTS_ROOT:-/workspace/results}"
+data_root: "${CAENL_DATA_ROOT:-/workspace/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/workspace/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true                     # validate every finished stage against the expected matrix before continuing
+
+defaults: {}
+
+stages:
+  # --------------------------------------------------------------------------- data
+  - name: prepare
+    type: prepare_data
+    parallel: 1
+    matrix: {}
+    job:
+      datasets:
+        - {name: imagenet1k, options: {cache_resolution: 256, source: "${CAENL_IMAGENET_SOURCE:-imagefolder}"}}
+
+  # --------------------------------------------------------------------------- AutoAttack pipeline sanity check (manuscript Sec. 6.2.1)
+  # torchvision ResNet-50 IMAGENET1K_V1 under the frozen protocol: must give ~76.1% clean / ~0% robust.
+  - name: aa_sanity
+    type: vision_aa_sanity
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [resnet50], seed: [0]}
+    job:
+      sanity: {pretrained: true, weights: IMAGENET1K_V1, expected: {clean_acc: 0.761, robust_acc_max: 0.005}, tolerance: 0.01, fail_on_mismatch: true}
+
+  # --------------------------------------------------------------------------- overhead benchmark (always alone)
+  - name: overhead_imagenet1k
+    type: vision_overhead
+    exclusive: true
+    matrix: {arch: [resnet50, vit_b_16], dataset: [imagenet1k], seed: [0]}
+    job:
+      overhead: {steps: 100, warmup_steps: 20, repeats: 3, use_real_data: true, batch_size: 128, configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10], acquisition_bench: {n_candidates: 10000, budget: 1000}}
+
+  # --------------------------------------------------------------------------- ResNet-50, six paired seeds
+  - name: r50_init
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [resnet50], seed: [0, 1, 2, 3, 4, 5], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: r50_al
+    type: vision_al
+    parallel: 1
+    matrix:
+      dataset: [imagenet1k]
+      arch: [resnet50]
+      seed: [0, 1, 2, 3, 4, 5]
+      method: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    expected: {seeds: [0, 1, 2, 3, 4, 5], methods: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+
+  - name: r50_supervised
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [resnet50], seed: [0, 1, 2, 3, 4, 5], method: [supervised_full]}
+    expected: {seeds: [0, 1, 2, 3, 4, 5], methods: [supervised_full]}
+
+  # --------------------------------------------------------------------------- ViT-B/16 confirmation, three paired seeds
+  - name: vit_init
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16], seed: [0, 1, 2], regularizer: [none, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: vit_al
+    type: vision_al
+    parallel: 1
+    matrix:
+      dataset: [imagenet1k]
+      arch: [vit_b_16]
+      seed: [0, 1, 2]
+      method: [random, entropy, badge, caenl_acq_only, caenl_macc_lite, caenl_full_macc]
+    expected: {seeds: [0, 1, 2], methods: [random, entropy, badge, caenl_acq_only, caenl_macc_lite, caenl_full_macc]}
+
+  - name: vit_supervised
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16], seed: [0, 1, 2], method: [supervised_full]}
+    expected: {seeds: [0, 1, 2], methods: [supervised_full]}
+
+  # --------------------------------------------------------------------------- aggregation (tables, figures, statistics)
+  - name: aggregate
+    type: aggregate
+    matrix: {}
+    job: {}

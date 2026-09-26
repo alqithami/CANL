@@ -1,0 +1,581 @@
+protocol_version: 5
+manuscript:
+  identifier: FRAOPE-D-25-02381
+  title: 'CAENL: Collapse-Based Active Neural Learning'
+  decision: major revision, Franklin Open, 2026-08-12 (resubmit by 2026-09-11)
+paths:
+  data_root: ${CAENL_DATA_ROOT:-/workspace/data}
+  cache_root: ${CAENL_CACHE_ROOT:-/workspace/cache}
+reproducibility:
+  deterministic_algorithms: false
+  cudnn_benchmark: true
+  save_pip_freeze: true
+  telemetry_interval_s: 10
+  max_device_data_fraction: 0.45
+statistics:
+  principal_seeds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  confirmation_seeds:
+  - 0
+  - 1
+  - 2
+  supporting_seeds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  extension_seeds:
+  - 0
+  - 1
+  - 2
+  confidence_level: 0.95
+  bootstrap_replicates: 10000
+  permutation_replicates: 10000
+  multiple_testing_correction: holm
+  primary_test: paired_t
+  comparisons:
+  - target: caenl_macc_lite
+    references:
+    - random
+    - entropy
+    - margin
+    - coreset
+    - badge
+    - bald_mcd
+    - noise_stability
+    - power_margin
+    - caenl_acq_only
+    - caenl_fixed_dcr
+    - caenl_full_macc
+    - dcr_lite_random
+  - target: caenl_full_macc
+    references:
+    - random
+    - entropy
+    - margin
+    - coreset
+    - badge
+    - noise_stability
+    - caenl_macc_lite
+    - caenl_fixed_dcr
+    - caenl_acq_only
+  - target: caenl_acq_only
+    references:
+    - random
+    - entropy
+    - margin
+    - badge
+  - target: caenl_fixed_dcr
+    references:
+    - random
+    - dcr_fixed_random
+    - caenl_acq_only
+  - target: dcr_lite_random
+    references:
+    - random
+  - target: entropy_macc_lite
+    references:
+    - entropy
+  metrics:
+  - test_acc
+  - aa_robust_acc
+  - apgd_ce_subset_acc
+  - pgd_subset_acc
+  - test_ece
+  - corruption_mean_acc
+  - aulc_test_acc
+  - aulc_apgd_acc
+  minimum_paired_seeds_for_inference: 3
+active_learning:
+  initial_fraction: 0.1
+  rounds: 5
+  fraction_per_round: 0.1
+  candidate_size: 50000
+  selected_fraction_per_pass: 0.1
+  threshold_quantile: 0.9
+  controller_validation_fraction: 0.1
+  acquisition_batch_size: 512
+  eval_batch_size: 512
+  mahalanobis_mode: diag
+  full_cov_shrinkage: 0.1
+  layer_weights: dim_normalized
+  record_scores: true
+  record_collapse_scores_for_baselines: true
+  class_stats_max_examples: 60000
+training:
+  optimizer: sgd
+  lr: 0.1
+  momentum: 0.9
+  nesterov: true
+  weight_decay: 0.0005
+  batch_size: 256
+  initial_epochs: 100
+  epochs_per_round: 20
+  round_lr_factor: 0.5
+  warmup_epochs: 1.0
+  warmup_epochs_round: 0.5
+  min_lr_factor: 0.0
+  label_smoothing: 0.0
+  mixup_alpha: 0.0
+  amp: true
+  channels_last: true
+  log_every_steps: 50
+  rrc_scale:
+  - 0.25
+  - 1.0
+collapse:
+  monitored_layers:
+  - layer3
+  - layer4
+  monitoring_cadence_steps: 100
+  monitor_update_every_steps: 1
+  covariance_ema_decay: 0.99
+  covariance_shrinkage_epsilon: 1.0e-05
+  kappa_ema_decay: 0.9
+  truncated_spectral_rank: 128
+  dcr_covariance: total
+  classification_target_rank_rule: min(C-1, d, k)
+  target_collapse_strength:
+    layer3: 0.35
+    layer4: 0.7
+macc_lite:
+  lambda_initial: 0.03
+  lambda_min: 0.0
+  lambda_max: 0.5
+  controller_step_size: 0.02
+  error_mode: log_ratio
+  threshold_quantile: 0.9
+full_macc:
+  lambda_initial: 0.03
+  lambda_min: 0.0
+  lambda_max: 0.5
+  hidden_dimensions:
+  - 128
+  - 128
+  exploration_epsilon_start: 0.2
+  exploration_epsilon_end: 0.02
+  policy_learning_rate: 0.0003
+  reward_baseline_ema: 0.05
+  entropy_coefficient: 0.001
+  acquisition_reward_steps: 200
+  reward:
+    validation_delta_weight: 1.0
+    validation_delta_scale: 10.0
+    value_delta_clip: 2.0
+    query_penalty_beta: 0.0
+    target_deviation_gamma: 0.1
+  action_space:
+    lambda_delta_choices:
+    - -0.02
+    - -0.01
+    - 0.0
+    - 0.01
+    - 0.02
+    layer_flags:
+    - 0
+    - 1
+    threshold_quantiles:
+    - 0.8
+    - 0.85
+    - 0.9
+    - 0.95
+robustness:
+  norm: Linf
+  eps: 0.03137254901960784
+  evaluate_rounds:
+  - final
+  final:
+    enabled: true
+    evaluator: autoattack
+    version: standard
+    batch_size: 250
+    n_examples: null
+    chunk: 5000
+  intermediate:
+    enabled: true
+    also_final: true
+    n_examples: 2000
+    apgd_restarts: 1
+    pgd_steps: 20
+    pgd_alpha: 0.00784313725490196
+    batch_size: 250
+  epsilon_sweep:
+    enabled: true
+    epsilons:
+    - 0.00392156862745098
+    - 0.00784313725490196
+    - 0.01568627450980392
+    n_examples: 2000
+  corruptions:
+    enabled: true
+    n_examples: 2000
+    severities:
+    - 1
+    - 2
+    - 3
+diagnostics:
+  nc_layers:
+  - layer3
+  - layer4
+  margins: true
+  margin_examples: 1000
+  save_test_logits: true
+adversarial_training:
+  eps: 0.03137254901960784
+  alpha: 0.00784313725490196
+  steps: 10
+  attack_in_eval_mode: false
+checkpointing:
+  keep: last2
+shared_initial:
+  use: true
+  save: true
+dataset_overrides:
+  cifar10:
+    training:
+      batch_size: 256
+      lr: 0.1
+      weight_decay: 0.0005
+      initial_epochs: 100
+      epochs_per_round: 20
+    collapse:
+      monitoring_cadence_steps: 100
+  cifar100:
+    training:
+      batch_size: 256
+      lr: 0.1
+      weight_decay: 0.0005
+      initial_epochs: 100
+      epochs_per_round: 20
+    collapse:
+      monitoring_cadence_steps: 100
+  tiny_imagenet:
+    training:
+      batch_size: 256
+      lr: 0.1
+      weight_decay: 0.0005
+      initial_epochs: 60
+      epochs_per_round: 20
+    active_learning:
+      controller_validation_fraction: 0.05
+    robustness:
+      intermediate:
+        n_examples: 2000
+    collapse:
+      monitoring_cadence_steps: 100
+  imagenet100:
+    dataset_options:
+      cache_resolution: 144
+      train_resolution: 128
+      test_resolution: 128
+    training:
+      batch_size: 256
+      lr: 0.1
+      weight_decay: 0.0001
+      initial_epochs: 60
+      epochs_per_round: 20
+      rrc_scale:
+      - 0.25
+      - 1.0
+    active_learning:
+      controller_validation_fraction: 0.05
+    robustness:
+      intermediate:
+        n_examples: 1000
+      epsilon_sweep:
+        n_examples: 1000
+      corruptions:
+        n_examples: 1000
+    collapse:
+      monitoring_cadence_steps: 100
+  imagenet1k:
+    dataset_options:
+      cache_resolution: 256
+      train_resolution: 224
+      test_resolution: 224
+      force_memmap: true
+    training:
+      batch_size: 256
+      lr: 0.1
+      weight_decay: 0.0001
+      initial_epochs: 60
+      epochs_per_round: 20
+      full_supervision_epochs: 90
+      warmup_epochs: 2.0
+      rrc_scale:
+      - 0.25
+      - 1.0
+    active_learning:
+      controller_validation_fraction: 0.02
+      candidate_size: 50000
+      class_stats_max_examples: 100000
+    robustness:
+      intermediate:
+        n_examples: 2000
+      final:
+        n_examples: 5000
+        chunk: 1000
+      epsilon_sweep:
+        n_examples: 2000
+      corruptions:
+        n_examples: 2000
+    collapse:
+      monitoring_cadence_steps: 500
+    full_macc:
+      acquisition_reward_steps: 1000
+    reproducibility:
+      max_device_data_fraction: 0.2
+arch_overrides:
+  vit_b_16:
+    training:
+      optimizer: adamw
+      lr: 0.00025
+      weight_decay: 0.05
+      warmup_epochs: 3.0
+      grad_clip_norm: 1.0
+      label_smoothing: 0.1
+    collapse:
+      monitored_layers:
+      - layer3
+      - layer4
+  vit_b_16_mae:
+    training:
+      optimizer: adamw
+      lr: 0.0005
+      layer_decay: 0.65
+      weight_decay: 0.05
+      warmup_epochs: 3.0
+      grad_clip_norm: null
+      label_smoothing: 0.1
+      initial_epochs: 30
+      full_supervision_epochs: 50
+    collapse:
+      monitored_layers:
+      - layer3
+      - layer4
+    arch_options:
+      init: mae
+      mae_repo: facebook/vit-mae-base
+methods:
+  random:
+    acquisition: random
+  entropy:
+    acquisition: entropy
+  margin:
+    acquisition: margin
+  least_confidence:
+    acquisition: least_confidence
+  coreset:
+    acquisition: coreset
+    params:
+      projection_dim: 128
+      reference_size: 20000
+      distance_chunk: 1024
+      reference_chunk: 4096
+  badge:
+    acquisition: badge
+    params:
+      sketch_dim: 256
+  bald_mcd:
+    acquisition: bald_mcd
+    params:
+      mc_samples: 20
+      dropout_p: 0.3
+  noise_stability:
+    acquisition: noise_stability
+    params:
+      noise_samples: 10
+      noise_scale: 0.001
+      sketch_dim: 128
+  power_margin:
+    acquisition: power_margin
+    params:
+      power_beta: 1.0
+  caenl_acq_only:
+    acquisition: collapse
+    regularizer: none
+  dcr_fixed_random:
+    acquisition: random
+    regularizer: fixed_dcr
+    dcr_lambda: 0.03
+  dcr_lite_random:
+    acquisition: random
+    regularizer: macc_lite
+    dcr_lambda: 0.03
+  caenl_fixed_dcr:
+    acquisition: collapse
+    regularizer: fixed_dcr
+    dcr_lambda: 0.03
+  caenl_macc_lite:
+    acquisition: collapse
+    regularizer: macc_lite
+    dcr_lambda: 0.03
+  caenl_full_macc:
+    acquisition: collapse
+    regularizer: full_macc
+    dcr_lambda: 0.03
+  entropy_macc_lite:
+    acquisition: entropy
+    regularizer: macc_lite
+    dcr_lambda: 0.03
+  caenl_fixed_dcr_l0.01:
+    acquisition: collapse
+    regularizer: fixed_dcr
+    dcr_lambda: 0.01
+  caenl_fixed_dcr_l0.1:
+    acquisition: collapse
+    regularizer: fixed_dcr
+    dcr_lambda: 0.1
+  caenl_fixed_dcr_l0.3:
+    acquisition: collapse
+    regularizer: fixed_dcr
+    dcr_lambda: 0.3
+  caenl_fixed_dcr_l1:
+    acquisition: collapse
+    regularizer: fixed_dcr
+    dcr_lambda: 1.0
+  caenl_fixed_dcr_l3:
+    acquisition: collapse
+    regularizer: fixed_dcr
+    dcr_lambda: 3.0
+  caenl_fixed_dcr_l10:
+    acquisition: collapse
+    regularizer: fixed_dcr
+    dcr_lambda: 10.0
+  at_random:
+    acquisition: random
+    adversarial_training: true
+  at_caenl_macc_lite:
+    acquisition: collapse
+    regularizer: macc_lite
+    dcr_lambda: 0.03
+    adversarial_training: true
+  supervised_full:
+    acquisition: random
+    full_supervision: true
+  baseline:
+    regularizer: none
+  fixed_dcr:
+    regularizer: fixed_dcr
+    dcr_lambda: 0.03
+  macc_lite:
+    regularizer: macc_lite
+    dcr_lambda: 0.03
+  full_macc:
+    regularizer: full_macc
+    dcr_lambda: 0.03
+language:
+  dataset: allenai/c4
+  subset: en
+  train_shards:
+  - en/c4-train.00000-of-01024.json.gz
+  validation_shards:
+  - en/c4-validation.00000-of-00008.json.gz
+  model: gpt2
+  init: pretrained
+  sequence_length: 1024
+  train_tokens: 100000000
+  validation_tokens: 2000000
+  batch_tokens: 16384
+  lr: 5.0e-05
+  weight_decay: 0.01
+  warmup_steps: 200
+  monitored_layers:
+  - 6
+  - 12
+  dcr_token_subsample: 4096
+  configured_rank: 192
+  controller_error_mode: absolute_log_ratio
+  target_effective_rank: 128
+  monitoring_cadence_steps: 50
+  eval_every_steps: 500
+  metrics:
+  - validation_nll
+  - perplexity
+  - token_ece
+diffusion:
+  dataset: cifar10
+  model: google/ddpm-cifar10-32
+  init: pretrained
+  train_steps: 10000
+  batch_size: 128
+  lr: 2.0e-05
+  ema_decay: 0.9995
+  dcr_timestep_range:
+  - 0
+  - 600
+  dcr_layer: mid_block
+  configured_rank: 64
+  controller_error_mode: absolute_log_ratio
+  monitoring_cadence_steps: 50
+  sampler: ddim
+  sampling_steps: 100
+  num_samples: 50000
+  metrics:
+  - fid
+  - kid
+  - inception_score
+audio:
+  dataset: audiocaps
+  manifest: ${CAENL_DATA_ROOT:-/workspace/data}/audiocaps/manifest.jsonl
+  manifest_min_coverage: 0.9
+  manifest_verify_hashes: sample
+  supplementary_dataset: clotho
+  backbone: MIT/ast-finetuned-audioset-10-10-0.4593
+  tokens_per_window: 64
+  max_windows: 3
+  captioning:
+    decoder: gpt2
+    prefix_length: 8
+    epochs: 10
+    batch_size: 32
+    lr: 0.0001
+    beam_size: 3
+    max_new_tokens: 30
+    metrics:
+    - cider_d
+    - bleu4
+    - rouge_l
+    - meteor
+    - spice
+    - validation_loss
+    official_metrics: true
+    java_metrics: true
+    spice: true
+  retrieval:
+    text_encoder: sentence-transformers/all-MiniLM-L6-v2
+    embed_dim: 512
+    epochs: 40
+    batch_size: 128
+    lr: 0.0003
+    temperature_init: 0.07
+    metrics:
+    - t2a_r1
+    - t2a_r5
+    - t2a_r10
+    - a2t_r1
+    - a2t_r5
+    - a2t_r10
+    - median_rank
+  configured_rank: 96
+  controller_error_mode: absolute_log_ratio
+  monitoring_cadence_steps: 20
+evidence_policy:
+  confirmatory:
+    eligible_for_manuscript: true
+    eligible_for_inference: true
+  pilot:
+    eligible_for_manuscript: false
+    eligible_for_inference: false
+  smoke:
+    eligible_for_manuscript: false
+    eligible_for_inference: false
+  engineering:
+    eligible_for_manuscript: false
+    eligible_for_inference: false

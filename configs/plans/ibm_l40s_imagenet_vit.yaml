@@ -1,0 +1,105 @@
+# ImageNet-1K architecture confirmation on one IBM L40S.  Both label-free MAE
+# initialization and training from scratch are retained, with three paired
+# seeds and all controller variants.
+campaign_id: ibm-l40s-imagenet-vit
+results_root: "${CAENL_RESULTS_ROOT:-/mnt/caenl/results}"
+data_root: "${CAENL_DATA_ROOT:-/mnt/caenl/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/mnt/caenl/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+hardware: {expected_gpu_name_regex: "L40S", min_gpu_memory_gb: 44, min_system_memory_gb: 108, min_logical_cpus: 20, min_nvidia_driver: 550, torch_cuda: "12.4"}
+preflight: {require_gpu: true, require_pinned_autoattack: true, min_free_gb: 650}
+
+defaults:
+  reproducibility: {telemetry_interval_s: 5, max_device_data_fraction: 0.10, max_host_data_fraction: 0.45}
+  training: {batch_size: 64, epochs_per_round: 20, amp: true, channels_last: true, log_every_steps: 100}
+  active_learning: {initial_fraction: 0.10, rounds: 5, fraction_per_round: 0.10, candidate_size: 50000, selected_fraction_per_pass: 0.10, controller_validation_fraction: 0.02, acquisition_batch_size: 64, eval_batch_size: 128, class_stats_max_examples: 100000}
+  collapse: {monitoring_cadence_steps: 500, truncated_spectral_rank: 128}
+  full_macc: {acquisition_reward_steps: 1000}
+  robustness:
+    evaluate_rounds: [final]
+    final: {enabled: true, version: standard, n_examples: 2000, batch_size: 8, chunk: 64}
+    intermediate: {enabled: true, also_final: true, n_examples: 500, apgd_restarts: 1, pgd_steps: 20, batch_size: 16}
+    epsilon_sweep: {enabled: true, n_examples: 500}
+    corruptions: {enabled: true, n_examples: 500, severities: [1, 2, 3]}
+  diagnostics: {margin_examples: 500, save_test_logits: true}
+
+stages:
+  - name: prepare
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - {name: imagenet1k, options: {cache_resolution: 256, source: "${CAENL_IMAGENET_SOURCE:-imagefolder}"}}
+        - {name: mae_weights, options: {repo: facebook/vit-mae-base}}
+    job: {}
+
+  - name: mae_init
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16_mae], seed: [0, 1, 2], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job:
+      mode: initial_only
+      method: {name: init, acquisition: random}
+      training: {batch_size: 64, lr: 0.000125, initial_epochs: 30}
+      robustness: {final: {enabled: false}}
+
+  - name: mae_al
+    type: vision_al
+    depends_on: [mae_init]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16_mae], seed: [0, 1, 2], method: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+    job: {training: {batch_size: 64, lr: 0.000125, epochs_per_round: 20}}
+    expected: {seeds: [0, 1, 2], methods: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+
+  - name: mae_supervised
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16_mae], seed: [0, 1, 2], method: [supervised_full]}
+    job: {training: {batch_size: 64, lr: 0.000125, full_supervision_epochs: 50}}
+
+  - name: scratch_init
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16], seed: [0, 1, 2], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job:
+      mode: initial_only
+      method: {name: init, acquisition: random}
+      training: {batch_size: 64, lr: 0.0000625, initial_epochs: 60}
+      robustness: {final: {enabled: false}}
+
+  - name: scratch_al
+    type: vision_al
+    depends_on: [scratch_init]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16], seed: [0, 1, 2], method: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+    job: {training: {batch_size: 64, lr: 0.0000625, epochs_per_round: 20}}
+    expected: {seeds: [0, 1, 2], methods: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+
+  - name: scratch_supervised
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16], seed: [0, 1, 2], method: [supervised_full]}
+    job: {training: {batch_size: 64, lr: 0.0000625, full_supervision_epochs: 90}}
+
+  - name: vit_overhead
+    type: vision_overhead
+    depends_on: [prepare]
+    exclusive: true
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [vit_b_16, vit_b_16_mae], seed: [0]}
+    job:
+      overhead: {steps: 60, warmup_steps: 15, repeats: 3, use_real_data: true, batch_size: 32, configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc], acquisition_bench: {n_candidates: 3000, budget: 300}}
+
+  - name: aggregate
+    type: aggregate
+    depends_on: [mae_al, mae_supervised, scratch_al, scratch_supervised, vit_overhead]
+    cpu_only: true
+    matrix: {}
+    job: {}

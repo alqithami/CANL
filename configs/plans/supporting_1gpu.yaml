@@ -1,0 +1,201 @@
+# =============================================================================
+# SUPPORTING experiments for ONE 80 GB GPU (A100/H100), auto-downloadable data only:
+# CIFAR-10 / CIFAR-100 (5 seeds, every baseline, AutoAttack, statistics), ImageNet-100
+# (3 seeds, ResNet-50, 128 px), the cross-modal extensions (C4 / DDPM / audio, 3 seeds),
+# the fixed-lambda sweep and the adversarial-training reference rows.
+#
+# These are NOT the manuscript's primary ImageNet-1K results: that campaign is
+# configs/plans/franklin_imagenet1k_revision.yaml (multi-GPU pod, ImageNet-1K access).
+# CIFAR/ImageNet-100 numbers must be presented as supporting evidence in the revision.
+#
+# Stage order puts the CIFAR-10 results first, then the cross-modal extensions, CIFAR-100 and
+# ImageNet-100.  Rough A100 wall-clock with one job at a time (H100 ~0.6x):
+#   prepare ~1-2 h (downloads) | overhead 0.3 h | cifar10 ~12 h | c4 ~7 h | diffusion ~7 h |
+#   cifar100 ~8 h | imagenet100 ~14 h | cifar10_at ~3 h | audio (AudioCaps + Clotho) ~6 h  => ~2.7 days.
+# `parallel` is 1 everywhere (one job per GPU).  Small CIFAR jobs can share an 80 GB card:
+# `caenl run --plan configs/plans/supporting_1gpu.yaml --parallel 3` (~1.5 days), at the cost
+# of per-job throughput numbers that must not be used as overhead measurements (the overhead
+# stages always run alone).  Every stage is resumable (resume is the default).
+# =============================================================================
+campaign_id: caenl-revision-supporting
+results_root: "${CAENL_RESULTS_ROOT:-/workspace/results}"
+data_root: "${CAENL_DATA_ROOT:-/workspace/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/workspace/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+
+defaults: {}
+
+stages:
+  # --------------------------------------------------------------------------- data
+  - name: prepare
+    type: prepare_data
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - {name: cifar10}
+        - {name: cifar100}
+        - {name: imagenet100, options: {cache_resolution: 144}}
+        - {name: c4, options: {tokenizer: gpt2, train_shards: ["en/c4-train.00000-of-01024.json.gz"], validation_shards: ["en/c4-validation.00000-of-00008.json.gz"], sequence_length: 1024, train_tokens: 100000000, validation_tokens: 2000000}}
+        - {name: ddpm_cifar10, options: {model: google/ddpm-cifar10-32, dataset: cifar10}}
+        - {name: clotho}
+    job: {}
+
+  # --------------------------------------------------------------------------- overhead benchmark
+  - name: overhead_cifar
+    type: vision_overhead
+    parallel: 1
+    matrix: {arch: [resnet18_cifar], dataset: [cifar10], seed: [0]}
+    job:
+      overhead: {steps: 100, warmup_steps: 20, repeats: 3, use_real_data: true, configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10], acquisition_bench: {n_candidates: 10000, budget: 1000}}
+
+  - name: overhead_imagenet100
+    type: vision_overhead
+    parallel: 1
+    matrix: {arch: [resnet50, vit_b_16], dataset: [imagenet100], seed: [0]}
+    job:
+      overhead: {steps: 100, warmup_steps: 20, repeats: 3, use_real_data: true, batch_size: 128, configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10], acquisition_bench: {n_candidates: 10000, budget: 1000}}
+
+  # --------------------------------------------------------------------------- CIFAR-10 (principal, 5 seeds)
+  - name: cifar10_init
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: cifar10_init_sweep
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2], regularizer: [fixed_dcr], dcr_lambda: [0.01, 0.1, 0.3, 1.0, 3.0, 10.0]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: cifar10_al
+    type: vision_al
+    parallel: 1
+    matrix:
+      dataset: [cifar10]
+      arch: [resnet18_cifar]
+      seed: [0, 1, 2, 3, 4]
+      method: [random, entropy, margin, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc, entropy_macc_lite]
+    overrides_by_method:
+      noise_stability: {method: {params: {noise_samples: 30, noise_scale: 0.001}}}
+
+  - name: cifar10_supervised
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], method: [supervised_full]}
+
+  - name: cifar10_sweep
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2], method: [caenl_fixed_dcr_l0.01, caenl_fixed_dcr_l0.1, caenl_fixed_dcr_l0.3, caenl_fixed_dcr_l1, caenl_fixed_dcr_l3, caenl_fixed_dcr_l10]}
+
+  # --------------------------------------------------------------------------- cross-modal extensions (3 seeds)
+  - name: c4
+    type: language_c4
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {}
+
+  - name: diffusion
+    type: diffusion_ddpm
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {}
+
+  # (AudioCaps stages are at the end of the plan: their audio must be obtained by the user and a failed
+  #  acquisition must not block the vision/language/diffusion results.)
+
+  # --------------------------------------------------------------------------- CIFAR-100 (5 seeds, core grid)
+  - name: cifar100_init
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar100], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: cifar100_al
+    type: vision_al
+    parallel: 1
+    matrix:
+      dataset: [cifar100]
+      arch: [resnet18_cifar]
+      seed: [0, 1, 2, 3, 4]
+      method: [random, entropy, margin, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    overrides_by_method:
+      noise_stability: {method: {params: {noise_samples: 30, noise_scale: 0.001}}}
+
+  - name: cifar100_supervised
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar100], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], method: [supervised_full]}
+
+  # --------------------------------------------------------------------------- ImageNet-100 (3 seeds, ResNet-50, 128 px)
+  - name: imagenet100_init
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [imagenet100], arch: [resnet50], seed: [0, 1, 2], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: imagenet100_al
+    type: vision_al
+    parallel: 1
+    matrix:
+      dataset: [imagenet100]
+      arch: [resnet50]
+      seed: [0, 1, 2]
+      method: [random, entropy, margin, badge, coreset, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+    overrides_by_method:
+      noise_stability: {method: {params: {noise_samples: 10, noise_scale: 0.001}}}
+
+  - name: imagenet100_supervised
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [imagenet100], arch: [resnet50], seed: [0, 1, 2], method: [supervised_full]}
+
+  # --------------------------------------------------------------------------- adversarial-training reference (optional, expensive)
+  - name: cifar10_at
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2], method: [at_random, at_caenl_macc_lite]}
+
+  # --------------------------------------------------------------------------- AudioCaps (manuscript dataset) + Clotho (supplementary)
+  # `prepare_audiocaps` fetches the official captions, tries yt-dlp for the audio (or picks up local files),
+  # and FAILS the campaign here if the manifest does not validate (coverage < 90% of every official split).
+  # Fix the coverage (see docs/RUNBOOK.md §3) and rerun the same command to continue.
+  - name: prepare_audiocaps
+    type: prepare_data
+    parallel: 1
+    matrix: {}
+    job:
+      datasets:
+        - {name: audiocaps, options: {download_audio: true, download_workers: 4, min_coverage: 0.90, cookies: "${CAENL_YTDLP_COOKIES:-}"}}
+
+  - name: audio_captioning
+    type: audio_captioning
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {audio: {dataset: audiocaps}}
+
+  - name: audio_retrieval
+    type: audio_retrieval
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {audio: {dataset: audiocaps}}
+
+  - name: audio_captioning_clotho
+    type: audio_captioning
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {audio: {dataset: clotho, manifest: null}}
+
+  - name: audio_retrieval_clotho
+    type: audio_retrieval
+    parallel: 1
+    matrix: {seed: [0, 1, 2], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job: {audio: {dataset: clotho, manifest: null}}
+
+  # --------------------------------------------------------------------------- aggregation
+  - name: aggregate
+    type: aggregate
+    matrix: {}
+    job: {}

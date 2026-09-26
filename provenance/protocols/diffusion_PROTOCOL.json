@@ -1,0 +1,110 @@
+{
+  "protocol": {
+    "study": "caenl-diffusion-confirm-v1",
+    "role": "independent_seed_spectral_diffusion_confirmation_after_development_pilots",
+    "seeds": [
+      1101,
+      1102,
+      1103,
+      1104,
+      1105,
+      1106
+    ],
+    "excluded_development_seeds": [
+      1001,
+      1002
+    ],
+    "conditions": [
+      "baseline",
+      "fixed_dcr",
+      "macc_lite",
+      "full_macc"
+    ],
+    "sampling_reference": "same unmodified pretrained model, separate matched noise stream per seed",
+    "training_runs": 24,
+    "reference_evaluations": 6,
+    "training_updates_per_run": 10000,
+    "batch_size": 128,
+    "training_images": 45000,
+    "fixed_internal_holdout_images": 5000,
+    "pretrained_model": "google/ddpm-cifar10-32",
+    "pretrained_model_revision": "267b167dc01f0e4e61923ea244e8b988f84deb80",
+    "pretraining_overlap": "The fine-tuning holdout was in the original pretrained CIFAR10 training distribution; it is not pristine relative to pretraining.",
+    "starting_point": "original pretrained weights, never a pilot final checkpoint",
+    "sampler": {
+      "name": "DDIM",
+      "steps": 100,
+      "eta": 0.0,
+      "batch_size": 128,
+      "samples": 50000,
+      "same_seed_noise_across_conditions": true,
+      "model": "EMA checkpoint"
+    },
+    "spectral_protocol": "unchanged from the pilot: rank 16, retained k=64, fixed lambda .01, adaptive cap .05, interval 50, original spectral controllers with terminal reward handling",
+    "not_evaluated": [
+      "audio captioning",
+      "audio retrieval",
+      "aligned classification DCR on diffusion",
+      "active label acquisition"
+    ],
+    "primary_endpoint": "FID against original CIFAR10 training distribution using torch-fidelity 0.4.0",
+    "contrasts_target_minus_reference": [
+      [
+        "baseline",
+        "pretrained_reference"
+      ],
+      [
+        "fixed_dcr",
+        "baseline"
+      ],
+      [
+        "macc_lite",
+        "baseline"
+      ],
+      [
+        "full_macc",
+        "baseline"
+      ]
+    ],
+    "statistics": "six paired seeds; paired t and all 64 exact sign flips; Holm across FOUR FID contrasts separately per test family; individual unadjusted 95-percent t intervals",
+    "secondary_descriptive_endpoints": [
+      "KID",
+      "Inception score",
+      "internal-holdout denoising MSE",
+      "full official-test EMA denoising MSE",
+      "representation ranks",
+      "controller histories",
+      "timing and peak allocation"
+    ],
+    "official_test_ema_mse": {
+      "images": 10000,
+      "noise_and_timestep_seed": 541211,
+      "batch_size": 128,
+      "model": "EMA",
+      "precision": "FP32 parameters with BF16 autocast, as sampling",
+      "selection": "after final scheduled checkpoint only; not used for model selection or feedback"
+    },
+    "interpretation": "fine-tuning and regularization study, not reproduction of DDPM published benchmark numbers or a robustness guarantee",
+    "stopping": "technical validity only, never a minimum gain; all completed conditions are reported",
+    "authoring_runtime_execution": false
+  },
+  "runner_sha256": "466667ff2f6cfebe9dcc3b572307bae469610a62a6fcc737ff28389609ebaddd",
+  "engine_sha256": "3b03aabf64eaac152a353b7d8b50c95af7a0c515cd73bf1065061799ca8c5b20",
+  "source_manifest_sha256": "e8a7a3039390e60491431376ec1d28aad07e674fbaf64ca89aaa18e52f6b9451",
+  "data_manifest_sha256": "2af95b63455f39d547b069ee3d6c867ab0a57824b5bc36e2134b81b3cb75cc57",
+  "models": {
+    "google/ddpm-cifar10-32": {
+      "path": "/mnt/caenl/active/results/caenl-diffusion-confirm-v1/assets/ddpm-cifar10-32/267b167dc01f0e4e61923ea244e8b988f84deb80",
+      "snapshot_revision": "267b167dc01f0e4e61923ea244e8b988f84deb80",
+      "files": {
+        "config.json": "49579448cd5728fb83f14186de12464eee143d2f5dccb11b8e13744d712eae9d",
+        "diffusion_pytorch_model.safetensors": "1558dbe3fb093b0857d473e376b711eeda1b186c557be5e85b3a56300cd49f0f",
+        "scheduler_config.json": "da5d9d26605d2aab854e8f2f2b26d3a407618de17b948bdb7d3846fb0561c7d3"
+      },
+      "trust_remote_code": false,
+      "resolved_before_task_training": true
+    }
+  },
+  "pilot_inputs_digest": "1b03b796fd6097bb33f2d1c940c4485ff185b26ea2eea4956d372ab1ab6903e4",
+  "binding": "eebc9142829c89141d942e781ff31c905ccb473017ecfd1b618833246f3d5d8b"
+}

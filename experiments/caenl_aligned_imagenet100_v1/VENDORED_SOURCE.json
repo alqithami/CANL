@@ -1,0 +1,16 @@
+[
+  {
+    "file": "aligned.py",
+    "source_package": "caenl_aligned_dcr_v1.zip",
+    "source_file": "aligned.py",
+    "sha256": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+    "unmodified": true
+  },
+  {
+    "file": "vendor/controllers.py",
+    "source_package": "caenl_aligned_dcr_v1.zip",
+    "source_file": "original_controllers.py",
+    "sha256": "9e5fb0237e49643a9a2e8b24077a5b9f1cfd81487be298aa549d432a5345b88e",
+    "unmodified": true
+  }
+]

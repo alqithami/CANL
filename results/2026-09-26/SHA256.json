@@ -1,0 +1,10 @@
+{
+  "accuracy_by_budget.csv": "29027350e540065d8ab428e4031c6589d90d3355c72340cc2ab7cb79d19858c7",
+  "audio_per_seed.json": "e2f6f0d37096dcdd8cd9897e4d568d48853a96b3b35a27caa454105ce0f6b495",
+  "c4_per_seed.json": "957eadd389772e5c6bcf85d187f60eb78b8b2d37855bb52504683626a3cc2863",
+  "classification_per_seed.json": "f6733a6170011b9ce18eeb13cc5475de4e63a611d70f650a6723f1b63fb3bf9b",
+  "diffusion_per_seed.json": "b7dc1bceadc483ba12d2829ab4ee210d07dd793edc63ea09546eafdd9d47e9f8",
+  "grouped_accuracy_by_budget.csv": "32c7e43d1505546c5537340abc1e752c2be8ea43ecd9039178a4d30c257700de",
+  "layer_geometry_by_budget.csv": "ef98c34395cffb29c66a85b0a4839e5d9953efe6aa20f41767570a160ed0aa2c",
+  "reported_contrasts.json": "40dd8c436d12c67699f018fd3422f93a541a5932c80302bf8959b76da96370ad"
+}

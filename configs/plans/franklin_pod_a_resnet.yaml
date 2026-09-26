@@ -1,0 +1,372 @@
+# Two-pod split, POD A: ImageNet-1K / ResNet-50 (six seeds, 14 arms + full supervision), AutoAttack sanity,
+# overhead (ResNet-50 + CIFAR), ImageNet-100, CIFAR-10/100, C4, DDPM, AudioCaps + Clotho.  ~490 H100-h ~ 2.6 days on 8 GPUs.
+# Generated from franklin_complete_8gpu.yaml by scripts/make_pod_plans.py — edit that file, then regenerate.
+# Run:   caenl run --plan configs/plans/franklin_pod_a_resnet.yaml --gpus 0,1,2,3,4,5,6,7
+# Merge: caenl report --root $CAENL_RESULTS_ROOT/franklin-pod-a --extra-roots <pod B results>/franklin-pod-b --strict
+campaign_id: franklin-pod-a
+results_root: ${CAENL_RESULTS_ROOT:-/workspace/results}
+data_root: ${CAENL_DATA_ROOT:-/workspace/data}
+cache_root: ${CAENL_CACHE_ROOT:-/workspace/cache}
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+defaults: {}
+stages:
+- name: prepare_vision
+  type: prepare_data
+  depends_on: []
+  cpu_only: true
+  parallel: 4
+  matrix:
+    dataset_spec:
+    - name: imagenet1k
+      options: {cache_resolution: 256, source: '${CAENL_IMAGENET_SOURCE:-imagefolder}'}
+    - {name: cifar10}
+    - {name: cifar100}
+    - name: imagenet100
+      options: {cache_resolution: 144}
+  job: {}
+- name: prepare_models
+  type: prepare_data
+  depends_on: []
+  cpu_only: true
+  parallel: 4
+  matrix:
+    dataset_spec:
+    - name: c4
+      options:
+        tokenizer: gpt2
+        train_shards: [en/c4-train.00000-of-01024.json.gz]
+        validation_shards: [en/c4-validation.00000-of-00008.json.gz]
+        sequence_length: 1024
+        train_tokens: 100000000
+        validation_tokens: 2000000
+    - name: ddpm_cifar10
+      options: {model: google/ddpm-cifar10-32, dataset: cifar10}
+    - {name: clotho}
+  job: {}
+- name: prepare_audiocaps
+  type: prepare_data
+  depends_on: []
+  cpu_only: true
+  parallel: 1
+  matrix: {}
+  job:
+    datasets:
+    - name: audiocaps
+      options: {download_audio: true, download_workers: 8, min_coverage: 0.9, cookies: '${CAENL_YTDLP_COOKIES:-}'}
+- name: aa_sanity
+  type: vision_aa_sanity
+  depends_on: [prepare_vision]
+  parallel: 1
+  matrix:
+    dataset: [imagenet1k]
+    arch: [resnet50]
+    seed: [0]
+  job:
+    sanity:
+      pretrained: true
+      weights: IMAGENET1K_V1
+      expected: {clean_acc: 0.761, robust_acc_max: 0.005}
+      tolerance: 0.01
+      fail_on_mismatch: true
+- name: overhead_imagenet1k
+  type: vision_overhead
+  depends_on: [prepare_vision, prepare_models]
+  exclusive: true
+  matrix:
+    arch: [resnet50]
+    dataset: [imagenet1k]
+    seed: [0]
+  job:
+    overhead:
+      steps: 100
+      warmup_steps: 20
+      repeats: 3
+      use_real_data: true
+      batch_size: 128
+      configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10]
+      acquisition_bench: {n_candidates: 10000, budget: 1000}
+- name: overhead_cifar
+  type: vision_overhead
+  depends_on: [prepare_vision]
+  exclusive: true
+  matrix:
+    arch: [resnet18_cifar]
+    dataset: [cifar10]
+    seed: [0]
+  job:
+    overhead:
+      steps: 100
+      warmup_steps: 20
+      repeats: 3
+      use_real_data: true
+      configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10]
+      acquisition_bench: {n_candidates: 10000, budget: 1000}
+- name: r50_init
+  type: vision_al
+  depends_on: [aa_sanity]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [resnet50]
+    seed: [0, 1, 2, 3, 4, 5]
+    regularizer: [none, fixed_dcr, macc_lite, full_macc]
+  job:
+    mode: initial_only
+    method: {name: init, acquisition: random}
+    robustness:
+      final: {enabled: false}
+- name: r50_al
+  type: vision_al
+  depends_on: [r50_init]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [resnet50]
+    seed: [0, 1, 2, 3, 4, 5]
+    method: [random, entropy, margin, power_margin, coreset, badge, bald_mcd, noise_stability, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+  expected:
+    seeds: [0, 1, 2, 3, 4, 5]
+    methods: [random, entropy, margin, power_margin, coreset, badge, bald_mcd, noise_stability, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+- name: r50_supervised
+  type: vision_al
+  depends_on: [aa_sanity]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [resnet50]
+    seed: [0, 1, 2, 3, 4, 5]
+    method: [supervised_full]
+  expected:
+    seeds: [0, 1, 2, 3, 4, 5]
+    methods: [supervised_full]
+- name: imagenet100_init
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 8
+  matrix:
+    dataset: [imagenet100]
+    arch: [resnet50]
+    seed: [0, 1, 2]
+    regularizer: [none, fixed_dcr, macc_lite, full_macc]
+  job:
+    mode: initial_only
+    method: {name: init, acquisition: random}
+    robustness:
+      final: {enabled: false}
+- name: imagenet100_al
+  type: vision_al
+  depends_on: [imagenet100_init]
+  parallel: 8
+  matrix:
+    dataset: [imagenet100]
+    arch: [resnet50]
+    seed: [0, 1, 2]
+    method: [random, entropy, margin, badge, coreset, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [random, entropy, margin, badge, coreset, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+- name: imagenet100_supervised
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 8
+  matrix:
+    dataset: [imagenet100]
+    arch: [resnet50]
+    seed: [0, 1, 2]
+    method: [supervised_full]
+- name: c4
+  type: language_c4
+  depends_on: [prepare_models]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    seed: [0, 1, 2]
+    method: [baseline, fixed_dcr, macc_lite, full_macc]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [baseline, fixed_dcr, macc_lite, full_macc]
+  job: {}
+- name: diffusion
+  type: diffusion_ddpm
+  depends_on: [prepare_models, prepare_vision]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    seed: [0, 1, 2]
+    method: [baseline, fixed_dcr, macc_lite, full_macc]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [baseline, fixed_dcr, macc_lite, full_macc]
+  job: {}
+- name: audio_captioning
+  type: audio_captioning
+  depends_on: [prepare_audiocaps, prepare_models]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    seed: [0, 1, 2]
+    method: [baseline, fixed_dcr, macc_lite, full_macc]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [baseline, fixed_dcr, macc_lite, full_macc]
+  job:
+    audio: {dataset: audiocaps}
+- name: audio_retrieval
+  type: audio_retrieval
+  depends_on: [prepare_audiocaps, prepare_models]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    seed: [0, 1, 2]
+    method: [baseline, fixed_dcr, macc_lite, full_macc]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [baseline, fixed_dcr, macc_lite, full_macc]
+  job:
+    audio: {dataset: audiocaps}
+- name: audio_captioning_clotho
+  type: audio_captioning
+  depends_on: [prepare_models]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    seed: [0, 1, 2]
+    method: [baseline, fixed_dcr, macc_lite, full_macc]
+  job:
+    audio: {dataset: clotho, manifest: null}
+- name: audio_retrieval_clotho
+  type: audio_retrieval
+  depends_on: [prepare_models]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    seed: [0, 1, 2]
+    method: [baseline, fixed_dcr, macc_lite, full_macc]
+  job:
+    audio: {dataset: clotho, manifest: null}
+- name: cifar10_init
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar10]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2, 3, 4]
+    regularizer: [none, fixed_dcr, macc_lite, full_macc]
+  job:
+    mode: initial_only
+    method: {name: init, acquisition: random}
+    robustness:
+      final: {enabled: false}
+- name: cifar10_init_sweep
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar10]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2]
+    regularizer: [fixed_dcr]
+    dcr_lambda: [0.01, 0.1, 0.3, 1.0, 3.0, 10.0]
+  job:
+    mode: initial_only
+    method: {name: init, acquisition: random}
+    robustness:
+      final: {enabled: false}
+- name: cifar10_al
+  type: vision_al
+  depends_on: [cifar10_init]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar10]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2, 3, 4]
+    method: [random, entropy, margin, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc, entropy_macc_lite]
+  overrides_by_method:
+    noise_stability:
+      method:
+        params: {noise_samples: 30, noise_scale: 0.001}
+  expected:
+    seeds: [0, 1, 2, 3, 4]
+    methods: [random, entropy, margin, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc, entropy_macc_lite]
+- name: cifar10_supervised
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar10]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2, 3, 4]
+    method: [supervised_full]
+- name: cifar10_sweep
+  type: vision_al
+  depends_on: [cifar10_init_sweep]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar10]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2]
+    method: [caenl_fixed_dcr_l0.01, caenl_fixed_dcr_l0.1, caenl_fixed_dcr_l0.3, caenl_fixed_dcr_l1, caenl_fixed_dcr_l3, caenl_fixed_dcr_l10]
+- name: cifar10_at
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar10]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2]
+    method: [at_random, at_caenl_macc_lite]
+- name: cifar100_init
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar100]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2, 3, 4]
+    regularizer: [none, fixed_dcr, macc_lite, full_macc]
+  job:
+    mode: initial_only
+    method: {name: init, acquisition: random}
+    robustness:
+      final: {enabled: false}
+- name: cifar100_al
+  type: vision_al
+  depends_on: [cifar100_init]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar100]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2, 3, 4]
+    method: [random, entropy, margin, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+  overrides_by_method:
+    noise_stability:
+      method:
+        params: {noise_samples: 30, noise_scale: 0.001}
+  expected:
+    seeds: [0, 1, 2, 3, 4]
+    methods: [random, entropy, margin, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]
+- name: cifar100_supervised
+  type: vision_al
+  depends_on: [prepare_vision]
+  parallel: 16
+  gpu_share: 2
+  matrix:
+    dataset: [cifar100]
+    arch: [resnet18_cifar]
+    seed: [0, 1, 2, 3, 4]
+    method: [supervised_full]
+- name: aggregate
+  type: aggregate
+  matrix: {}
+  job: {}

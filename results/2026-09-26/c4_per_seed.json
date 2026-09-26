@@ -1,0 +1,242 @@
+[
+  {
+    "method": "baseline",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.488985679569286,
+    "seed": 301,
+    "token_accuracy": 0.38011382728494625,
+    "token_ece": 0.012578555654673071,
+    "validation_nll": 3.384016826832777
+  },
+  {
+    "method": "baseline",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.491063826156054,
+    "seed": 302,
+    "token_accuracy": 0.38016083029313874,
+    "token_ece": 0.012210857866710605,
+    "validation_nll": 3.3840872963086435
+  },
+  {
+    "method": "baseline",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.48950391637838,
+    "seed": 303,
+    "token_accuracy": 0.38003782242063494,
+    "token_ece": 0.012572882708177458,
+    "validation_nll": 3.384034400589333
+  },
+  {
+    "method": "baseline",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.501532635795474,
+    "seed": 304,
+    "token_accuracy": 0.37995681723630315,
+    "token_ece": 0.011937785264643284,
+    "validation_nll": 3.3844422157520033
+  },
+  {
+    "method": "baseline",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.49166292941738,
+    "seed": 305,
+    "token_accuracy": 0.38022683451740913,
+    "token_ece": 0.011764011456913345,
+    "validation_nll": 3.3841076108411956
+  },
+  {
+    "method": "baseline",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.50564257354469,
+    "seed": 306,
+    "token_accuracy": 0.37990731406810035,
+    "token_ece": 0.01287753642044574,
+    "validation_nll": 3.384581518734777
+  },
+  {
+    "method": "fixed_dcr",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.48134630835502,
+    "seed": 301,
+    "token_accuracy": 0.37998231886840755,
+    "token_ece": 0.01211044112732127,
+    "validation_nll": 3.383757734811434
+  },
+  {
+    "method": "fixed_dcr",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.482161621723098,
+    "seed": 302,
+    "token_accuracy": 0.3800928259408602,
+    "token_ece": 0.012243476322347,
+    "validation_nll": 3.383785389657516
+  },
+  {
+    "method": "fixed_dcr",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.479507899655648,
+    "seed": 303,
+    "token_accuracy": 0.38007532482078854,
+    "token_ece": 0.012801209402455913,
+    "validation_nll": 3.383695374497132
+  },
+  {
+    "method": "fixed_dcr",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.492265346379686,
+    "seed": 304,
+    "token_accuracy": 0.3799108142921147,
+    "token_ece": 0.011597502341440972,
+    "validation_nll": 3.3841280373193885
+  },
+  {
+    "method": "fixed_dcr",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.48304766452944,
+    "seed": 305,
+    "token_accuracy": 0.38013032834101385,
+    "token_ece": 0.011945535069457074,
+    "validation_nll": 3.3838154427283738
+  },
+  {
+    "method": "fixed_dcr",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.49830671827437,
+    "seed": 306,
+    "token_accuracy": 0.3799818188364055,
+    "token_ece": 0.012599466765847568,
+    "validation_nll": 3.384332862317837
+  },
+  {
+    "method": "full_macc",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.50001906846011,
+    "seed": 301,
+    "token_accuracy": 0.38005332341269843,
+    "token_ece": 0.012321492321901465,
+    "validation_nll": 3.3843909097340434
+  },
+  {
+    "method": "full_macc",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.495730576460005,
+    "seed": 302,
+    "token_accuracy": 0.3801093269969278,
+    "token_ece": 0.012409313255718986,
+    "validation_nll": 3.384245526650229
+  },
+  {
+    "method": "full_macc",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.485027407530318,
+    "seed": 303,
+    "token_accuracy": 0.3800718245967742,
+    "token_ece": 0.012902696405731705,
+    "validation_nll": 3.383882588993508
+  },
+  {
+    "method": "full_macc",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.493573634780624,
+    "seed": 304,
+    "token_accuracy": 0.37991781474014336,
+    "token_ece": 0.011678000971422476,
+    "validation_nll": 3.384172396725773
+  },
+  {
+    "method": "full_macc",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.514924288525524,
+    "seed": 305,
+    "token_accuracy": 0.3801873319892473,
+    "token_ece": 0.012025393731728229,
+    "validation_nll": 3.3848960435030344
+  },
+  {
+    "method": "full_macc",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.52093933402006,
+    "seed": 306,
+    "token_accuracy": 0.379903313812084,
+    "token_ece": 0.01328908077539043,
+    "validation_nll": 3.38509981948415
+  },
+  {
+    "method": "macc_lite",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.547584886102165,
+    "seed": 301,
+    "token_accuracy": 0.37993981614823347,
+    "token_ece": 0.013160765132823604,
+    "validation_nll": 3.3860020107693143
+  },
+  {
+    "method": "macc_lite",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.548038116209895,
+    "seed": 302,
+    "token_accuracy": 0.37997881864439326,
+    "token_ece": 0.012931828173613717,
+    "validation_nll": 3.386017349641627
+  },
+  {
+    "method": "macc_lite",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.545727605522032,
+    "seed": 303,
+    "token_accuracy": 0.3799543170762929,
+    "token_ece": 0.013582235191212617,
+    "validation_nll": 3.385939151521713
+  },
+  {
+    "method": "macc_lite",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.556916945603643,
+    "seed": 304,
+    "token_accuracy": 0.3798248087877624,
+    "token_ece": 0.012872152753111477,
+    "validation_nll": 3.3863177924539514
+  },
+  {
+    "method": "macc_lite",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.55241345648965,
+    "seed": 305,
+    "token_accuracy": 0.3800403225806452,
+    "token_ece": 0.012634644959684579,
+    "validation_nll": 3.386165414171468
+  },
+  {
+    "method": "macc_lite",
+    "n_eval_sequences": 1953,
+    "n_eval_tokens": 1999872,
+    "perplexity": 29.562654256622128,
+    "seed": 306,
+    "token_accuracy": 0.3797803059395801,
+    "token_ece": 0.013607142567641561,
+    "validation_nll": 3.3865118842215276
+  }
+]

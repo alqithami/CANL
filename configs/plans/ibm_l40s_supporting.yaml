@@ -1,0 +1,100 @@
+# Supporting vision evidence on one L40S.  These data are not substitutes for
+# the principal ImageNet-1K phase; they provide broader multi-seed diagnostics,
+# DCR sensitivity, and adversarial-training reference points.
+campaign_id: ibm-l40s-supporting
+results_root: "${CAENL_RESULTS_ROOT:-/mnt/caenl/results}"
+data_root: "${CAENL_DATA_ROOT:-/mnt/caenl/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/mnt/caenl/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+hardware: {expected_gpu_name_regex: "L40S", min_gpu_memory_gb: 44, min_system_memory_gb: 108, min_logical_cpus: 20, min_nvidia_driver: 550, torch_cuda: "12.4"}
+preflight: {require_gpu: true, require_pinned_autoattack: true, min_free_gb: 250}
+defaults:
+  training: {batch_size: 128, lr: 0.05, amp: true, channels_last: true}
+  active_learning: {acquisition_batch_size: 128, eval_batch_size: 256}
+  robustness:
+    evaluate_rounds: [final]
+    final: {enabled: true, version: standard, n_examples: 1000, batch_size: 32, chunk: 128}
+    intermediate: {enabled: true, n_examples: 500, batch_size: 64}
+    epsilon_sweep: {enabled: true, n_examples: 500}
+    corruptions: {enabled: true, n_examples: 500, severities: [1, 2, 3]}
+stages:
+  - name: prepare
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - {name: cifar10}
+        - {name: cifar100}
+        - {name: imagenet100, options: {cache_resolution: 144}}
+    job: {}
+
+  - name: cifar10_init
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+  - name: cifar10_al
+    type: vision_al
+    depends_on: [cifar10_init]
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], method: [random, entropy, margin, coreset, badge, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+  - name: cifar10_supervised
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], method: [supervised_full]}
+  - name: cifar10_lambda
+    type: vision_al
+    depends_on: [cifar10_init]
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2], method: [caenl_fixed_dcr_l0.01, caenl_fixed_dcr_l0.1, caenl_fixed_dcr_l0.3, caenl_fixed_dcr_l1, caenl_fixed_dcr_l3, caenl_fixed_dcr_l10]}
+  - name: cifar10_at
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1, 2], method: [at_random, at_caenl_macc_lite]}
+
+  - name: cifar100_init
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [cifar100], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+  - name: cifar100_al
+    type: vision_al
+    depends_on: [cifar100_init]
+    parallel: 1
+    matrix: {dataset: [cifar100], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], method: [random, entropy, margin, coreset, badge, noise_stability, power_margin, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+  - name: cifar100_supervised
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [cifar100], arch: [resnet18_cifar], seed: [0, 1, 2, 3, 4], method: [supervised_full]}
+
+  - name: imagenet100_init
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [imagenet100], arch: [resnet50], seed: [0, 1, 2], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+  - name: imagenet100_al
+    type: vision_al
+    depends_on: [imagenet100_init]
+    parallel: 1
+    matrix: {dataset: [imagenet100], arch: [resnet50], seed: [0, 1, 2], method: [random, entropy, margin, coreset, badge, noise_stability, caenl_acq_only, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+  - name: imagenet100_supervised
+    type: vision_al
+    depends_on: [prepare]
+    parallel: 1
+    matrix: {dataset: [imagenet100], arch: [resnet50], seed: [0, 1, 2], method: [supervised_full]}
+
+  - name: aggregate
+    type: aggregate
+    depends_on: [cifar10_al, cifar10_supervised, cifar10_lambda, cifar10_at, cifar100_al, cifar100_supervised, imagenet100_al, imagenet100_supervised]
+    cpu_only: true
+    matrix: {}
+    job: {}

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "paired_contrasts": 39,
+  "per_seed_rows": {
+    "classification": 72,
+    "c4": 24,
+    "diffusion": 30,
+    "audio": 24
+  },
+  "curve_rows": 108,
+  "geometry_rows": 216,
+  "scope": "Statistical reconstruction from exported numerical records; no training, attack rerun, or regeneration of raw-data metrics."
+}

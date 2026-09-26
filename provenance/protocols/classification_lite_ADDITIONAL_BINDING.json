@@ -1,0 +1,269 @@
+{
+  "binding": "c6009897fdc2d87df4e257cd89e710bbb2465d6f80a98e4349e36ea01f2af058",
+  "protocol": {
+    "campaign": "caenl-focused-completion-v1",
+    "role": "post_hoc_matched_ablation_using_existing_seeds_and_initial_checkpoints",
+    "dataset_root": "/mnt/caenl/persistent/datasets/imagenet100_cmc",
+    "result_root": "/mnt/caenl/active/results/caenl-focused-completion-v1",
+    "archive_root": "/mnt/caenl/active/results/caenl-focused-completion-v1",
+    "expected_image_manifest_sha256": "0ba19db4a9d1aeb633d1339a5f9ec11f55dc219d884a266bb4d805eca8d6dc1f",
+    "expected_class_list_sha256": "5ee5db69d488bb799a286d8e181801c3d02798776c1ce9203e5450f64e086e07",
+    "expected_train_count": 126689,
+    "expected_val_count": 5000,
+    "num_classes": 100,
+    "seeds": [
+      801,
+      802,
+      803,
+      804,
+      805,
+      806
+    ],
+    "methods": [
+      {
+        "name": "entropy_aligned_lite",
+        "acquisition": "entropy",
+        "regularizer": "aligned_lite"
+      }
+    ],
+    "initial_labels": 12669,
+    "holdout_count": 633,
+    "acquisition_per_round": 12669,
+    "rounds": 5,
+    "initial_epochs": 40,
+    "round_epochs": 20,
+    "batch_classes": 16,
+    "samples_per_class": 8,
+    "lr_initial": 0.05,
+    "lr_round": 0.025,
+    "warmup_initial_epochs": 3,
+    "warmup_round_epochs": 1,
+    "momentum": 0.9,
+    "nesterov": true,
+    "weight_decay": 0.0001,
+    "clip_grad_norm": 5.0,
+    "batchnorm": "update during shared initial training; freeze running statistics during all five AL rounds in every method",
+    "workers": 8,
+    "eval_workers": 4,
+    "eval_batch": 64,
+    "image_size": 224,
+    "resize": 256,
+    "precision": "bf16_autocast_fp32_parameters; full_precision_reporting_and_attacks",
+    "layers": [
+      "layer3",
+      "layer4"
+    ],
+    "control_interval": 100,
+    "calibration_batches": 16,
+    "training_ema_beta": 0.05,
+    "alignment": {
+      "target_kappa_factor": 0.9,
+      "between_floor_factor": 0.5,
+      "scatter_epsilon": 1e-06,
+      "feature_norm_epsilon": 1e-06,
+      "huber_delta": 0.25,
+      "floor_weight": 0.01
+    },
+    "lambda_initial": 0.03,
+    "lambda_fixed": 0.03,
+    "lambda_max": 0.1,
+    "lite_smoothing": 0.2,
+    "full_macc": {
+      "hidden_dims": [
+        128,
+        128
+      ],
+      "lambda_delta_choices": [
+        -0.01,
+        -0.005,
+        0.0,
+        0.005,
+        0.01
+      ],
+      "policy_lr": 0.0003,
+      "epsilon_start": 0.1,
+      "epsilon_end": 0.02,
+      "entropy_coefficient": 0.001,
+      "reward_baseline_ema": 0.05,
+      "reward_geometry_weight": 0.1,
+      "reward_effort_weight": 0.01
+    },
+    "targets": "once per independent seed, after shared 40-epoch initial training, on fixed center-cropped 16x8 training anchors; shared by all methods; never tuned with official validation",
+    "acquisition": {
+      "candidate_size": 10000,
+      "per_pass_fraction": 0.1,
+      "quantile": 0.9,
+      "layer_weights": {
+        "layer3": 0.5,
+        "layer4": 0.5
+      },
+      "covariance": "fresh diagonal class covariance from currently labeled training images; shrinkage 1e-5",
+      "mahalanobis_shrinkage": 1e-05,
+      "noise_samples": 5,
+      "noise_scale": 0.001,
+      "badge": "exact factorized last-linear-weight gradient kernel; no random projection; bias excluded",
+      "noise_stability": "independent full-parameter Gaussian output-deviation implementation; five draws; exact concatenation/no projection; greedy k-center; not authors repository reproduction",
+      "full_macc_acquisition_head": false
+    },
+    "checkpoint_every_steps": 1000,
+    "checkpoint_each_epoch": true,
+    "minimum_policy_updates_per_completed_run": 100,
+    "autoattack": {
+      "commit": "a39220048b3c9f2cca9a4d3a54604793c68eca7e",
+      "norm": "Linf",
+      "epsilon": 0.03137254901960784,
+      "version": "standard",
+      "batch_size": 64,
+      "chunk_size": 256,
+      "all_validation_images": true
+    },
+    "statistics": {
+      "alpha": 0.05,
+      "primary_endpoints": [
+        "clean_accuracy"
+      ],
+      "comparisons": [
+        [
+          "entropy_aligned_lite",
+          "entropy"
+        ],
+        [
+          "caenl_aligned_lite",
+          "entropy_aligned_lite"
+        ]
+      ],
+      "test": "paired t and exact sign flip; Holm over these two supplementary clean-accuracy contrasts only; original seven-contrast family unchanged"
+    },
+    "new_adversarial_training": false,
+    "negative_results_are_valid": true,
+    "no_legacy_checkpoints_loaded": false,
+    "sources": [
+      "https://ojs.aaai.org/index.php/AAAI/article/view/29270",
+      "https://github.com/JordanAsh/badge",
+      "https://github.com/fra31/auto-attack/tree/a39220048b3c9f2cca9a4d3a54604793c68eca7e"
+    ]
+  },
+  "plan": {
+    "role": "post_hoc_matched_ablation_using_existing_seeds_and_initial_checkpoints",
+    "decided_before_additional_training": true,
+    "seeds": [
+      801,
+      802,
+      803,
+      804,
+      805,
+      806
+    ],
+    "method": {
+      "name": "entropy_aligned_lite",
+      "acquisition": "entropy",
+      "regularizer": "aligned_lite"
+    },
+    "comparisons": {
+      "alpha": 0.05,
+      "primary_endpoints": [
+        "clean_accuracy"
+      ],
+      "comparisons": [
+        [
+          "entropy_aligned_lite",
+          "entropy"
+        ],
+        [
+          "caenl_aligned_lite",
+          "entropy_aligned_lite"
+        ]
+      ],
+      "test": "paired t and exact sign flip; Holm over these two supplementary clean-accuracy contrasts only; original seven-contrast family unchanged"
+    },
+    "reuse": {
+      "801": {
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed801/shared_initial/state.pt": "b01bed1bd9ea8759920b66807f5b1b5d033a103d5e92babae147ba507617b588",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed801/targets.json": "ae0cd034cdbeaab4c91e8c953707110ff60f2ea425312aeab45d10c2a87535b9",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed801/splits.npz": "5e0bafb272d22b4536e148837d1bef13d8742be90055618ded9d486dff22e478"
+      },
+      "802": {
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed802/shared_initial/state.pt": "2daea10857e24f3ce26e01db608a3ea3bc6541fd10b2e04cc373ffe126cbb8e1",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed802/targets.json": "b4f54f39451fe34165a16b84bf3f26036b3d57bc967a5d358df4187fb1396cb6",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed802/splits.npz": "9c140e26f0c8b8f0f27100410eb8bf3ec99115fab5f7477a736ef81469fab9ed"
+      },
+      "803": {
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed803/shared_initial/state.pt": "48fb3ffb152cbbdb3f38895504651eff5ec98b3757f7ab89e6c05642084bbf35",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed803/targets.json": "1ac20eb2aeded1330a4d8b22516b1c87dcda8e3069eb6b891315e758f58e09ad",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed803/splits.npz": "ae71a6fd4ce7643afa8970d4fc9fec85dde49db5c87497d9a7976aa79635422b"
+      },
+      "804": {
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed804/shared_initial/state.pt": "ef74db760579198aa828a1fa0e209cf0b04275d6c614226ceb2e42a7c3d29d86",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed804/targets.json": "f225c37aee06753ed87ab5eb80b764438e9e674ab405636abd58a64cd0973d06",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed804/splits.npz": "3b7fa763877c41bfb0705762956f0b9ee9c2ff6a24ae14beea75e97e42aef5ad"
+      },
+      "805": {
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed805/shared_initial/state.pt": "96e0fe6c54581eb48c9ace1be545e8987e0d9c5bb64ce427f2025380db5a0345",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed805/targets.json": "7fe35fa2fd872915784351b4af30ee013d19de58eeabe4655c4aed04d6c26321",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed805/splits.npz": "3a0db8c2c076d958b199ac26d544ce05473343f57ff3d9146f6a9547961bce4e"
+      },
+      "806": {
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed806/shared_initial/state.pt": "68eb8c99cc95f36145c081657c7709ed8c59586b65df4f88ff04d5748bd1bc38",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed806/targets.json": "8a3d1f559ecc4566f37dab4109639b873b9b2ed9bd1b8dd76ae1e1ec051a66b0",
+        "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1/seed806/splits.npz": "671d9d7c74ef65c22fd4c1bacc64ffb49e94b95b7b027741fa633f2a2f5e2a7a"
+      }
+    },
+    "original_binding": "159fe52901f774e7abeb40a3afe96de81f1084a1bde0f63d070c7d2ecda325e1",
+    "source_files": {
+      "PROTOCOL.md": "b461bdb000d0a12d0c1243827cf45a0ab076a45828f5dd064a3917fee10dcf83",
+      "README.md": "646e8af5537194f7c98c8360343aae1533fa89a9dabda133c5581e2d49cdcf38",
+      "VALIDATION.json": "c111fd974b973c8a7229e20f3e72aa523311cdd1c35a108d097c8552239e7ed8",
+      "VENDORED_SOURCE.json": "3d822e316d01c71bf798d983428bc6e0dad6e0d4bc09edabdcc9ab414eb4e528",
+      "acquisition.py": "c6b8538083c44d4679ba5e3db7fef3ea72fe1cc603d78891c199a28f99a49264",
+      "aligned.py": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+      "control.py": "e7841d16086d4d828a93679793384d0308821bb47af493bc97e0bdd90e071387",
+      "env.sh": "37fe1f686283c7a4fe07dc0c8b1e3d4fd8ce00c669db36f7b00f73b211185e72",
+      "evaluation.py": "a992249469d83a97b984d71e768170441c0198f533183ebef9acc42acdbcccce",
+      "protocol.json": "9dfd0201a5d69d05dd8992ee9d642bb43c3a5d3b0b07b51c28ab03bd3c55e08e",
+      "reporting.py": "0d32d715706d353c56709a120603596c9abf29943f696a75ff09fd304e1d9273",
+      "run.sh": "4efc6b20a2b54157e2d329916f05903d682ab767c261c7c23a534f6641c7c335",
+      "run_campaign.py": "dfaccd69dc9b6027eb4ea04adb2323a62b530eac4bdda3c91df0886e2b095d5f",
+      "self_test.py": "031e9cf7b1765e0a2dc6e22bee76aa0904ea4ca46ce3170fe63c93719d808a1b",
+      "start.sh": "c3aa1852bf205817f7651ac38b5c2e89915c9735b44cdc71348d63c0bdae70c6",
+      "status.sh": "b49e0c86fd9348965535d58deebe67e452e63a88e838d34f2c3ab47c4d214be2",
+      "support.py": "bbe7f2f7f7ea1d0249225ff85e2d13377be5129f8f48de136229429fc1a7dfa2",
+      "training.py": "c2901463dd8fc76da7c2b55ac161874ba445455fe7ebb7fbff651421c6bc7365",
+      "vendor/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "vendor/controllers.py": "9e5fb0237e49643a9a2e8b24077a5b9f1cfd81487be298aa549d432a5345b88e"
+    },
+    "runner_sha256": "f9f3f0efa98a51989b6c5620b4b7edc18668ad300077959c30838728f2a1817f",
+    "original_statistics_not_overwritten": true,
+    "original_seeds_are_not_new_independent_replications": true,
+    "no_new_hyperparameter_tuning": true,
+    "no_new_datasets": true,
+    "robustness": "same full-set standard 8/255 endpoint, supplementary descriptive result",
+    "remaining_outside_this_script": [
+      "recent matched-baseline coverage decision",
+      "matched end-to-end overhead if claimed",
+      "manuscript/PDF and reviewer response",
+      "public deposit and author declarations",
+      "review recovered C4 production configuration"
+    ]
+  },
+  "created_utc": "2026-09-18T21:52:46.006184+00:00",
+  "environment": {
+    "python": "3.11.7 (main, Apr 24 2026, 00:00:00) [GCC 11.4.1 20231218 (Red Hat 11.4.1-4)]",
+    "torch": "2.6.0+cu124",
+    "torchvision": "0.21.0+cu124",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "cuda": "12.4",
+    "original_recorded_environment": {
+      "python": "3.11.7 (main, Apr 24 2026, 00:00:00) [GCC 11.4.1 20231218 (Red Hat 11.4.1-4)]",
+      "torch": "2.6.0+cu124",
+      "torchvision": "0.21.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA L40S",
+      "platform": "Linux-5.14.0-427.113.1.el9_4.x86_64-x86_64-with-glibc2.34",
+      "autoattack": {
+        "distribution": "autoattack",
+        "commit": "a39220048b3c9f2cca9a4d3a54604793c68eca7e"
+      }
+    }
+  }
+}

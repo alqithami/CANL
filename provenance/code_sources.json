@@ -1,0 +1,56 @@
+[
+  {
+    "file": "experiments/caenl-diffusion-confirm-v1/runner.py",
+    "report": "caenl-diffusion-confirm-v1.md",
+    "sha256": "466667ff2f6cfebe9dcc3b572307bae469610a62a6fcc737ff28389609ebaddd",
+    "serialization": "CSV CRLF"
+  },
+  {
+    "file": "experiments/caenl-diffusion-confirm-v1/engine.py",
+    "report": "caenl-diffusion-confirm-v1.md",
+    "sha256": "3b03aabf64eaac152a353b7d8b50c95af7a0c515cd73bf1065061799ca8c5b20",
+    "serialization": "LF exact"
+  },
+  {
+    "file": "experiments/caenl-audiocaps-confirm-v1/runner.py",
+    "report": "caenl-audiocaps-confirm-v1.md",
+    "sha256": "bdd63d76a8241ad8ba167792ff4867005eb4f1beae46601a8ec462e58bfcdb9e",
+    "serialization": "Source UTF-8 BOM and CRLF normalized by report exporter"
+  },
+  {
+    "file": "experiments/caenl-audiocaps-confirm-v1/pilot_wrapper.py",
+    "report": "caenl-audiocaps-confirm-v1.md",
+    "sha256": "20acc1c0c585041ff5356d22c021d29e270d56f8f82d020d1c1b83714c3af879",
+    "serialization": "Source UTF-8 BOM and CRLF normalized by report exporter"
+  },
+  {
+    "file": "experiments/caenl-audiocaps-confirm-v1/engine.py",
+    "report": "caenl-audiocaps-confirm-v1.md",
+    "sha256": "d3d01297c43357b9c34d81701b21f1b80c3a3a395bb65ef341026c61c918ac15",
+    "serialization": "Source UTF-8 BOM and CRLF normalized by report exporter"
+  },
+  {
+    "file": "experiments/caenl-audiocaps-confirm-v1/initialization_recovery.py",
+    "report": "caenl-audiocaps-confirm-v1.md",
+    "sha256": "7664025320daf368ec5bf0b7d387bd266ca397f7d18c520ed12a83961d14458f",
+    "serialization": "Source UTF-8 BOM and CRLF normalized by report exporter"
+  },
+  {
+    "file": "experiments/caenl-focused-completion-v1/runner.py",
+    "report": "caenl-focused-completion-v1.md",
+    "sha256": "6468ba08c0abbf83cf9a96031beb53c6ed35f0af67baf970ace9d2d989a77d3f",
+    "serialization": "embedded launcher bytes; entropy-fixed binding additionally checked by offline audit"
+  },
+  {
+    "file": "experiments/caenl-uherding-v1/runner.py",
+    "report": "caenl-uherding-v1.md",
+    "sha256": "3584f6a708cd055384046f1eb443a1e4ef09c34888eb748d83ed67f751fb0919",
+    "serialization": "embedded launcher bytes; entropy-fixed binding additionally checked by offline audit"
+  },
+  {
+    "file": "experiments/caenl-entropy-fixed-v1/runner.py",
+    "report": "caenl-entropy-fixed-v1.md",
+    "sha256": "69700847170b9f0690accbb01af8bddda65138988a2aeef4b2a6be8cfd34aef4",
+    "serialization": "embedded launcher bytes; entropy-fixed binding additionally checked by offline audit"
+  }
+]

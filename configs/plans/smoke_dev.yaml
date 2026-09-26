@@ -1,0 +1,46 @@
+# Minimal developer smoke (CPU, ~10 min): a handful of methods, one seed, tiny attacks.
+campaign_id: smoke-dev
+results_root: "${CAENL_RESULTS_ROOT:-./results}"
+data_root: "${CAENL_DATA_ROOT:-./data}"
+cache_root: "${CAENL_CACHE_ROOT:-./cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: false
+preflight: {require_gpu: false, require_pinned_autoattack: false, min_free_gb: 3}
+defaults:
+  reproducibility: {save_pip_freeze: false, telemetry_interval_s: 2}
+  dataset_options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}
+  arch_options: {width_mult: 0.25}
+  active_learning: {initial_fraction: 0.2, rounds: 2, fraction_per_round: 0.1, candidate_size: 300, controller_validation_fraction: 0.1, acquisition_batch_size: 128, eval_batch_size: 128}
+  training: {initial_epochs: 2, epochs_per_round: 1, batch_size: 64, amp: false, channels_last: false, log_every_steps: 5}
+  collapse: {monitoring_cadence_steps: 5, truncated_spectral_rank: 16}
+  robustness:
+    final: {enabled: true, version: custom, attacks: [apgd-ce], n_examples: 32, batch_size: 32, apgd_restarts: 1, apgd_iterations: 5}
+    intermediate: {enabled: true, n_examples: 32, apgd_restarts: 1, apgd_iterations: 5, pgd_steps: 2, batch_size: 32}
+    epsilon_sweep: {enabled: true, n_examples: 32, epsilons: [0.00392156862745098]}
+    corruptions: {enabled: true, n_examples: 32, severities: [1]}
+  diagnostics: {margin_examples: 32}
+stages:
+  - name: prepare
+    type: prepare_data
+    matrix: {}
+    job:
+      datasets:
+        - {name: synthetic, options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}}
+  - name: synth_init
+    type: vision_al
+    parallel: 2
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [0], regularizer: [none, macc_lite, full_macc, fixed_dcr]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+  - name: synth_al
+    type: vision_al
+    parallel: 2
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [0], method: [badge, noise_stability, bald_mcd, caenl_macc_lite, caenl_full_macc, caenl_fixed_dcr, at_random, supervised_full]}
+    overrides_by_method:
+      noise_stability: {method: {params: {noise_samples: 2}}}
+      bald_mcd: {method: {params: {mc_samples: 3}}}
+      at_random: {adversarial_training: {steps: 2}}
+      supervised_full: {training: {full_supervision_epochs: 2}}
+  - name: aggregate
+    type: aggregate
+    matrix: {}
+    job: {}

@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying CAENL manuscript when using this code or its result records."
+title: "CAENL: Objective-Aligned Representation Control for Active Learning"
+authors:
+  - family-names: Alqithami
+    given-names: Saad
+    orcid: "https://orcid.org/0000-0002-2111-3456"
+version: "2026-09-26"
+date-released: "2026-09-26"
+url: "https://github.com/alqithami/CANL"
+type: software

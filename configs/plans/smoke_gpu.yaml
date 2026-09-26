@@ -1,0 +1,186 @@
+# =============================================================================
+# GPU smoke with REAL data and the REAL evaluators (~1.5-2 h on one A100, one job at a time).
+# Run it on the pod BEFORE any paid campaign:
+#   caenl preflight --plan configs/plans/smoke_gpu.yaml --download
+#   caenl run --plan configs/plans/smoke_gpu.yaml --parallel 1 --gpus 0
+#   caenl report --root $CAENL_RESULTS_ROOT/smoke-gpu --strict        # must exit 0
+# Covered: CIFAR-10 with every baseline family and all four regulariser arms, the shared-initial
+# mechanism, real AutoAttack standard on a fixed subset, the AA sanity job, the overhead benchmark,
+# the ImageNet-1K loader path (JPEG tree in the Kaggle/flat layout -> memmap batches -> torchvision
+# ResNet-50 at 224 px), ViT-B/16 with the MAE initialisation, C4/GPT-2, DDPM + torch-fidelity, AudioCaps (official captions + a small
+# real audio manifest built by yt-dlp, strict validation, AST features, Java METEOR/SPICE with the
+# official pycocoevalcap metrics), forced interruption + resume for vision (Full MACC pending
+# restoration) and language, a non-finite-metric gate probe, strict aggregation.
+# Numbers are NOT publication numbers (short schedules).
+# =============================================================================
+campaign_id: smoke-gpu
+results_root: "${CAENL_RESULTS_ROOT:-/workspace/results}"
+data_root: "${CAENL_DATA_ROOT:-/workspace/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/workspace/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+preflight: {require_pinned_autoattack: true, min_free_gb: 40}
+
+defaults:
+  reproducibility: {save_pip_freeze: false}
+  active_learning: {rounds: 2, candidate_size: 20000}
+  training: {initial_epochs: 5, epochs_per_round: 2}
+  collapse: {monitoring_cadence_steps: 20}          # short phases: the controllers must act several times per phase
+  full_macc: {acquisition_reward_steps: 30}
+  robustness:
+    final: {enabled: true, version: standard, n_examples: 500}
+    intermediate: {enabled: true, n_examples: 500}
+    epsilon_sweep: {enabled: true, n_examples: 500}
+    corruptions: {enabled: true, n_examples: 500}
+  diagnostics: {margin_examples: 500}
+
+stages:
+  # --------------------------------------------------------------------------- data (all auto-downloadable; AudioCaps audio best-effort)
+  - name: prepare
+    type: prepare_data
+    parallel: 1
+    matrix: {}
+    job:
+      datasets:
+        - {name: cifar10}
+        - {name: synthetic_imagefolder, options: {num_classes: 10, per_class: 60, per_class_val: 10, layout: flat_csv, cache_resolution: 256}}
+        - {name: c4, options: {tokenizer: gpt2, train_shards: ["en/c4-train.00000-of-01024.json.gz"], validation_shards: ["en/c4-validation.00000-of-00008.json.gz"], sequence_length: 1024, train_tokens: 2000000, validation_tokens: 200000}}
+        - {name: ddpm_cifar10, options: {model: google/ddpm-cifar10-32, dataset: cifar10}}
+        - {name: mae_weights, options: {repo: facebook/vit-mae-base}}
+
+  # --------------------------------------------------------------------------- AutoAttack pipeline check (real AutoAttack standard)
+  - name: aa_sanity
+    type: vision_aa_sanity
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0]}
+    job: {sanity: {pretrained: false}}
+
+  - name: overhead
+    type: vision_overhead
+    exclusive: true
+    matrix: {arch: [resnet18_cifar], dataset: [cifar10], seed: [0]}
+    job:
+      overhead: {steps: 30, warmup_steps: 10, repeats: 1, use_real_data: true, acquisition_bench: {n_candidates: 5000, budget: 500}}
+
+  # --------------------------------------------------------------------------- CIFAR-10 (real data, short schedules)
+  - name: cifar10_init
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: cifar10_al
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0, 1], method: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+    overrides_by_method:
+      noise_stability: {method: {params: {noise_samples: 3}}}
+    expected: {seeds: [0, 1], methods: [random, entropy, coreset, badge, noise_stability, caenl_acq_only, dcr_fixed_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc]}
+
+  - name: cifar10_supervised
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [0], method: [supervised_full]}
+    job: {training: {full_supervision_epochs: 3}}
+
+  # forced interruption after round 1 -> resume -> Full MACC pending acquisition action restored (runner-verified)
+  - name: cifar10_resume
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [cifar10], arch: [resnet18_cifar], seed: [2], method: [caenl_full_macc]}
+    interrupt: {env: {CAENL_DEBUG_STOP_AT_ROUND: "1"}, verify: {from_round_min: 1, full_macc_acquisition_updates: true}}
+
+  # --------------------------------------------------------------------------- ImageNet-1K code path at 224 px (JPEG tree, memmap, ResNet-50)
+  - name: imagefolder_r50
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [synthetic_imagefolder], arch: [resnet50], seed: [0], method: [random, caenl_macc_lite]}
+    job:
+      dataset_options: {num_classes: 10, per_class: 60, per_class_val: 10, layout: flat_csv, cache_resolution: 256, train_resolution: 224, test_resolution: 224, force_memmap: true}
+      active_learning: {initial_fraction: 0.3, rounds: 1, fraction_per_round: 0.2, candidate_size: 200, controller_validation_fraction: 0.1}
+      training: {initial_epochs: 2, epochs_per_round: 1, batch_size: 32, lr: 0.1}
+      robustness: {final: {enabled: true, version: standard, n_examples: 50, batch_size: 50}, intermediate: {enabled: true, n_examples: 50}, epsilon_sweep: {enabled: false}, corruptions: {enabled: true, n_examples: 50}}
+      diagnostics: {margin_examples: 50}
+      shared_initial: {use: false, save: false}
+
+  # ViT-B/16 with the label-free MAE initialisation at 224 px (weight conversion, layer-wise lr decay, AdamW recipe)
+  - name: imagefolder_vit_mae
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [synthetic_imagefolder], arch: [vit_b_16_mae], seed: [0], method: [caenl_macc_lite]}
+    job:
+      dataset_options: {num_classes: 10, per_class: 60, per_class_val: 10, layout: flat_csv, cache_resolution: 256, train_resolution: 224, test_resolution: 224}
+      active_learning: {initial_fraction: 0.3, rounds: 1, fraction_per_round: 0.2, candidate_size: 200, controller_validation_fraction: 0.1}
+      training: {initial_epochs: 2, epochs_per_round: 1, batch_size: 32}
+      robustness: {final: {enabled: true, version: standard, n_examples: 50, batch_size: 50}, intermediate: {enabled: true, n_examples: 50}, epsilon_sweep: {enabled: false}, corruptions: {enabled: false}}
+      diagnostics: {margin_examples: 50}
+      shared_initial: {use: false, save: false}
+
+  # --------------------------------------------------------------------------- cross-modal: all four arms everywhere
+  - name: c4
+    type: language_c4
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      language: {train_tokens: 2000000, validation_tokens: 200000, eval_every_steps: 50, checkpoint_every_steps: 50}
+
+  - name: c4_resume
+    type: language_c4
+    parallel: 1
+    matrix: {seed: [1], method: [macc_lite]}
+    interrupt: {env: {CAENL_DEBUG_STOP_AT_STEP: "70"}}
+    job:
+      language: {train_tokens: 2000000, validation_tokens: 200000, eval_every_steps: 50, checkpoint_every_steps: 50}
+
+  - name: diffusion
+    type: diffusion_ddpm
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      diffusion: {train_steps: 200, num_samples: 2000, sampling_steps: 50, eval_every_steps: 50, checkpoint_every_steps: 100}
+
+  # a SMALL real AudioCaps manifest under its own root (never the production manifest): 60 clips per split.
+  # Its own stage so that a blocked YouTube access fails here, after every other smoke stage has validated.
+  - name: prepare_audiocaps_smoke
+    type: prepare_data
+    parallel: 1
+    matrix: {}
+    job:
+      datasets:
+        - {name: audiocaps, options: {root: "${CAENL_DATA_ROOT:-/workspace/data}/audiocaps_smoke", download_audio: true, download_workers: 4, max_clips_per_split: 60, min_coverage: null, cookies: "${CAENL_YTDLP_COOKIES:-}"}}
+
+  - name: audio_captioning
+    type: audio_captioning
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      audio:
+        dataset: audiocaps
+        manifest: "${CAENL_DATA_ROOT:-/workspace/data}/audiocaps_smoke/manifest.jsonl"
+        manifest_min_coverage: null
+        manifest_verify_hashes: all
+        captioning: {epochs: 2, java_metrics: true, spice: true, official_metrics: true}
+
+  - name: audio_retrieval
+    type: audio_retrieval
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      audio:
+        dataset: audiocaps
+        manifest: "${CAENL_DATA_ROOT:-/workspace/data}/audiocaps_smoke/manifest.jsonl"
+        manifest_min_coverage: null
+        manifest_verify_hashes: all
+        retrieval: {epochs: 3}
+
+  # --------------------------------------------------------------------------- safeguards
+  - name: gate_probe
+    type: fault_injection
+    expect_failure: true
+    matrix: {seed: [0], method: [baseline]}
+    job: {fault: {kind: nan_metric, emulate: language_c4, final: {validation_nll: nan, perplexity: 20.0, token_ece: 0.05}}}
+
+  - name: aggregate
+    type: aggregate
+    matrix: {}
+    job: {}

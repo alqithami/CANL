@@ -1,0 +1,175 @@
+# CPU smoke plan: exercises every stage type and every runner safeguard on synthetic data without
+# downloads (~60-90 min on 2 cores, one job at a time).  Numbers are meaningless; what matters is that
+# every stage validates, the forced interruptions resume, and the gate probe is rejected.
+# Covered: all four regulariser arms for every cross-modal task, every acquisition baseline, AutoAttack
+# (custom APGD-CE on CPU), the AA sanity job, the ImageNet loader (JPEG trees in both val layouts through
+# the memmap path), the strict audio-manifest path, Full MACC interruption + resume with pending-action
+# restoration, language interruption + resume, a non-finite-metric gate probe, strict aggregation.
+campaign_id: smoke-cpu
+results_root: "${CAENL_RESULTS_ROOT:-./results}"
+data_root: "${CAENL_DATA_ROOT:-./data}"
+cache_root: "${CAENL_CACHE_ROOT:-./cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true   # exercises the partial-campaign report refresh after every validated stage
+preflight: {require_gpu: false, require_pinned_autoattack: false, min_free_gb: 5}
+
+defaults:
+  reproducibility: {save_pip_freeze: false, telemetry_interval_s: 2}
+  dataset_options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}
+  arch_options: {width_mult: 0.25}
+  active_learning: {initial_fraction: 0.2, rounds: 2, fraction_per_round: 0.1, candidate_size: 300, controller_validation_fraction: 0.1, acquisition_batch_size: 128, eval_batch_size: 128}
+  training: {initial_epochs: 2, epochs_per_round: 1, batch_size: 64, amp: false, channels_last: false, log_every_steps: 5}
+  collapse: {monitoring_cadence_steps: 5, truncated_spectral_rank: 16, covariance_ema_decay: 0.9}
+  robustness:
+    final: {enabled: true, version: custom, attacks: [apgd-ce], n_examples: 48, batch_size: 48, apgd_restarts: 1, apgd_iterations: 5}
+    intermediate: {enabled: true, n_examples: 32, apgd_restarts: 1, apgd_iterations: 5, pgd_steps: 2, batch_size: 32}
+    epsilon_sweep: {enabled: true, n_examples: 32, epsilons: [0.00392156862745098, 0.00784313725490196]}
+    corruptions: {enabled: true, n_examples: 32, severities: [1]}
+  diagnostics: {margin_examples: 32}
+
+stages:
+  - name: prepare
+    type: prepare_data
+    matrix: {}
+    job:
+      datasets:
+        - {name: synthetic, options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}}
+        - {name: synthetic_imagefolder, options: {num_classes: 6, per_class: 40, per_class_val: 8, layout: flat_csv}}
+
+  - name: synth_init
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [0, 1], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: synth_al
+    type: vision_al
+    parallel: 1
+    matrix:
+      dataset: [synthetic]
+      arch: [resnet18_cifar]
+      seed: [0, 1]
+      method: [random, entropy, margin, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc, entropy_macc_lite, caenl_fixed_dcr_l1, at_random, supervised_full]
+    overrides_by_method:
+      noise_stability: {method: {params: {noise_samples: 2}}}
+      bald_mcd: {method: {params: {mc_samples: 3}}}
+      at_random: {adversarial_training: {steps: 2}}
+      supervised_full: {training: {full_supervision_epochs: 2}}
+
+  # forced interruption after round 1, automatic resume from the checkpoint; Full MACC must restore its
+  # pending acquisition action so that both rounds are rewarded (verified by the runner)
+  - name: synth_resume
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [2], method: [caenl_full_macc]}
+    interrupt: {env: {CAENL_DEBUG_STOP_AT_ROUND: "1"}, verify: {from_round_min: 1, full_macc_acquisition_updates: true}}
+
+  # ImageNet-1K code path: JPEG tree (flat val + LOC_val_solution.csv) -> uint8 cache -> memmap batches -> torchvision ResNet
+  - name: imagefolder_al
+    type: vision_al
+    parallel: 1
+    matrix: {dataset: [synthetic_imagefolder], arch: [resnet18], seed: [0], method: [random, caenl_macc_lite]}
+    job:
+      dataset_options: {num_classes: 6, per_class: 40, per_class_val: 8, layout: flat_csv, force_memmap: true, train_resolution: 56, test_resolution: 56}
+      arch_options: {}
+      active_learning: {initial_fraction: 0.3, rounds: 1, fraction_per_round: 0.2, candidate_size: 100, controller_validation_fraction: 0.1}
+      training: {initial_epochs: 1, epochs_per_round: 1, batch_size: 16}
+      robustness: {final: {enabled: true, version: custom, attacks: [apgd-ce], n_examples: 16, batch_size: 16, apgd_restarts: 1, apgd_iterations: 3}, intermediate: {enabled: true, n_examples: 16, apgd_restarts: 1, apgd_iterations: 3, pgd_steps: 2, batch_size: 16}, epsilon_sweep: {enabled: false}, corruptions: {enabled: true, n_examples: 16, severities: [1]}}
+      diagnostics: {margin_examples: 16}
+      shared_initial: {use: false, save: false}
+
+  - name: aa_sanity
+    type: vision_aa_sanity
+    matrix: {dataset: [synthetic], arch: [resnet18_cifar], seed: [0]}
+    job: {sanity: {pretrained: false}}
+
+  - name: overhead
+    type: vision_overhead
+    matrix: {arch: [resnet18_cifar], dataset: [cifar10], seed: [0]}
+    job:
+      dataset_options: {num_classes: 10}
+      overhead: {steps: 4, warmup_steps: 2, repeats: 1, batch_size: 32, configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10], acquisition_bench: {n_candidates: 120, budget: 12}}
+      adversarial_training: {steps: 2}
+
+  - name: c4
+    type: language_c4
+    parallel: 1
+    matrix: {seed: [0, 1], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      language: {dataset: synthetic, vocab_size: 256, train_tokens: 40000, validation_tokens: 8000, sequence_length: 64, model: tiny_random, model_options: {n_embd: 64, n_layer: 2, n_head: 2}, batch_tokens: 1024, lr: 0.001, warmup_steps: 5, monitored_layers: [1, 2], dcr_token_subsample: 512, configured_rank: 16, target_effective_rank: 16, monitoring_cadence_steps: 5, eval_every_steps: 10, checkpoint_every_steps: 10, log_every_steps: 5, ctrl_val_sequences: 4, eval_sequences: 16}
+
+  - name: c4_resume
+    type: language_c4
+    parallel: 1
+    matrix: {seed: [1], method: [macc_lite]}
+    interrupt: {env: {CAENL_DEBUG_STOP_AT_STEP: "15"}}
+    job:
+      language: {dataset: synthetic, vocab_size: 256, train_tokens: 40000, validation_tokens: 8000, sequence_length: 64, model: tiny_random, model_options: {n_embd: 64, n_layer: 2, n_head: 2}, batch_tokens: 1024, lr: 0.001, warmup_steps: 5, monitored_layers: [1, 2], dcr_token_subsample: 512, configured_rank: 16, target_effective_rank: 16, monitoring_cadence_steps: 5, eval_every_steps: 10, checkpoint_every_steps: 10, log_every_steps: 5, ctrl_val_sequences: 4, eval_sequences: 16}
+
+  - name: diffusion
+    type: diffusion_ddpm
+    parallel: 1
+    matrix: {seed: [0, 1], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      diffusion: {dataset: synthetic, dataset_options: {num_classes: 6, train_size: 1200, test_size: 240, res: 32}, model: tiny_random, model_options: {channels: [32, 64]}, num_train_timesteps: 100, train_steps: 20, batch_size: 16, lr: 0.0005, ema_decay: 0.9, dcr_timestep_range: [0, 60], configured_rank: 8, monitoring_cadence_steps: 5, eval_every_steps: 10, checkpoint_every_steps: 10, log_every_steps: 5, val_examples: 32, sampling_steps: 4, num_samples: 64, sampling_batch_size: 32, fid_reference: dataset, save_samples: 16}
+
+  - name: audio_captioning
+    type: audio_captioning
+    parallel: 1
+    matrix: {seed: [0, 1], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      audio:
+        dataset: synthetic
+        synthetic_options: {n_clips: 40}
+        backbone: mel_cnn
+        tokens_per_window: 16
+        max_windows: 1
+        configured_rank: 8
+        monitoring_cadence_steps: 3
+        captioning: {decoder: tiny_random, prefix_length: 4, epochs: 2, batch_size: 8, lr: 0.001, decoder_lr: 0.001, beam_size: 2, max_new_tokens: 20, log_every_steps: 2, checkpoint_every_steps: 5, ctrl_val_clips: 4, java_metrics: false, heads: 2}
+
+  # strict-manifest code path (AudioCaps-style jsonl with per-file hashes) on the synthetic corpus
+  - name: audio_captioning_manifest
+    type: audio_captioning
+    parallel: 1
+    matrix: {seed: [0], method: [baseline, macc_lite]}
+    job:
+      audio:
+        dataset: manifest_smoke
+        manifest: "${CAENL_CACHE_ROOT:-./cache}/audio/synthetic-40/manifest.jsonl"
+        manifest_min_coverage: null
+        manifest_verify_hashes: all
+        backbone: mel_cnn
+        tokens_per_window: 16
+        max_windows: 1
+        configured_rank: 8
+        monitoring_cadence_steps: 3
+        captioning: {decoder: tiny_random, prefix_length: 4, epochs: 1, batch_size: 8, lr: 0.001, decoder_lr: 0.001, beam_size: 2, max_new_tokens: 20, log_every_steps: 2, checkpoint_every_steps: 5, ctrl_val_clips: 4, java_metrics: false, heads: 2}
+
+  - name: audio_retrieval
+    type: audio_retrieval
+    parallel: 1
+    matrix: {seed: [0, 1], method: [baseline, fixed_dcr, macc_lite, full_macc]}
+    job:
+      audio:
+        dataset: synthetic
+        synthetic_options: {n_clips: 40}
+        backbone: mel_cnn
+        tokens_per_window: 16
+        max_windows: 1
+        configured_rank: 8
+        monitoring_cadence_steps: 3
+        retrieval: {text_encoder: hashing, d_model: 64, embed_dim: 32, heads: 2, epochs: 2, batch_size: 16, lr: 0.001, log_every_steps: 2, checkpoint_every_steps: 5, ctrl_val_clips: 8}
+
+  # the publication gate must reject a stage whose required metric is not finite (campaign continues only
+  # because the stage is declared as a probe)
+  - name: gate_probe
+    type: fault_injection
+    expect_failure: true
+    matrix: {seed: [0], method: [baseline]}
+    job: {fault: {kind: nan_metric, emulate: language_c4, final: {validation_nll: nan, perplexity: 20.0, token_ece: 0.05}}}
+
+  - name: aggregate
+    type: aggregate
+    matrix: {}
+    job: {}

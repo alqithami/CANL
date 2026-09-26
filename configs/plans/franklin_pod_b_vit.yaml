@@ -1,0 +1,146 @@
+# Two-pod split, POD B: ImageNet-1K / ViT-B/16 with label-free MAE initialisation and from scratch (three seeds each,
+# 6 arms + full supervision), ViT overhead benchmark, AutoAttack sanity.  ~490 H100-h ~ 2.6 days on 8 GPUs.
+# Generated from franklin_complete_8gpu.yaml by scripts/make_pod_plans.py — edit that file, then regenerate.
+# Needs its own copy of ImageNet-1K (scripts/get_imagenet_kaggle.sh) and the MAE weights (preflight --download).
+# Run:   caenl run --plan configs/plans/franklin_pod_b_vit.yaml --gpus 0,1,2,3,4,5,6,7
+campaign_id: franklin-pod-b
+results_root: ${CAENL_RESULTS_ROOT:-/workspace/results}
+data_root: ${CAENL_DATA_ROOT:-/workspace/data}
+cache_root: ${CAENL_CACHE_ROOT:-/workspace/cache}
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+defaults: {}
+stages:
+- name: prepare_vision
+  type: prepare_data
+  depends_on: []
+  cpu_only: true
+  parallel: 4
+  matrix:
+    dataset_spec:
+    - name: imagenet1k
+      options: {cache_resolution: 256, source: '${CAENL_IMAGENET_SOURCE:-imagefolder}'}
+  job: {}
+- name: prepare_models
+  type: prepare_data
+  depends_on: []
+  cpu_only: true
+  parallel: 4
+  matrix:
+    dataset_spec:
+    - name: mae_weights
+      options: {repo: facebook/vit-mae-base}
+  job: {}
+- name: aa_sanity
+  type: vision_aa_sanity
+  depends_on: [prepare_vision]
+  parallel: 1
+  matrix:
+    dataset: [imagenet1k]
+    arch: [resnet50]
+    seed: [0]
+  job:
+    sanity:
+      pretrained: true
+      weights: IMAGENET1K_V1
+      expected: {clean_acc: 0.761, robust_acc_max: 0.005}
+      tolerance: 0.01
+      fail_on_mismatch: true
+- name: overhead_imagenet1k
+  type: vision_overhead
+  depends_on: [prepare_vision, prepare_models]
+  exclusive: true
+  matrix:
+    arch: [vit_b_16, vit_b_16_mae]
+    dataset: [imagenet1k]
+    seed: [0]
+  job:
+    overhead:
+      steps: 100
+      warmup_steps: 20
+      repeats: 3
+      use_real_data: true
+      batch_size: 128
+      configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10]
+      acquisition_bench: {n_candidates: 10000, budget: 1000}
+- name: vit_mae_init
+  type: vision_al
+  depends_on: [aa_sanity, prepare_models]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [vit_b_16_mae]
+    seed: [0, 1, 2]
+    regularizer: [none, macc_lite, full_macc]
+  job:
+    mode: initial_only
+    method: {name: init, acquisition: random}
+    robustness:
+      final: {enabled: false}
+- name: vit_mae_al
+  type: vision_al
+  depends_on: [vit_mae_init]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [vit_b_16_mae]
+    seed: [0, 1, 2]
+    method: [random, entropy, badge, caenl_acq_only, caenl_macc_lite, caenl_full_macc]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [random, entropy, badge, caenl_acq_only, caenl_macc_lite, caenl_full_macc]
+- name: vit_mae_supervised
+  type: vision_al
+  depends_on: [aa_sanity, prepare_models]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [vit_b_16_mae]
+    seed: [0, 1, 2]
+    method: [supervised_full]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [supervised_full]
+- name: vit_scratch_init
+  type: vision_al
+  depends_on: [aa_sanity]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [vit_b_16]
+    seed: [0, 1, 2]
+    regularizer: [none, macc_lite, full_macc]
+  job:
+    mode: initial_only
+    method: {name: init, acquisition: random}
+    robustness:
+      final: {enabled: false}
+- name: vit_scratch_al
+  type: vision_al
+  depends_on: [vit_scratch_init]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [vit_b_16]
+    seed: [0, 1, 2]
+    method: [random, entropy, badge, caenl_acq_only, caenl_macc_lite, caenl_full_macc]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [random, entropy, badge, caenl_acq_only, caenl_macc_lite, caenl_full_macc]
+- name: vit_scratch_supervised
+  type: vision_al
+  depends_on: [aa_sanity]
+  parallel: 8
+  matrix:
+    dataset: [imagenet1k]
+    arch: [vit_b_16]
+    seed: [0, 1, 2]
+    method: [supervised_full]
+  expected:
+    seeds: [0, 1, 2]
+    methods: [supervised_full]
+- name: aggregate
+  type: aggregate
+  matrix: {}
+  job: {}

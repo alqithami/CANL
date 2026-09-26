@@ -1,0 +1,96 @@
+# Principal Franklin Open revision experiment: ImageNet-1K / ResNet-50 on one
+# IBM L40S.  Six paired seeds permit an exact two-sided sign-flip test below
+# 0.05.  Every method uses the same splits, candidate budget, optimizer, and
+# warm-start schedule.  The 2024 Noise Stability method supplies a recent
+# controlled baseline; classical uncertainty/diversity methods are retained.
+campaign_id: ibm-l40s-imagenet-r50
+results_root: "${CAENL_RESULTS_ROOT:-/mnt/caenl/results}"
+data_root: "${CAENL_DATA_ROOT:-/mnt/caenl/data}"
+cache_root: "${CAENL_CACHE_ROOT:-/mnt/caenl/cache}"
+protocol: configs/protocol/revision_protocol.yaml
+report_after_each_stage: true
+publication_gate: true
+hardware: &ibm_l40s
+  expected_gpu_name_regex: "L40S"
+  min_gpu_memory_gb: 44
+  min_system_memory_gb: 108
+  min_logical_cpus: 20
+  min_nvidia_driver: 550
+  torch_cuda: "12.4"
+preflight: {require_gpu: true, require_pinned_autoattack: true, min_free_gb: 700}
+
+defaults:
+  reproducibility: {telemetry_interval_s: 5, max_device_data_fraction: 0.12, max_host_data_fraction: 0.45}
+  training: {batch_size: 128, lr: 0.05, initial_epochs: 60, epochs_per_round: 20, full_supervision_epochs: 90, warmup_epochs: 2.0, warmup_epochs_round: 0.5, amp: true, channels_last: true, log_every_steps: 100}
+  active_learning: {initial_fraction: 0.10, rounds: 5, fraction_per_round: 0.10, candidate_size: 50000, selected_fraction_per_pass: 0.10, controller_validation_fraction: 0.02, acquisition_batch_size: 128, eval_batch_size: 256, class_stats_max_examples: 100000}
+  collapse: {monitoring_cadence_steps: 500, truncated_spectral_rank: 128}
+  full_macc: {acquisition_reward_steps: 1000}
+  robustness:
+    evaluate_rounds: [final]
+    final: {enabled: true, evaluator: autoattack, version: standard, n_examples: 5000, batch_size: 16, chunk: 128}
+    intermediate: {enabled: true, also_final: true, n_examples: 1000, apgd_restarts: 1, pgd_steps: 20, batch_size: 32}
+    epsilon_sweep: {enabled: true, n_examples: 1000}
+    corruptions: {enabled: true, n_examples: 1000, severities: [1, 2, 3]}
+  diagnostics: {margin_examples: 1000, save_test_logits: true}
+
+stages:
+  - name: prepare_imagenet
+    type: prepare_data
+    cpu_only: true
+    parallel: 1
+    matrix:
+      dataset_spec:
+        - {name: imagenet1k, options: {cache_resolution: 256, source: "${CAENL_IMAGENET_SOURCE:-imagefolder}"}}
+    job: {}
+
+  - name: aa_sanity
+    type: vision_aa_sanity
+    depends_on: [prepare_imagenet]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [resnet50], seed: [0]}
+    job:
+      sanity: {pretrained: true, weights: IMAGENET1K_V1, expected: {clean_acc: 0.761, robust_acc_max: 0.005}, tolerance: 0.015, fail_on_mismatch: true}
+      robustness: {final: {enabled: true, version: standard, n_examples: 1000, batch_size: 16, chunk: 128}}
+
+  - name: r50_init
+    type: vision_al
+    depends_on: [aa_sanity]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [resnet50], seed: [0, 1, 2, 3, 4, 5], regularizer: [none, fixed_dcr, macc_lite, full_macc]}
+    job: {mode: initial_only, method: {name: init, acquisition: random}, robustness: {final: {enabled: false}}}
+
+  - name: r50_al
+    type: vision_al
+    depends_on: [r50_init]
+    parallel: 1
+    matrix:
+      dataset: [imagenet1k]
+      arch: [resnet50]
+      seed: [0, 1, 2, 3, 4, 5]
+      method: [random, entropy, margin, least_confidence, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc, entropy_macc_lite]
+    expected:
+      seeds: [0, 1, 2, 3, 4, 5]
+      methods: [random, entropy, margin, least_confidence, coreset, badge, bald_mcd, noise_stability, power_margin, caenl_acq_only, dcr_fixed_random, dcr_lite_random, caenl_fixed_dcr, caenl_macc_lite, caenl_full_macc, entropy_macc_lite]
+
+  - name: r50_supervised
+    type: vision_al
+    depends_on: [aa_sanity]
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [resnet50], seed: [0, 1, 2, 3, 4, 5], method: [supervised_full]}
+    expected: {seeds: [0, 1, 2, 3, 4, 5], methods: [supervised_full]}
+
+  - name: r50_overhead
+    type: vision_overhead
+    depends_on: [prepare_imagenet]
+    exclusive: true
+    parallel: 1
+    matrix: {dataset: [imagenet1k], arch: [resnet50], seed: [0]}
+    job:
+      overhead: {steps: 100, warmup_steps: 20, repeats: 3, use_real_data: true, batch_size: 64, configs: [baseline, monitoring, fixed_dcr, macc_lite, full_macc, at_pgd10], acquisition_bench: {n_candidates: 5000, budget: 500}}
+
+  - name: aggregate
+    type: aggregate
+    depends_on: [r50_al, r50_supervised, r50_overhead]
+    cpu_only: true
+    matrix: {}
+    job: {}

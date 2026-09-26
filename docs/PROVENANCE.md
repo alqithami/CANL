@@ -1,0 +1,13 @@
+# Evidence provenance and verification scope
+
+The public numeric records are extracted from the completed server reports whose SHA-256 values are recorded in `provenance/source_report_hashes.json`. Those digests identify source exports; they do not substitute for access to raw data or model states.
+
+Before release, the source exports passed an offline verification of 228 embedded payloads, 13 entropy-follow-up payloads, 31 C4 manifest entries, and 54 current-project Python source digests. Byte reconstructions account explicitly for CSV CRLF normalization, terminal newlines, source-file UTF-8 BOMs, and NaN-to-null serialization of zero-update diffusion reference geometry. The paired statistics were independently reconstructed from the exported per-seed metrics. The released public analysis repeats the statistical calculation from numeric-only extracts and checks their release hashes.
+
+`code_sources.json` maps recovered launcher/engine files to the report and exact code digest. `current_project_sources.json` identifies the separately exported current project copies. A current source snapshot is not automatically proof that every earlier run executed those bytes. The historical C4 source correspondence and other protocol bindings remain documented in `recorded_provenance.tex`; it is a technical source record, not an additional paper appendix. `C4_recorded_settings.md` contains the resolved C4 configuration evidence.
+
+The original server audits report saved-array reconstruction for classification and caption metric reconstruction for audio. This authoring environment did not independently regenerate adversarial examples, model predictions, diffusion images or caption text. Full raw-data/checkpoint replication has not been performed.
+
+Audio initial-state acceptance required a whole-model hash match before any training, with a bounded same-seed retry for an intermittent positional-parameter initialization mismatch. No training result or score selected the accepted attempt. Accepted hashes alone cannot recreate missing state tensors, and availability of every accepted initial binary is not established. That limitation remains in the manuscript.
+
+Dataset source/coverage restrictions, pretraining overlap and subset comparability are stated in the paper. Raw ImageNet images, C4 corpus text, audio, reference-caption text and large checkpoints are excluded from this public release. Editorial letters and author-only preparation documents are also excluded. The experiment code and its third-party notices are preserved without inventing a new license.

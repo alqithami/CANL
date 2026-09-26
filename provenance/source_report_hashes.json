@@ -1,0 +1,17 @@
+{
+  "caenl-audiocaps-confirm-v1.md": "901ca40d124fbdd8b00807a9c5481d88b5a641ea31a855fe9608ecb04daf58fd",
+  "caenl-c4-confirmatory-v2-holdout-v1-20260909T003025Z.tar.gz": "d8f6b681b89603ff51559b2f65d046b5de394c714c635b0e5247185237fb147d",
+  "caenl-c4-confirmatory-v2-holdout-v1-20260909T003025Z.tar.gz.sha256": "727a3d70b4f454494728bfa247db8d24fe2286fd9672f65380a5a4e2fad52a4a",
+  "caenl-crossmodal-pilots-v1.md": "c589db52209cdc14babc37dbbef015dc64c380ab3114922bbc84ee83f0b7af04",
+  "caenl-crossmodal-pilots-v1.md.sha256": "cc37df00a0c1aef4569350536ba2452c8f608e8d4f7174b059f3a9e7bc540686",
+  "caenl-diffusion-confirm-v1.md": "266b717a366c743388d28113b3842a37420741da4979633dac320659b36428bd",
+  "caenl-entropy-fixed-v1.md": "a7f0093e3f9ba5ff63c38d4662f01f17016653014365ca16b040a1c71875cb40",
+  "caenl-entropy-fixed-v1.md.sha256": "f390ff55c4a952245a99001614229605e22f06f9b74073638152ab108d42040e",
+  "caenl-final-evidence.md": "b2034c93ed9fc32dd2e59ce660031015bcb21119c5c717a3efee16f74c7c12ad",
+  "caenl-focused-completion-v1.md": "80b89b9e4bde426dc1bb22adefb8d8f1ee5661e57b4ec5139700a6157478f405",
+  "caenl-uherding-v1.md": "3ea627d9613ed27315011731962de6051b951a87411007f098529f41b5f8a608",
+  "caenl-uherding-v1.md.sha256": "a4c63833b7b630624a8b1d0967f6360255058c2c43066d002244b6e4447ce3d3",
+  "caenl_aligned_imagenet100_v1.zip": "065844557bfa4434e7dce5a23cbb6e73575a70f0f23fbfcaccc49d4c742b5cb9",
+  "caenl_revision_pipeline_v5.4.3_c4_confirmatory.zip": "8f690758f1fb3a94f9747c51513861a724bc8f3f882789344d28053eb111d64c",
+  "caenl_revision_pipeline_v5.4.3_c4_confirmatory.zip.sha256": "d0cc7d41c60ef8aea0f9afd01f30b3d7c3c4497bf8f4a7205c8b446d9e7a10db"
+}

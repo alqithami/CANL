@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-26",
+  "pdf_pages": 25,
+  "workflow_figures": 1,
+  "total_figures": 4,
+  "tables": 22,
+  "references": 37,
+  "pdflatex_passes": 3,
+  "undefined_references": 0,
+  "overfull_boxes": 0,
+  "preserved_exact_environment_bodies": [
+    "equation",
+    "align",
+    "proposition",
+    "lemma",
+    "proof",
+    "algorithm"
+  ],
+  "table_preservation": "All nonredundant prior numerical table bodies retained; redundant cross-task summary removed and a matched related-work positioning table added.",
+  "public_statistical_reconstruction": {
+    "status": "PASS",
+    "paired_contrasts": 39,
+    "per_seed_rows": {
+      "classification": 72,
+      "c4": 24,
+      "diffusion": 30,
+      "audio": 24
+    },
+    "curve_rows": 108,
+    "geometry_rows": 216,
+    "scope": "Statistical reconstruction from exported numerical records; no training, attack rerun, or regeneration of raw-data metrics."
+  },
+  "scope": "Editorial restructuring and exported-record reconstruction, without new model training or independent raw-data/checkpoint execution."
+}

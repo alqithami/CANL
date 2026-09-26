@@ -1,0 +1,204 @@
+{
+  "campaign": "caenl-imagenet100-aligned-confirmation-v1",
+  "role": "independent_replication_of_frozen_aligned_method",
+  "dataset_root": "/mnt/caenl/persistent/datasets/imagenet100_cmc",
+  "result_root": "/mnt/caenl/active/results/caenl-imagenet100-aligned-confirmation-v1",
+  "archive_root": "/mnt/caenl/persistent/archives",
+  "expected_image_manifest_sha256": "0ba19db4a9d1aeb633d1339a5f9ec11f55dc219d884a266bb4d805eca8d6dc1f",
+  "expected_class_list_sha256": "5ee5db69d488bb799a286d8e181801c3d02798776c1ce9203e5450f64e086e07",
+  "expected_train_count": 126689,
+  "expected_val_count": 5000,
+  "num_classes": 100,
+  "seeds": [
+    801,
+    802,
+    803,
+    804,
+    805,
+    806
+  ],
+  "methods": [
+    {
+      "name": "random",
+      "acquisition": "random",
+      "regularizer": "none"
+    },
+    {
+      "name": "entropy",
+      "acquisition": "entropy",
+      "regularizer": "none"
+    },
+    {
+      "name": "badge_exact",
+      "acquisition": "badge",
+      "regularizer": "none"
+    },
+    {
+      "name": "noise_stability",
+      "acquisition": "noise_stability",
+      "regularizer": "none"
+    },
+    {
+      "name": "caenl_acquisition",
+      "acquisition": "mahalanobis",
+      "regularizer": "none"
+    },
+    {
+      "name": "random_aligned_fixed",
+      "acquisition": "random",
+      "regularizer": "aligned_fixed"
+    },
+    {
+      "name": "caenl_aligned_fixed",
+      "acquisition": "mahalanobis",
+      "regularizer": "aligned_fixed"
+    },
+    {
+      "name": "caenl_aligned_lite",
+      "acquisition": "mahalanobis",
+      "regularizer": "aligned_lite"
+    },
+    {
+      "name": "caenl_aligned_full",
+      "acquisition": "mahalanobis",
+      "regularizer": "aligned_full"
+    }
+  ],
+  "initial_labels": 12669,
+  "holdout_count": 633,
+  "acquisition_per_round": 12669,
+  "rounds": 5,
+  "initial_epochs": 40,
+  "round_epochs": 20,
+  "batch_classes": 16,
+  "samples_per_class": 8,
+  "lr_initial": 0.05,
+  "lr_round": 0.025,
+  "warmup_initial_epochs": 3,
+  "warmup_round_epochs": 1,
+  "momentum": 0.9,
+  "nesterov": true,
+  "weight_decay": 0.0001,
+  "clip_grad_norm": 5.0,
+  "batchnorm": "update during shared initial training; freeze running statistics during all five AL rounds in every method",
+  "workers": 8,
+  "eval_workers": 4,
+  "eval_batch": 64,
+  "image_size": 224,
+  "resize": 256,
+  "precision": "bf16_autocast_fp32_parameters; full_precision_reporting_and_attacks",
+  "layers": [
+    "layer3",
+    "layer4"
+  ],
+  "control_interval": 100,
+  "calibration_batches": 16,
+  "training_ema_beta": 0.05,
+  "alignment": {
+    "target_kappa_factor": 0.9,
+    "between_floor_factor": 0.5,
+    "scatter_epsilon": 1e-06,
+    "feature_norm_epsilon": 1e-06,
+    "huber_delta": 0.25,
+    "floor_weight": 0.01
+  },
+  "lambda_initial": 0.03,
+  "lambda_fixed": 0.03,
+  "lambda_max": 0.1,
+  "lite_smoothing": 0.2,
+  "full_macc": {
+    "hidden_dims": [
+      128,
+      128
+    ],
+    "lambda_delta_choices": [
+      -0.01,
+      -0.005,
+      0.0,
+      0.005,
+      0.01
+    ],
+    "policy_lr": 0.0003,
+    "epsilon_start": 0.1,
+    "epsilon_end": 0.02,
+    "entropy_coefficient": 0.001,
+    "reward_baseline_ema": 0.05,
+    "reward_geometry_weight": 0.1,
+    "reward_effort_weight": 0.01
+  },
+  "targets": "once per independent seed, after shared 40-epoch initial training, on fixed center-cropped 16x8 training anchors; shared by all methods; never tuned with official validation",
+  "acquisition": {
+    "candidate_size": 10000,
+    "per_pass_fraction": 0.1,
+    "quantile": 0.9,
+    "layer_weights": {
+      "layer3": 0.5,
+      "layer4": 0.5
+    },
+    "covariance": "fresh diagonal class covariance from currently labeled training images; shrinkage 1e-5",
+    "mahalanobis_shrinkage": 1e-05,
+    "noise_samples": 5,
+    "noise_scale": 0.001,
+    "badge": "exact factorized last-linear-weight gradient kernel; no random projection; bias excluded",
+    "noise_stability": "independent full-parameter Gaussian output-deviation implementation; five draws; exact concatenation/no projection; greedy k-center; not authors repository reproduction",
+    "full_macc_acquisition_head": false
+  },
+  "checkpoint_every_steps": 1000,
+  "checkpoint_each_epoch": true,
+  "minimum_policy_updates_per_completed_run": 100,
+  "autoattack": {
+    "commit": "a39220048b3c9f2cca9a4d3a54604793c68eca7e",
+    "norm": "Linf",
+    "epsilon": 0.03137254901960784,
+    "version": "standard",
+    "batch_size": 64,
+    "chunk_size": 256,
+    "all_validation_images": true
+  },
+  "statistics": {
+    "alpha": 0.05,
+    "primary_endpoints": [
+      "clean_accuracy",
+      "robust_accuracy"
+    ],
+    "comparisons": [
+      [
+        "caenl_aligned_fixed",
+        "caenl_acquisition"
+      ],
+      [
+        "caenl_aligned_lite",
+        "caenl_aligned_fixed"
+      ],
+      [
+        "caenl_aligned_full",
+        "caenl_aligned_fixed"
+      ],
+      [
+        "caenl_aligned_lite",
+        "entropy"
+      ],
+      [
+        "caenl_aligned_full",
+        "entropy"
+      ],
+      [
+        "caenl_acquisition",
+        "random"
+      ],
+      [
+        "random_aligned_fixed",
+        "random"
+      ]
+    ],
+    "test": "paired t and exact two-sided sign flip, Holm within endpoint across planned contrasts; descriptive geometry/ECE; equal seeds, not image pseudo-replicates"
+  },
+  "new_adversarial_training": false,
+  "negative_results_are_valid": true,
+  "no_legacy_checkpoints_loaded": true,
+  "sources": [
+    "https://ojs.aaai.org/index.php/AAAI/article/view/29270",
+    "https://github.com/JordanAsh/badge",
+    "https://github.com/fra31/auto-attack/tree/a39220048b3c9f2cca9a4d3a54604793c68eca7e"
+  ]
+}
