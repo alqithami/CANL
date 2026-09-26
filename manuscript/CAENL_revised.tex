@@ -46,12 +46,23 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage{amsmath,amssymb,amsthm,graphicx,booktabs,tabularx,array}
 \usepackage{algorithm,algpseudocode}
+\let\CAENLalgorithmcaption\caption
 % Restore hyperlink-aware captions after float's redefinition; table/figure
 % styling still comes from CAS. This avoids duplicate PDF destinations.
 \let\caption\CAENLcaption
 \usepackage{tikz,pgfplots}
 \usetikzlibrary{arrows.meta,positioning,calc}
 \pgfplotsset{compat=1.18}
+% Consistent full-width academic pseudocode with explicit interfaces.
+\algrenewcommand{\algorithmicrequire}{\textbf{Input:}}
+\algrenewcommand{\algorithmicensure}{\textbf{Output:}}
+\algrenewcommand{\algorithmicindent}{1.3em}
+\algrenewcommand{\alglinenumber}[1]{\scriptsize\color{black!55}#1}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill\(\triangleright\)~\textit{#1}}
+\makeatletter
+\renewcommand{\fnum@algorithm}{\textbf{Algorithm~\thealgorithm}}
+\makeatother
+
 \definecolor{caenlaccent}{HTML}{176B73}
 % Use scalable Latin Modern sans/mono without replacing STIX mathematics.
 \renewcommand{\sfdefault}{lmss}
@@ -589,31 +600,45 @@ The acquisition quantile remains $0.90$; scoring weights and queried
 label counts are fixed. Online policy adaptation here is not
 meta-training across tasks.
 
-\begin{algorithm}[t]
-\caption{Window-timed Full MACC regularization update}
+\begin{algorithm*}[p]
+\small
+\let\caption\CAENLalgorithmcaption
+\caption{\textbf{Full-MACC update at the end of a control window}}
 \label{alg:macc_policy}
 \begin{algorithmic}[1]
-\Require Pending state/action $(S_t,A_t)$, previous feedback loss
-and potential, baseline $b_t$.
-\State Train the model for the next window under $A_t$.
-\State Measure feedback loss on $\mathcal H$ and training potential;
-compute $r_t$ using Equation~\eqref{eq:reward}.
-\If{the reward baseline is uninitialized}
-  \State Set $b_t\gets r_t$.
+\Require Controller state $C$ with policy $\pi_\phi$ and pending pair $(S_t,A_t)$;
+model $f_\theta$ after at most 100 SGD steps under $A_t$;
+fixed holdout $\mathcal H$; reward baseline $b_t$; terminal flag $d$.
+\Ensure Updated controller state $C$, baseline $b_{t+1}$, and pending pair
+$P\in\{(S_{t+1},A_{t+1}),\varnothing\}$.
+\Statex \textit{Evaluate the completed window}
+\State $\ell_t^H\gets\Call{CrossEntropy}{f_\theta,\mathcal H}$;
+       $\Psi_t\gets\Call{GeometricPotential}{C}$
+\State $r_t\gets\Call{Reward}{\ell_{t-1}^H,\ell_t^H,\Psi_{t-1},\Psi_t,s_H,
+       \lambda_t^{\mathrm{eff}}}$ \Comment{Equation~\eqref{eq:reward}; phase-fixed $s_H$}
+\Statex \textit{Credit the action before selecting its successor}
+\If{$b_t$ is uninitialized}
+    \State $b_t\gets r_t$ \Comment{The first centered advantage is zero}
 \EndIf
-\State $a_t\gets r_t-b_t$.
-\State $b_{t+1}\gets0.95b_t+0.05r_t$.
-\If{$A_t$ was sampled from the policy, not uniform exploration}
-  \State Update the policy using
-  $a_t\nabla_\phi\log\pi_\phi(A_t\mid S_t)$ and its entropy term.
+\State $a_t\gets r_t-b_t$
+\State $b_{t+1}\gets0.95b_t+0.05r_t$
+\If{$A_t$ was sampled from $\pi_\phi$}
+    \State $\phi\gets\Call{ReinforceUpdate}{\phi,S_t,A_t,a_t,\eta_{\mathrm{ent}}=0.001}$
+        \Comment{Regularization heads and entropy term only}
 \EndIf
-\State Clear the pending action.
-\If{the current training phase continues}
-  \State Form $S_{t+1}$; sample bounded action $A_{t+1}$ and
-  store it as pending.
+\State $P\gets\varnothing$ \Comment{Uniform exploratory actions receive no policy-gradient update}
+\If{$\neg d$}
+    \State $S_{t+1}\gets\Call{BuildState}{C,\ell_t^H}$
+    \State $A_{t+1}\gets\Call{SampleAction}{\pi_\phi,S_{t+1}}$
+        \Comment{Policy sampling or scheduled uniform exploration}
+    \State $C\gets\Call{ApplyBoundedAction}{C,A_{t+1}}$
+        \Comment{Project strengths to $[0,0.10]$ and apply layer flags}
+    \State $P\gets(S_{t+1},A_{t+1})$
 \EndIf
+\State $C\gets\Call{RefreshReferences}{C,\ell_t^H,\Psi_t,\widehat q_t}$
+\State \Return $(C,b_{t+1},P)$ \Comment{Terminal reward is retained; no unused next action is sampled}
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm*}
 
 \subsection{Round-based active learning}
 \label{sec:workflow}
@@ -631,45 +656,69 @@ Random, entropy, BADGE, and Noise Stability use the same budget
 and candidate-pass conventions but incur different computational
 costs.
 
-\begin{algorithm}[t]
-\caption{The evaluated \model{} active-learning protocol}
+\begin{algorithm*}[p]
+\small
+\let\caption\CAENLalgorithmcaption
+\caption{\textbf{\model{} active learning with within-phase representation control}}
 \label{alg:caenl_loop}
 \begin{algorithmic}[1]
-\Require Pool $\mathcal D$, initial annotations $\mathcal A_0$,
-feedback set $\mathcal H$, round budget $b$, five rounds,
-monitored layers $\mathcal L$.
-\State Train a shared cross-entropy initial model on
-$\mathcal A_0\setminus\mathcal H$.
-\State Calibrate and freeze targets using acquired training anchors.
-\For{each compared method}
-  \State Restore the same initial model and optimizer;
-  initialize its controller.
-  \State $\mathcal A\gets\mathcal A_0$;
-  $\mathcal U\gets\mathcal D\setminus\mathcal A_0$.
-  \For{$r=1,\ldots,5$}
-    \State Infer required pool features; fit class statistics
-    from $\mathcal A\setminus\mathcal H$ when needed.
-    \State Select $b$ distinct candidates through capped passes,
-    without accessing their labels.
-    \State Query the selected labels; update $\mathcal A$
-    and $\mathcal U$.
-    \State Begin the scheduled training phase; retain model
-    and optimizer momentum.
-    \For{each class-balanced training step}
-      \State Optimize the task plus regularization loss;
-      update training moments.
-      \If{100 steps elapsed or this is the final phase step}
-        \State Measure loss on $\mathcal H$ and update the
-        designated regularization controller.
-      \EndIf
+\Require Pool $\mathcal D$; initial annotations $\mathcal A_0$; fixed feedback
+set $\mathcal H\subset\mathcal A_0$; official evaluation set $\mathcal V$;
+methods $\mathcal M$; layers $\mathcal L$; budget $b$; $R=5$ acquisition rounds.
+\Ensure Scheduled checkpoints and clean/robust evaluation results for every
+method, using the same seed-specific initialization.
+\Statex \textit{Shared initialization and calibration}
+\State $\mathcal T_0\gets\mathcal A_0\setminus\mathcal H$;
+       $\mathcal U_0\gets\mathcal D\setminus\mathcal A_0$
+\State $(\theta_0,\Omega_0)\gets\Call{TrainCrossEntropy}{\mathcal T_0}$
+    \Comment{$\Omega$ denotes optimizer state, including momentum}
+\State $\Gamma\gets\Call{CalibrateTargets}{f_{\theta_0},\mathcal T_0,\mathcal L}$
+    \Comment{Freeze all $q_l^\star$ and $B_l^{\min}$}
+\For{each method $m\in\mathcal M$}
+    \State $(\theta,\Omega)\gets\Call{Restore}{\theta_0,\Omega_0}$;
+        $C\gets\Call{InitializeControl}{m,\Gamma}$
+    \State $\mathcal A\gets\mathcal A_0$; $\mathcal U\gets\mathcal U_0$
+    \For{$r=1,\ldots,R$}
+        \Statex \hspace{2.6em}\textit{Acquire labels using the current model}
+        \State $F\gets\Call{InferPool}{f_\theta,\mathcal U}$;
+            $G\gets\Call{FitRequiredStatistics}{f_\theta,\mathcal A\setminus\mathcal H,m}$
+        \State $Q\gets\Call{CappedAcquisition}{m,F,G,b}$
+            \Comment{$|Q|=b$ distinct examples; hidden labels are inaccessible}
+        \State $\Call{QueryLabels}{Q}$;
+            $\mathcal A\gets\mathcal A\cup Q$;
+            $\mathcal U\gets\mathcal U\setminus Q$
+        \State $\mathcal T_r\gets\mathcal A\setminus\mathcal H$;
+            $K_r\gets\Call{ScheduledSteps}{\mathcal T_r,20\ \mathrm{epochs}}$
+        \State $C\gets\Call{BeginPhase}{C,f_\theta,\mathcal H}$
+            \Comment{Reset feedback references; retain $\theta$ and optimizer momentum}
+        \Statex \hspace{2.6em}\textit{Train and update the designated controller}
+        \For{$k=1,\ldots,K_r$}
+            \State $B_k\gets\Call{ClassBalancedBatch}{\mathcal T_r}$
+            \State $(\theta,\Omega,\xi_k)\gets\Call{TrainingStep}{\theta,\Omega,B_k,m,C,\Gamma}$
+            \State $C\gets\Call{UpdateMoments}{C,\xi_k}$
+            \If{$k\bmod100=0$ \textbf{or} $k=K_r$}
+                \State $C\gets\Call{UpdateControl}{C,f_\theta,\mathcal H,d=(k=K_r)}$
+            \EndIf
+        \EndFor
+        \State $\mathcal K_{m,r}\gets\Call{SaveCheckpoint}{\theta,\Omega,C}$;
+            $E_{m,r}\gets\Call{EvaluateClean}{f_\theta,\mathcal V}$
     \EndFor
-    \State Save and evaluate the final scheduled phase checkpoint.
-  \EndFor
-  \State Evaluate the final checkpoint with the frozen
-  full-set AutoAttack protocol.
+    \State $E_m^{\mathrm{robust}}\gets\Call{AutoAttack}{\mathcal K_{m,R},\mathcal V}$
+        \Comment{Frozen full-set protocol; final scheduled checkpoint}
 \EndFor
+\State \Return $\{(\mathcal K_{m,r},E_{m,r}):m\in\mathcal M,\ 1\le r\le R\}$,
+    $\{E_m^{\mathrm{robust}}:m\in\mathcal M\}$
 \end{algorithmic}
-\end{algorithm}
+\vspace{2pt}
+\noindent\footnotesize
+\textsc{TrainingStep} applies the scheduled SGD update and returns training
+moments $\xi_k$; unregularized methods omit both penalties.
+\textsc{UpdateControl} leaves fixed strength unchanged, applies
+Equation~\eqref{eq:lite} for Lite at nonterminal boundaries, or calls
+Algorithm~\ref{alg:macc_policy} for Full MACC. Control operations are omitted
+for unregularized methods. Neither acquisition nor feedback uses official
+evaluation labels.
+\end{algorithm*}
 
 \begin{figure*}[pos=p]
 \centering

@@ -1,6 +1,6 @@
 {
   "date": "2026-09-26",
-  "pdf_pages": 25,
+  "pdf_pages": 26,
   "workflow_figures": 1,
   "total_figures": 4,
   "tables": 22,
@@ -13,8 +13,7 @@
     "align",
     "proposition",
     "lemma",
-    "proof",
-    "algorithm"
+    "proof"
   ],
   "table_preservation": "All nonredundant prior numerical table bodies retained; redundant cross-task summary removed and a matched related-work positioning table added.",
   "public_statistical_reconstruction": {
@@ -39,5 +38,18 @@
     "all_equations_proofs_algorithms_and_numerical_tables_unchanged_in_this_pass": true,
     "styles": "Grayscale and one teal accent; editable vector artwork.",
     "new_seed_panel": "Existing six-seed matched entropy records; no additional experiments."
+  },
+  "algorithm_revision": {
+    "algorithms": 2,
+    "layout": "Full-width ruled algorithm and algorithmicx environments with explicit inputs and outputs, mathematical assignments, nested blocks, line numbering, and comments.",
+    "placement": "Both algorithms on page 6.",
+    "semantics": "Controller update order checked against the archived executed control.py, training.py and vendor/controllers.py; Algorithm 1 starts after the completed window.",
+    "unchanged_in_this_pass": [
+      "equations",
+      "proofs",
+      "numerical tables",
+      "figures",
+      "reported results"
+    ]
   }
 }
