@@ -30,5 +30,14 @@
     "geometry_rows": 216,
     "scope": "Statistical reconstruction from exported numerical records; no training, attack rerun, or regeneration of raw-data metrics."
   },
-  "scope": "Editorial restructuring and exported-record reconstruction, without new model training or independent raw-data/checkpoint execution."
+  "scope": "Editorial restructuring and exported-record reconstruction, without new model training or independent raw-data/checkpoint execution.",
+  "title": "C\u00c6NL: Collapse-Based Active Neural Learning with Objective-Aligned Representation Control",
+  "figure_revision": {
+    "one_workflow": true,
+    "all_previous_trajectory_points_preserved": true,
+    "final_means_and_sds_checked_against_six_seed_records": true,
+    "all_equations_proofs_algorithms_and_numerical_tables_unchanged_in_this_pass": true,
+    "styles": "Grayscale and one teal accent; editable vector artwork.",
+    "new_seed_panel": "Existing six-seed matched entropy records; no additional experiments."
+  }
 }

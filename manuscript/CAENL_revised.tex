@@ -2,7 +2,8 @@
 % No model training rerun in this editorial pass; exported statistics recomputed.
 % Reference metadata audited against primary sources on 2026-09-26.
 % Original nonredundant result-table bodies and plot measurements are preserved.
-% All artwork and references are embedded. Compile with pdfLaTeX (two passes)
+% The workflow and references are embedded; numerical vector artwork is in figures/.
+% Compile with pdfLaTeX (three passes)
 % in an Elsevier CAS project containing cas-dc.cls and cas-common.sty.
 % Reader-facing manuscript; submission correspondence is kept separately.
 \PassOptionsToPackage{hyperfootnotes=false}{hyperref}
@@ -111,10 +112,10 @@
 
 \begin{document}
 
-\shorttitle{C\AE{}NL: objective-aligned representation control}
+\shorttitle{C\AE{}NL: Collapse-Based Active Neural Learning}
 \shortauthors{Saad Alqithami}
-\title[mode=title]{C\AE{}NL: Objective-Aligned Representation Control
-for Active Learning}
+\title[mode=title]{C\AE{}NL: Collapse-Based Active Neural Learning
+with Objective-Aligned Representation Control}
 \author{Saad Alqithami}[orcid=0000-0002-2111-3456]
 \cormark[1]
 \ead{salqithami@bu.edu.sa}
@@ -129,7 +130,8 @@ for Active Learning}
 \begin{abstract}
 Representation regularization can alter feature geometry without improving
 prediction. We study objective-aligned representation control within an
-active-learning protocol. C\AE{}NL separates acquisition from Dynamic
+active-learning protocol. Collapse-Based Active Neural Learning (C\AE{}NL)
+separates acquisition from Dynamic
 Collapse Regularization (DCR), which penalizes a normalized within-class
 to between-class scatter ratio and includes a separation safeguard.
 We compare fixed strength, bounded deterministic feedback (MACC-Lite),
@@ -187,8 +189,11 @@ geometrically atypical example may also be redundant, mislabeled, or
 out of distribution. Its deviation is not, by itself, a calibrated
 probability of epistemic uncertainty.
 
-We study \model{}, a framework that separates label acquisition from
-representation regularization. Acquisition may use a predicted-class
+We study Collapse-Based Active Neural Learning (\model{}), a framework
+that separates label acquisition from representation regularization.
+Here, collapse-based refers to controlling within-class dispersion
+relative to between-class separation; it does not assume that arbitrary
+rank reduction improves prediction. Acquisition may use a predicted-class
 geometry score or an established criterion such as entropy.
 For classification, our design principle is
 \emph{objective--feedback alignment}: the scatter statistic observed by
@@ -668,165 +673,116 @@ $\mathcal A_0\setminus\mathcal H$.
 
 \begin{figure*}[pos=p]
 \centering
-% Editable vector artwork; no external figure file or raster mathematics.
-\resizebox{0.93\textwidth}{!}{%
-\begin{tikzpicture}[
- x=1mm,y=1mm,
- every node/.style={font=\fontsize{8}{9.4}\selectfont,align=center},
- panel/.style={draw=black!45,rounded corners=1.4mm,fill=black!2},
- box/.style={draw,rounded corners=0.8mm,fill=white,inner sep=2.2mm,execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000}},
- head/.style={font=\fontsize{9}{10.5}\selectfont\bfseries,anchor=west},
- flow/.style={-{Latex[length=1.7mm]},line width=.55pt},
- signal/.style={flow,dashed},
- lab/.style={fill=white,inner sep=.7mm,font=\fontsize{8}{9.4}\selectfont}
-]
-% Module frames.
-\draw[panel] (0,0) rectangle (77,-137);
-\node[head] at (3,-4.8) {Execution and active learning};
-\draw[panel] (89,0) rectangle (174,-39);
-\node[head] at (92,-4.8) {Model and independent evaluation};
-\draw[panel] (89,-44) rectangle (174,-80);
-\node[head] at (92,-49) {Representation monitoring};
-\draw[panel] (89,-85) rectangle (174,-207);
-\node[head] at (92,-90) {Alternative regularization controls};
-\draw[panel] (0,-144) rectangle (77,-207);
-\node[head] at (3,-149) {Data and fixed feedback partition};
-% Execution module: objective, optimization, acquisition, oracle.
-\node[box,text width=65mm,minimum height=24mm] (loss) at (38.5,-23) {
- \textbf{Aligned classification objective}\\[1mm]
- $R_l=H_\delta(q_l-q_l^\star)$\\
- $F_l=H_\delta(\log B_l^{\min}-\log(B_l+\epss))$\\
- Frozen $q_l^\star,B_l^{\min}>0$ from training anchors};
-\node[box,text width=65mm,minimum height=22mm] (train) at (38.5,-55) {
- \textbf{Scheduled training on $\mathcal T_r$}\\[1mm]
- $\CE+\sum_l\lambda_l^{\mathrm{eff}}R_l+\beta_B\sum_l F_l$\\
- SGD with retained momentum; 20 epochs per phase\\
- Unregularized conditions disable both penalties};
-\node[box,text width=65mm,minimum height=22mm] (acq) at (38.5,-88) {
- \textbf{Acquisition from the current model}\\[1mm]
- $s(x)=\sum_l\alpha_l u_l(x)$: predicted-class\\
- Mahalanobis deviation of raw features,\\
- or the condition's baseline acquisition rule};
-\node[box,text width=65mm,minimum height=22mm] (query) at (38.5,-121) {
- \textbf{Query labels between training phases}\\[1mm]
- $b=12{,}669$ new labels in each of five rounds\\
- At most 10,000 candidates and 10\% per pass\\
- Remove selections from $\mathcal U_r$; add to $\mathcal A_r$};
-\draw[flow] (loss)--(train);
-\draw[flow] (train)--node[lab,right] {phase checkpoint} (acq);
-\draw[flow] (acq)--(query);
-% Model / evaluation are deliberately distinct from controller feedback.
-\node[box,text width=72mm,minimum height=10mm] (model) at (131.5,-16) {
- \textbf{Network $f_\theta$}\\
- Shared seed-specific initialization; logits and layer features};
-\node[box,text width=72mm,minimum height=10mm] (eval) at (131.5,-32) {
- \textbf{Official set $\mathcal V$: 5,000 images}\\
- Clean evaluation and final AutoAttack; no controller input};
-\draw[flow] (model)--(eval);
-\draw[flow] (train.east)--(81,-55)--(81,-16)--(model.west);
-% Monitor: matching objective and observed statistic.
-\node[box,text width=72mm,minimum height=12mm] (mom) at (131.5,-61) {
- \textbf{Class-balanced normalized moments}\\
- $h_{i,l}=z_l(x_i)/\max(\|z_l(x_i)\|_2,\epsn)$\\
- Within-class $W_l$ and between-class $B_l$};
-\node[box,text width=72mm,minimum height=8mm] (ema) at (131.5,-74) {
+\resizebox{0.97\textwidth}{!}{%
+\begin{tikzpicture}[x=1mm,y=1mm,
+ every node/.style={font=\fontsize{9}{10.7}\selectfont,align=center},
+ box/.style={draw=black!50,rounded corners=1mm,fill=white,inner sep=2mm},
+ panel/.style={draw=black!25,rounded corners=1.5mm,fill=black!2},
+ head/.style={anchor=west,font=\fontsize{10}{12}\selectfont\bfseries},
+ flow/.style={-{Latex[length=2mm]},line width=.7pt,draw=black!75},
+ signal/.style={flow,dashed,draw=caenlaccent},
+ label/.style={fill=white,inner sep=.7mm,font=\fontsize{8.5}{10}\selectfont}]
+
+\draw[panel] (0,0) rectangle (178,-47);
+\node[head] at (3,-5) {(a) Active learning: acquire labels between training phases};
+\node[box,text width=48mm,minimum height=23mm] (train) at (29,-23) {
+ \textbf{Train on current annotations}\\[1mm]
+ 20 epochs on $\mathcal T_r$\\
+ Shared initialization; retained momentum\\
+ Aligned objective and control in (b)};
+\node[box,text width=47mm,minimum height=23mm] (acquire) at (91,-23) {
+ \textbf{Score the unlabeled pool $\mathcal U_r$}\\[1mm]
+ Use the current phase checkpoint\\
+ Geometry score $\sum_l\alpha_lu_l(x)$\\
+ or the condition's acquisition rule};
+\node[box,text width=39mm,minimum height=23mm] (query) at (154,-23) {
+ \textbf{Query new labels}\\[1mm]
+ $b=12{,}669$ per round\\
+ Capped candidate passes\\
+ Add to $\mathcal A_r$; remove from $\mathcal U_r$};
+\draw[flow] (train)--(acquire);
+\draw[flow] (acquire)--(query);
+\draw[flow] (query.south)--(154,-41)--node[label,above] {five rounds: 10\% initial annotations $\longrightarrow$ 60\% total budget} (29,-41)--(train.south);
+
+\draw[panel] (0,-53) rectangle (178,-159);
+\node[head] at (3,-58) {(b) Representation control: align the loss with the monitored statistic};
+\node[box,text width=48mm,minimum height=23mm] (geometry) at (29,-77) {
+ \textbf{Normalized training features}\\[1mm]
+ Within-class $W_l$; between-class $B_l$\\
  $q_l=\log(W_l+\epss)-\log(B_l+\epss)$\\
- Moving averages, target residuals, and temporal changes};
-\draw[signal] (mom)--(ema);
-\draw[signal] (train.east)--(83.5,-55)--(83.5,-61)--(mom.west);
-% Fixed and Lite alternatives.
-\node[box,text width=29mm,minimum height=20mm] (fixed) at (111,-105) {
- \textbf{Fixed DCR}\\[1mm]
- $\lambda_l=0.03$\\
+ Moving means, residuals, and trends};
+\node[box,draw=caenlaccent,fill=caenlaccent!5,text width=98mm,minimum height=23mm] (objective) at (124,-77) {
+ \textbf{Objective used for gradient updates}\\[1mm]
+ $\CE+\sum_l\lambda_l^{\mathrm{eff}}R_l+\beta_B\sum_l F_l$\\
+ $R_l=H_\delta(q_l-q_l^\star)$; $F_l=H_\delta(\log B_l^{\min}-\log(B_l+\epss))$\\
+ Frozen training anchors; unregularized conditions omit both penalties};
+\draw[signal] (geometry)--node[label,above] {same $q_l$} (objective);
+
+\node[box,text width=49mm,minimum height=37mm] (fixed) at (29,-117) {
+ \textbf{Fixed DCR}\\[2mm]
+ $\lambda_l=0.03$\\[1mm]
+ Constant regularization strength\\
+ No controller feedback\\
  Fixed separation penalty};
-\node[box,text width=35mm,minimum height=20mm] (lite) at (153,-105) {
- \textbf{MACC-Lite}\\[1mm]
+\node[box,draw=caenlaccent,text width=49mm,minimum height=37mm] (lite) at (89,-117) {
+ \textbf{MACC-Lite}\\[2mm]
  $e_l=\widehat q_l-q_l^\star$\\
  $u_l=0.10\tanh([e_l]_+/\delta)$\\
- $\lambda_l^+=0.8\lambda_l+0.2u_l$};
-\draw[signal] (ema.east)--(172,-74)--(172,-84)--(153,-84)--(lite.north);
-% Full MACC: spacious state/reward inputs and separate policy stage.
-\node[box,text width=29mm,minimum height=30mm] (state) at (111,-138) {
- \textbf{Full-MACC state $S_t$}\\[1mm]
- $\widehat q_l$, residual, trend,\\
- $\lambda_l$, activation flag,\\
- training progress, and\\
- holdout cross-entropy $\ell_t^H$};
-\node[box,text width=35mm,minimum height=30mm] (reward) at (153,-138) {
- \textbf{Delayed reward $r_t$}\\[1mm]
- $\Clip(\Delta\ell^H/s_H,-1,1)$\\
- $+0.1\Clip(\Delta\Psi,-1,1)$\\
- $-0.01\,\mathrm{mean}_l$\\
- $\bigl(\lambda_l^{\mathrm{eff}}/0.10\bigr)$};
-\node[box,text width=71mm,minimum height=15mm] (policy) at (132,-170) {
- \textbf{Full-MACC policy $\pi_\phi(A_t\mid S_t)$}\\[1mm]
- Two 128-unit hidden layers; sampled actions and REINFORCE\\
- $\Delta\lambda_l\in\{-0.01,-0.005,0,0.005,0.01\}$; layer flags};
-\node[box,text width=71mm,minimum height=15mm] (apply) at (132,-196) {
- \textbf{Applied strength from the selected control condition}\\[1mm]
- $0\le\lambda_l\le0.10$; Full MACC multiplies by its flags\\
- Windows of at most 100 steps; terminal reward credited\\
- The acquisition-policy head is disabled};
-\draw[flow] (state.south)--(111,-158)--(117,-158)--(117,-161.5);
-\draw[signal] (reward.south)--(153,-158)--(147,-158)--(147,-161.5);
-\node[lab] at (111,-157.5) {action input};
-\node[lab] at (153,-157.5) {policy update};
-\draw[flow] (policy)--(apply);
-\draw[flow] (fixed.west)--(91,-105)--(91,-182)--(99,-182)--($(apply.north west)+(4,0)$);
-\draw[flow] (lite.east)--(173,-105)--(173,-182)--(165,-182)--($(apply.north east)+(-4,0)$);
-\draw[signal] (ema.west)--(86,-74)--(86,-124)--(state.north west);
-\draw[signal] (ema.east)--(177,-74)--(177,-138)--node[lab,above] {$\Delta\Psi$} (reward.east);
-% Dataset accounting and one-time creation of H.
-\node[box,text width=27mm,minimum height=14mm] (pool) at (19,-163) {
- \textbf{Unlabeled $\mathcal U_r$}\\
- Hidden labels excluded\\
- before acquisition};
-\node[box,text width=28mm,minimum height=14mm] (ann) at (58,-163) {
- \textbf{Annotated $\mathcal A_r$}\\
- 10--60\% budget\\
- includes all labels in $\mathcal H$};
-\node[box,text width=27mm,minimum height=20mm] (sgdset) at (19,-190) {
- \textbf{Training set}\\[1mm]
+ $\lambda_l^+=0.8\lambda_l+0.2u_l$\\[1mm]
+ Bounded deterministic feedback};
+\node[box,text width=49mm,minimum height=37mm] (full) at (149,-117) {
+ \textbf{Full MACC}\\[1mm]
+ State: geometry, progress, strengths,\\
+ flags, and fixed-holdout loss\\
+ Delayed reward: loss/geometry\\
+ improvement minus strength cost\\
+ REINFORCE: strength steps and flags};
+\draw[signal] (geometry.south)--(29,-94)--(149,-94)--(full.north);
+\draw[signal] (89,-94)--(lite.north);
+\fill[caenlaccent] (89,-94) circle (.65mm);
+\node[label] at (111,-94) {measured state};
+\node[box,text width=159mm,minimum height=13mm] (strength) at (89,-149) {
+ \textbf{Apply the strength from the selected condition}\\[1mm]
+ $0\le\lambda_l\le0.10$; Full MACC applies layer flags; windows of at most 100 steps\\
+ Credit the terminal reward; the acquisition-policy head remains disabled};
+\draw[flow] (fixed.south)--(29,-140)--(29,-141.5);
+\draw[flow] (lite.south)--(89,-141.5);
+\draw[flow] (full.south)--(149,-140)--(149,-141.5);
+\draw[flow,draw=caenlaccent] (strength.east)--(182,-149)--(182,-77)--(objective.east);
+
+\draw[panel] (0,-166) rectangle (178,-206);
+\node[head] at (3,-171) {(c) Data boundaries: optimization, feedback, and evaluation remain separate};
+\node[box,text width=49mm,minimum height=25mm] at (29,-190) {
+ \textbf{Gradient updates: $\mathcal T_r$}\\[1mm]
  $\mathcal T_r=\mathcal A_r\setminus\mathcal H$\\
- Only these examples\\
- enter gradient updates};
-\node[box,text width=28mm,minimum height=20mm] (hold) at (58,-190) {
- \textbf{Fixed holdout $\mathcal H$}\\[1mm]
- Select 633 labels once\\
- from $\mathcal A_0$;\\
- never recreate each round};
-\draw[flow] (pool)--node[lab,above] {query} (ann);
-\draw[flow] (ann.south)--(58,-174)--(19,-174)--(sgdset.north);
-\draw[flow] (query.south)--(38.5,-140)--(58,-140)--(ann.north);
-\draw[signal] (pool.west)--(-2,-163)--(-2,-88)--(acq.west);
-\draw[signal] (sgdset.west)--(-4.5,-190)--(-4.5,-55)--(train.west);
-% H supplies an absolute loss to the state and its change to the reward.
-\draw[signal] (hold.east)--(84,-190)--(84,-138)--(state.west);
-\node[lab,rotate=90] at (84,-162) {fixed $\mathcal H$: $\ell_t^H$};
-\draw[signal] (84,-138)--(84,-118)--(153,-118)--(reward.north);
-\node[lab] at (139,-118) {$\Delta\ell^H$};
-% Return the applied coefficient, not any official-test result, to the loss.
-\draw[flow] (apply.west)--(79,-196)--(79,-23)--(loss.east);
-\node[lab,rotate=90] at (79,-101) {applied $\lambda_l^{\mathrm{eff}}$};
-\node[anchor=north,align=left,text width=174mm,font=\fontsize{8}{9.4}\selectfont] at (86,-211) {
- \textbf{Reading key:} solid arrows denote execution/control; dashed arrows denote data or measured signals.
- Crossings are not joins.\\
- $\Delta\ell^H=\ell_{t-1}^H-\ell_t^H$, $\Delta\Psi=\Psi_{t-1}-\Psi_t$,
- $\Psi=\sum_l R_l+\beta_B\sum_l F_l$; $s_H$ is fixed within a phase.
-};
+ Only this set trains $f_\theta$\\
+ Hidden pool labels are unavailable};
+\node[box,text width=49mm,minimum height=25mm] at (89,-190) {
+ \textbf{Full-MACC feedback: $\mathcal H$}\\[1mm]
+ 633 labels selected once from $\mathcal A_0$\\
+ Counted in the annotation budget\\
+ Loss enters state and delayed reward};
+\node[box,text width=49mm,minimum height=25mm] at (149,-190) {
+ \textbf{Official evaluation: $\mathcal V$}\\[1mm]
+ 5,000 validation images\\
+ Clean accuracy and final AutoAttack\\
+ No input to the controller};
+\node[anchor=north,font=\fontsize{8.5}{10}\selectfont] at (89,-210) {
+ Solid arrows: execution or applied control. Dashed arrows: measured signals.\\
+ Fixed DCR, MACC-Lite, and Full MACC are alternative experimental conditions.};
 \end{tikzpicture}%
 }
-\caption{Classification workflow of \model{}. Acquisition occurs between
-training phases; regularization is controlled within phases. Fixed DCR,
-MACC-Lite, and Full MACC are alternative conditions. The holdout is selected
-once from the initial annotations, remains within the label budget, and is
-excluded from gradient updates. Holdout loss enters Full MACC's state;
-changes in holdout loss and geometric potential enter its delayed reward.
-Official evaluation is independent of controller feedback. Language,
-diffusion, and audio use the separate spectral formulations.
+\caption{The classification workflow of \model{}. (a) Acquisition expands the
+annotated set between training phases. (b) The regularizer and adaptive
+controllers use the same normalized scatter statistic, while the separation
+safeguard penalizes insufficient between-class separation. Fixed strength, deterministic feedback, and learned feedback are
+compared as alternatives. (c) The fixed holdout supplies Full-MACC feedback
+without entering task-model gradient updates; official evaluation is separate.
+Language, diffusion, and audio use the task-specific spectral formulations.
 Prepared in TikZ with ChatGPT (OpenAI) assistance.}
 \label{fig:detailed_workflow}\label{fig:framework_overview}
 \end{figure*}
+
 
 
 \subsection{Spectral formulation for language, diffusion, and audio}
@@ -1674,7 +1630,7 @@ not third-party replication of GPU execution.
 \label{sec:computational_assistance}
 ChatGPT (OpenAI) assisted with experimental-software development and
 review, saved-result analysis, mathematical exposition, reference
-checking, and LaTeX/TikZ/PGFPlots preparation. Numerical figures are
+checking, and LaTeX/TikZ/Matplotlib preparation. Numerical figures are
 compiled from recorded measurements or explicitly stated statistical
 summaries; schematic figures describe the implemented workflow.
 Numerical outputs are derived from the recorded experiments and
@@ -1747,148 +1703,16 @@ over entropy. All displayed points are measured phase endpoints.
 
 \begin{figure}[!tbp]
 \centering
-\begin{tikzpicture}
-\begin{axis}[name=leftplot,height=7.8cm,width=0.49\textwidth,
- xmin=8,xmax=63,ymin=25,ymax=78,xtick={10,20,30,40,50,60},
- ytick={30,40,50,60,70},xlabel={Annotated pool (\%)},
- ylabel={Clean top-1 accuracy (\%)},
- tick label style={font=\footnotesize},label style={font=\small},
- title style={font=\small},ymajorgrids=true,
- grid style={black!12},mark size=1.6pt,
- legend style={at={(0.5,-0.24)},anchor=north,draw=none,
- font=\footnotesize,cells={anchor=west},row sep=1pt},
- legend columns=1,title={(a) Acquisition rules without DCR}]
-\addplot[black!45,densely dotted,mark=*,mark options={solid,fill=white},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.226666667 0.750537585\\
-30 51.213333333 1.091103417\\
-40 60.243333333 0.629083990\\
-50 65.770000000 0.421188794\\
-60 69.293333333 0.334105772\\
-};
-\addlegendentry{Random}
-\addplot[black,solid,mark=square*,mark options={solid,fill=black},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 38.406666667 0.731646545\\
-30 50.093333333 0.715168978\\
-40 60.400000000 0.499279481\\
-50 67.216666667 0.362307420\\
-60 71.463333333 0.320353971\\
-};
-\addlegendentry{Entropy}
-\addplot[black!70,dashed,mark=triangle*,mark options={solid,fill=white},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.773333333 1.098192454\\
-30 51.666666667 1.089121971\\
-40 60.963333333 0.847152092\\
-50 66.846666667 0.160332987\\
-60 71.110000000 0.467118829\\
-};
-\addlegendentry{BADGE}
-\addplot[black!50,dashdotted,mark=diamond*,mark options={solid,fill=white},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.296666667 0.931872667\\
-30 51.043333333 1.017952193\\
-40 60.663333333 0.707493227\\
-50 66.800000000 0.572293631\\
-60 71.023333333 0.248971217\\
-};
-\addlegendentry{Noise Stability}
-\addplot[black!75,densely dashed,mark=o,mark options={solid},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.186666667 1.258803665\\
-30 51.330000000 0.945790675\\
-40 60.620000000 0.273934299\\
-50 66.346666667 0.496494377\\
-60 70.190000000 0.239582971\\
-};
-\addlegendentry{Geometry acquisition}
-\addplot[black!90,dotted,mark=x,mark options={solid},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.143333333 0.835934607\\
-30 51.396666667 0.873834462\\
-40 61.300000000 0.349628374\\
-50 67.570000000 0.482617861\\
-60 71.746666667 0.625672971\\
-};
-\addlegendentry{UHerding-Margin}
-\end{axis}
-\begin{axis}[at={(leftplot.outer east)},anchor=outer west,xshift=0.8mm,height=7.8cm,width=0.49\textwidth,
- xmin=8,xmax=63,ymin=25,ymax=78,xtick={10,20,30,40,50,60},
- ytick={30,40,50,60,70},xlabel={Annotated pool (\%)},
- ylabel={Clean top-1 accuracy (\%)},
- tick label style={font=\footnotesize},label style={font=\small},
- title style={font=\small},ymajorgrids=true,
- grid style={black!12},mark size=1.6pt,
- legend style={at={(0.5,-0.24)},anchor=north,draw=none,
- font=\footnotesize,cells={anchor=west},row sep=1pt},
- legend columns=1,title={(b) Aligned regularization}]
-\addplot[black,solid,mark=square*,mark options={solid,fill=black},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 38.406666667 0.731646545\\
-30 50.093333333 0.715168978\\
-40 60.400000000 0.499279481\\
-50 67.216666667 0.362307420\\
-60 71.463333333 0.320353971\\
-};
-\addlegendentry{Entropy}
-\addplot[black!45,densely dotted,mark=*,mark options={solid,fill=white},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.350000000 0.650261486\\
-30 51.346666667 1.191883663\\
-40 60.793333333 0.605926288\\
-50 66.263333333 0.195311717\\
-60 70.113333333 0.452312576\\
-};
-\addlegendentry{Random + fixed DCR}
-\addplot[black!65,dashed,mark=triangle*,mark options={solid,fill=white},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.246666667 1.181975747\\
-30 51.610000000 1.005325818\\
-40 60.860000000 0.716212259\\
-50 66.943333333 0.522060022\\
-60 71.040000000 0.426708331\\
-};
-\addlegendentry{Geometry + fixed DCR}
-\addplot[caenlaccent,solid,mark=diamond*,mark options={solid,fill=white},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.123333333 0.971301532\\
-30 51.353333333 0.811089802\\
-40 61.310000000 0.664138540\\
-50 67.700000000 0.606366226\\
-60 72.120000000 0.490061221\\
-};
-\addlegendentry{Geometry + Lite}
-\addplot[black!75,dashdotted,mark=x,mark options={solid},line width=0.75pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 39.223333333 1.166218962\\
-30 51.406666667 1.025566510\\
-40 60.603333333 0.523590171\\
-50 66.990000000 0.460564871\\
-60 70.803333333 0.318349912\\
-};
-\addlegendentry{Geometry + Full}
-\end{axis}
-\end{tikzpicture}
-\caption{Descriptive clean-accuracy trajectories across the annotation budget.
-Markers and bars show six-seed means and sample SD, not confidence intervals.
-Both panels use the same axes and the common initial checkpoint at 10\%.
-The curves contain the original nine conditions and UHerding-Margin.
-The entropy regularization follow-ups appear in
-Figure~\ref{fig:entropy_budget}. All fixed, Lite, and Full conditions in
-panel (b) use aligned DCR. Connecting lines guide the eye; no
-area-under-curve test or new inferential family is introduced.}
+\includegraphics[width=\textwidth]{figures/figure2_budget.pdf}
+\caption{Acquisition and aligned regularization under the common
+ImageNet-100 protocol. Panels (a) and (b) show measured accuracy trajectories
+on identical axes; panel (c) enlarges the final 60\% endpoint for the original
+nine conditions and the UHerding-Margin follow-up. Markers and bars represent
+six-seed means and sample SDs, not confidence intervals. All trajectories
+start from the same 10\% checkpoint. Fixed, Lite, and Full denote aligned
+DCR conditions; entropy regularization follow-ups appear in
+Figure~\ref{fig:entropy_budget}. Connecting lines guide the eye, and no new
+area-under-curve test or inferential family is introduced.}
 \label{fig:label_budget}
 \end{figure}
 
@@ -1918,57 +1742,16 @@ comparison establishes a 40\% annotation saving.
 
 \begin{figure}[!tbp]
 \centering
-% The outer resize includes the long y-axis labels and avoids overflow.
-\resizebox{0.98\textwidth}{!}{%
-\begin{tikzpicture}
-\begin{axis}[
-  width=0.80\textwidth,
-  height=7.0cm,
-  xmin=-1.1,xmax=2.0,ymin=0.5,ymax=7.5,
-  xlabel={Clean-accuracy difference (percentage points)},
-  ytick={1,2,3,4,5,6,7},
-  yticklabels={
-    Random + fixed vs random,
-    Acquisition vs random,
-    Full vs entropy,
-    Lite vs entropy,
-    Full vs fixed,
-    Lite vs fixed,
-    Fixed vs acquisition
-  },
-  tick label style={font=\small},
-  label style={font=\small},
-  xmajorgrids=true,
-  axis on top
-]
-\addplot[
-  black,only marks,mark=*,
-  error bars/.cd,x dir=both,x explicit
-]
-table[
-  x=effect,y=row,
-  x error minus=minus,x error plus=plus,
-  row sep=\\
-]{
- effect row minus plus\\
- 0.820 1 0.523120 0.523120\\
- 0.896667 2 0.507982 0.507982\\
- -0.660 3 0.209046 0.209046\\
- 0.656667 4 0.641914 0.641914\\
- -0.236667 5 0.477772 0.477772\\
- 1.080 6 0.632593 0.632593\\
- 0.850 7 0.420351 0.420351\\
-};
-\addplot[black,dashed,no marks]
-coordinates {(0,0.5)(0,7.5)};
-\end{axis}
-\end{tikzpicture}%
-}
-\caption{Initial nine-condition comparison: all seven planned paired clean-accuracy effects.
-Bars show individual unadjusted 95\% paired-$t$ intervals.
-Multiplicity-adjusted tests are in
-Table~\ref{tab:planned_contrasts}; Lite versus entropy
-does not pass the adjusted paired-$t$ threshold.}
+\includegraphics[width=\textwidth]{figures/figure3_effects.pdf}
+\caption{All seven planned clean-accuracy contrasts in the original
+nine-condition family. Points give the mean target-minus-reference
+difference; bars and the numeric column give individual unadjusted 95\%
+paired-$t$ intervals across six seeds. The dashed line denotes no difference.
+Fixed DCR, MACC-Lite, and Full MACC use geometry acquisition unless random
+acquisition is explicitly indicated. Accent color identifies Lite contrasts,
+not statistical significance. Multiplicity-adjusted tests are reported in
+Table~\ref{tab:planned_contrasts}; Lite versus entropy does not pass the
+adjusted paired-$t$ threshold.}
 \label{fig:paired_effects}
 \end{figure}
 
@@ -2101,88 +1884,18 @@ robustness conclusion.
 
 \begin{figure}[!tbp]
 \centering
-\begin{tikzpicture}
-\begin{axis}[name=entropyleft,height=7.4cm,width=0.49\textwidth,
- xmin=8,xmax=63,ymin=25,ymax=78,xtick={10,20,30,40,50,60},
- ytick={30,40,50,60,70},xlabel={Annotated pool (\%)},
- ylabel={Clean top-1 accuracy (\%)},
- tick label style={font=\footnotesize},label style={font=\small},
- title style={font=\small},ymajorgrids=true,grid style={black!12},mark size=1.8pt,
- legend style={at={(0.5,-0.24)},anchor=north,draw=none,font=\footnotesize,
- cells={anchor=west},row sep=1pt},legend columns=1,
- title={(a) Matched entropy treatments}]
-\addplot[black,solid,mark=square*,mark options={solid,fill=black},line width=0.85pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 38.406666667 0.731646545\\
-30 50.093333333 0.715168978\\
-40 60.400000000 0.499279481\\
-50 67.216666667 0.362307420\\
-60 71.463333333 0.320353971\\
-};
-\addlegendentry{Entropy}
-\addplot[black!60,dashed,mark=triangle*,mark options={solid,fill=white},line width=0.85pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 38.643333333 0.606025302\\
-30 50.410000000 0.663174185\\
-40 60.746666667 0.473568017\\
-50 67.473333333 0.307159025\\
-60 72.263333333 0.380823669\\
-};
-\addlegendentry{Entropy + fixed DCR}
-\addplot[caenlaccent,solid,mark=diamond*,mark options={solid,fill=white},line width=0.85pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-10 29.983333333 0.741826575\\
-20 38.313333333 0.703211680\\
-30 50.190000000 0.669417657\\
-40 60.853333333 0.484258884\\
-50 68.276666667 0.218510107\\
-60 73.360000000 0.207846097\\
-};
-\addlegendentry{Entropy + Lite}
-\end{axis}
-\begin{axis}[at={(entropyleft.outer east)},anchor=outer west,xshift=1mm,
- height=7.4cm,width=0.49\textwidth,
- xmin=18,xmax=63,ymin=-1.1,ymax=2.6,xtick={20,30,40,50,60},
- ytick={-1,0,1,2},xlabel={Annotated pool (\%)},
- ylabel={Paired gain over entropy (pp)},
- tick label style={font=\footnotesize},label style={font=\small},
- title style={font=\small},ymajorgrids=true,grid style={black!12},mark size=1.8pt,
- legend style={at={(0.5,-0.24)},anchor=north,draw=none,font=\footnotesize,
- cells={anchor=west},row sep=1pt},legend columns=1,
- title={(b) Budget-dependent gains}]
-\addplot[black!50,dotted,forget plot] coordinates {(18,0) (63,0)};
-\addplot[black!60,dashed,mark=triangle*,mark options={solid,fill=white},line width=0.85pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-20 0.236666667 0.212194879\\
-30 0.316666667 0.448538367\\
-40 0.346666667 0.316901667\\
-50 0.256666667 0.571232585\\
-60 0.800000000 0.288166618\\
-};
-\addlegendentry{Entropy + fixed DCR}
-\addplot[caenlaccent,solid,mark=diamond*,mark options={solid,fill=white},line width=0.85pt,error bars/.cd,y dir=both,y explicit] table[row sep=\\,x=b,y=a,y error=sd]{
-b a sd\\
-20 -0.093333333 0.220423834\\
-30 0.096666667 0.467232990\\
-40 0.453333333 0.564789046\\
-50 1.060000000 0.352363449\\
-60 1.896666667 0.259049545\\
-};
-\addlegendentry{Entropy + Lite}
-\end{axis}
-\end{tikzpicture}
-\caption{Observed entropy-treatment trajectories and paired gains. Panel (a)
-shows mean clean accuracy and sample SD across six paired seeds. Panel (b)
-shows the mean and sample SD of within-seed accuracy differences from
-entropy; these bars are not confidence intervals. The common 10\%
-initialization has zero paired gain and is omitted from panel (b).
-Fixed DCR uses $\lambda_l=0.03$ and the same separation penalty as Lite.
-Lite is not uniformly better at early budgets; its mean advantage grows
-at the later budgets. Only the final 60\% comparisons enter the declared
-follow-up tests. All phase points are exported measurements; no missing
-values are interpolated.}
+\includegraphics[width=\textwidth]{figures/figure4_entropy.pdf}
+\caption{Matched entropy treatments across annotation budgets and seeds.
+(a) Mean clean accuracy and sample SD across six seeds. (b) Mean and sample
+SD of within-seed differences from entropy; the common 10\% initialization
+has zero gain and is omitted. (c) Individual final-budget accuracies, with
+lines joining the same seed across conditions; adjacent filled markers and
+bars show mean $\pm$ sample SD. Overlapping seed values are retained.
+These bars are not confidence intervals. Fixed DCR uses $\lambda_l=0.03$
+and the same separation penalty as Lite. Lite is not uniformly better at
+early budgets, but exceeds both comparators in all six final-budget seeds.
+Only the final 60\% comparisons enter the declared follow-up tests. All
+points derive from recorded measurements.}
 \label{fig:entropy_budget}
 \end{figure}
 

@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess,shutil,os
 root=Path(__file__).resolve().parent;b=root/'build';b.mkdir(exist_ok=True)
 for name in ['CAENL_revised.tex','cas-dc.cls','cas-common.sty']:shutil.copy2(root/name,b/name)
+shutil.copytree(root/'figures',b/'figures',dirs_exist_ok=True)
 for i in range(3):
     with (b/f'pass-{i+1}.log').open('w') as f:
         subprocess.run(['pdflatex','-interaction=nonstopmode','-halt-on-error','-jobname=CAENL_revised_fixed',r'\pdfmapfile{+stix.map}\input{CAENL_revised.tex}'],cwd=b,stdout=f,stderr=subprocess.STDOUT,check=True)

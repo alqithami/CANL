@@ -1,4 +1,4 @@
-# CÆNL: Objective-Aligned Representation Control for Active Learning
+# CÆNL: Collapse-Based Active Neural Learning with Objective-Aligned Representation Control
 
 Research code, manuscript, protocols and numerical evidence for the CAENL study.
 

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "Please cite the accompanying CAENL manuscript when using this code or its result records."
-title: "CAENL: Objective-Aligned Representation Control for Active Learning"
+title: "CAENL: Collapse-Based Active Neural Learning with Objective-Aligned Representation Control"
 authors:
   - family-names: Alqithami
     given-names: Saad
