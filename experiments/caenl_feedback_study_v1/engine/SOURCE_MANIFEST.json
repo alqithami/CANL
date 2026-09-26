@@ -1,0 +1,16 @@
+{
+  "SOURCE_PROVENANCE.json": "9a5c3335a97841db9080f728d22b2a70a03ac0b8c069d688478d2de0d0d43941",
+  "acquisition.py": "c6b8538083c44d4679ba5e3db7fef3ea72fe1cc603d78891c199a28f99a49264",
+  "aligned.py": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+  "analysis.py": "a2a6892b09686c0e2ba7d7be3131c0cc46a9ba73b7eff277aaf6238a3eb611fb",
+  "campaign.py": "a48d0d983d30e4d648215a07876d7d925fe9cdd30930d2ffa4551c5885d1e2c2",
+  "control.py": "0ac59901e866317f8feac03d2bba22adfdfd93478a4f31ce9ce9ae05e0e5d183",
+  "evaluation.py": "a992249469d83a97b984d71e768170441c0198f533183ebef9acc42acdbcccce",
+  "protocol.json": "3d23a40d1e6a4d4fe5a9b4f4feb3524760bde05aae103c609929b9c3a8984a54",
+  "self_test.py": "7dc330f02c8f750bbc482f95d7c87e0b957542340cf64fc504db0437c2b08ac8",
+  "study.py": "cb35499ee4d1d701be989d3cbc7ceaf6c54f087df3835a98e6679d94edbfaa15",
+  "support.py": "fc799010dd31c96c41b600d755d38d72a471c5817439742bfbf4bb9b308fdbbf",
+  "training.py": "1e660c475b3e8f2863887768ab3c782d2fa16dbc5e7166320b8215c305e8ec1e",
+  "vendor/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "vendor/controllers.py": "9e5fb0237e49643a9a2e8b24077a5b9f1cfd81487be298aa549d432a5345b88e"
+}

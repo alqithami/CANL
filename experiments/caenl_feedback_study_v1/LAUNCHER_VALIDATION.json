@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checks": [
+    "all Python sources parse",
+    "embedded source manifest count",
+    "embedded engine byte equality",
+    "idempotent source extraction",
+    "changed extracted source is preserved and rejected",
+    "no overwrite of changed source",
+    "corrupted embedded source rejected",
+    "source symlinks rejected",
+    "status works before installation without GPU dependencies",
+    "detached launch orchestration succeeds with mocked tmux",
+    "worker command contains deterministic runtime and append-only log",
+    "duplicate worker not started",
+    "completed study not restarted",
+    "failed campaign requires explicit resume command",
+    "resume passes existing failure to engine recovery",
+    "status rejects corrupted completed report"
+  ],
+  "check_count": 16,
+  "scope": "Local extraction/integrity tests and mocked process orchestration; no IBM tmux or CUDA launch performed here."
+}

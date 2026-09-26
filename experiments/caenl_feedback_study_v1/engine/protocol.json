@@ -1,0 +1,162 @@
+{
+  "campaign": "caenl-feedback-study-v1",
+  "role": "fresh_seed_tuned_control_comparison_and_backbone_transfer",
+  "dataset_root": "/mnt/caenl/persistent/datasets/imagenet100_cmc",
+  "result_root": "/mnt/caenl/active/results/caenl-feedback-study-v1",
+  "expected_image_manifest_sha256": "0ba19db4a9d1aeb633d1339a5f9ec11f55dc219d884a266bb4d805eca8d6dc1f",
+  "expected_class_list_sha256": "5ee5db69d488bb799a286d8e181801c3d02798776c1ce9203e5450f64e086e07",
+  "expected_train_count": 126689,
+  "expected_val_count": 5000,
+  "num_classes": 100,
+  "initial_labels": 12669,
+  "holdout_count": 633,
+  "acquisition_per_round": 12669,
+  "rounds": 5,
+  "initial_epochs": 40,
+  "round_epochs": 20,
+  "batch_classes": 16,
+  "samples_per_class": 8,
+  "lr_initial": 0.05,
+  "lr_round": 0.025,
+  "warmup_initial_epochs": 3,
+  "warmup_round_epochs": 1,
+  "momentum": 0.9,
+  "nesterov": true,
+  "weight_decay": 0.0001,
+  "clip_grad_norm": 5.0,
+  "batchnorm": "update during shared initial training; freeze running statistics during all five AL rounds in every method",
+  "workers": 8,
+  "eval_workers": 4,
+  "eval_batch": 64,
+  "image_size": 224,
+  "resize": 256,
+  "precision": "bf16_autocast_fp32_parameters; full_precision_reporting_and_attacks",
+  "layers": [
+    "layer3",
+    "layer4"
+  ],
+  "control_interval": 100,
+  "calibration_batches": 16,
+  "training_ema_beta": 0.05,
+  "alignment": {
+    "target_kappa_factor": 0.9,
+    "between_floor_factor": 0.5,
+    "scatter_epsilon": 1e-06,
+    "feature_norm_epsilon": 1e-06,
+    "huber_delta": 0.25,
+    "floor_weight": 0.01
+  },
+  "lambda_initial": 0.03,
+  "lambda_fixed": 0.03,
+  "lambda_max": 0.1,
+  "lite_smoothing": 0.2,
+  "targets": "once per independent seed, after shared 40-epoch initial training, on fixed center-cropped 16x8 training anchors; shared by all methods; never tuned with official validation",
+  "acquisition": {
+    "candidate_size": 10000,
+    "per_pass_fraction": 0.1,
+    "quantile": 0.9,
+    "layer_weights": {
+      "layer3": 0.5,
+      "layer4": 0.5
+    },
+    "covariance": "fresh diagonal class covariance from currently labeled training images; shrinkage 1e-5",
+    "mahalanobis_shrinkage": 1e-05,
+    "noise_samples": 5,
+    "noise_scale": 0.001,
+    "badge": "exact factorized last-linear-weight gradient kernel; no random projection; bias excluded",
+    "noise_stability": "independent full-parameter Gaussian output-deviation implementation; five draws; exact concatenation/no projection; greedy k-center; not authors repository reproduction",
+    "full_macc_acquisition_head": false
+  },
+  "checkpoint_every_steps": 1000,
+  "checkpoint_each_epoch": true,
+  "new_adversarial_training": false,
+  "negative_results_are_valid": true,
+  "no_legacy_checkpoints_loaded": true,
+  "official_reporting": false,
+  "backbone": "resnet50",
+  "study": {
+    "tuning_seeds": [
+      41001,
+      41002,
+      41003
+    ],
+    "confirmation_seeds": [
+      42001,
+      42002,
+      42003,
+      42004,
+      42005,
+      42006,
+      42007,
+      42008,
+      42009,
+      42010
+    ],
+    "transfer_seeds": [
+      43001,
+      43002,
+      43003,
+      43004,
+      43005,
+      43006,
+      43007,
+      43008,
+      43009,
+      43010
+    ],
+    "fixed_coefficients": [
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ],
+    "schedule_shapes": [
+      "linear_up",
+      "linear_down"
+    ],
+    "schedule_peaks": [
+      0.03,
+      0.1
+    ],
+    "selection": "Highest mean final training-holdout top-1; ties within 1e-12 broken by lowest mean holdout CE, then candidate ID. One fixed and one schedule selected independently. All 24 tuning runs must finish first.",
+    "lite_frozen": {
+      "lambda_initial": 0.03,
+      "lambda_max": 0.1,
+      "smoothing": 0.2,
+      "huber_delta": 0.25
+    },
+    "alpha": 0.05,
+    "primary_contrasts_per_backbone": [
+      [
+        "lite",
+        "entropy"
+      ],
+      [
+        "lite",
+        "tuned_fixed"
+      ],
+      [
+        "lite",
+        "tuned_schedule"
+      ]
+    ],
+    "multiplicity": "One family of six clean-top1 contrasts across both backbones; Holm separately for paired-t and exact sign-flip p-values. No inferential claim from partial families.",
+    "secondary_metrics": [
+      "cross_entropy",
+      "ece",
+      "top5_accuracy",
+      "mean_log_kappa",
+      "phase_duration"
+    ],
+    "schedule_progress": "Global post-initialization optimizer-step fraction across all five phases; coefficients refresh at phase starts and nonterminal 100-step boundaries. No observation enters a schedule.",
+    "transfer": "ResNet-18; same selected R50 control settings and frozen Lite; new from-scratch seed-specific initialization, no retuning.",
+    "claim_scope": "Fresh seeds and architecture transfer on one already-used dataset; not a pristine benchmark, a cross-dataset result, a causal isolation of alignment, or a robustness study.",
+    "negative_outcomes": "Retained; no metric-dependent stopping or replacement of seeds.",
+    "expected_method_runs": 104,
+    "expected_initializations": 23,
+    "expected_postinitial_phases": 520,
+    "expected_optimizer_steps": 4155880,
+    "practical_reference_pp": 0.5,
+    "sample_size_rationale": "Ten paired seeds per backbone, fixed before execution. At observed earlier paired SD 0.364 pp, an unadjusted 95% paired-t half-width would be about 0.260 pp if variability were similar. This is a precision illustration, not a guaranteed power calculation."
+  }
+}

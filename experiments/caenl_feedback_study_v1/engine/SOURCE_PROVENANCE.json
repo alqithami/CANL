@@ -1,0 +1,14 @@
+{
+  "base_commit": "f32bb316f9040e41d232f955120d9592f85cf262",
+  "source_directory": "experiments/caenl_aligned_imagenet100_v1",
+  "original_sha256": {
+    "support.py": "bbe7f2f7f7ea1d0249225ff85e2d13377be5129f8f48de136229429fc1a7dfa2",
+    "aligned.py": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+    "control.py": "e7841d16086d4d828a93679793384d0308821bb47af493bc97e0bdd90e071387",
+    "training.py": "c2901463dd8fc76da7c2b55ac161874ba445455fe7ebb7fbff651421c6bc7365",
+    "acquisition.py": "c6b8538083c44d4679ba5e3db7fef3ea72fe1cc603d78891c199a28f99a49264",
+    "evaluation.py": "a992249469d83a97b984d71e768170441c0198f533183ebef9acc42acdbcccce",
+    "vendor/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "vendor/controllers.py": "9e5fb0237e49643a9a2e8b24077a5b9f1cfd81487be298aa549d432a5345b88e"
+  }
+}
