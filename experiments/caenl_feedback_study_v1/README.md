@@ -2,49 +2,15 @@
 
 This frozen campaign tests whether the unchanged MACC-Lite controller improves clean classification over separately tuned fixed-strength and predetermined-schedule controls. It then tests transfer of those settings from ResNet-50 to ResNet-18 on the existing ImageNet-100 dataset.
 
-The campaign is prospective relative to these new seed outcomes. ImageNet-100 and the Lite settings have already been used in the research programme; this is not an untouched benchmark or a claim of equal lifetime development effort.
+The experiment uses disjoint control-selection and evaluation seeds. ImageNet-100 and the Lite settings have prior development history, so the design does not constitute an untouched benchmark or equal lifetime development effort.
 
-## Run on the IBM GPU server
+## Installation and execution
 
-Place `caenl_feedback_study_v1.py` in the server account's home directory, then run:
+Use the [L40S deployment guide](../../docs/RUN_ON_IBM.md) for Python dependencies, required data manifests, preflight validation, execution, monitoring, and checkpoint recovery. The engine can be called from an explicitly selected virtual environment; the optional self-contained launcher also supports the original directory layout.
 
-```bash
-python3 "$HOME/caenl_feedback_study_v1.py" --start
-```
+The protocol requires a mounted `/mnt/caenl` volume, the bound ImageNet-100 image collection, and PyTorch 2.6 / torchvision 0.21 with CUDA 12.4 on an L40S. Allow several days and approximately 160 GiB free initially. No dataset or dependency installation occurs inside the runner.
 
-The launcher embeds all engine code and extracts it after checksum verification. It starts a detached `tmux` worker; SSH can be disconnected. It does not install packages or download data. It uses the existing CAENL virtual environment and the dataset at `/mnt/caenl/persistent/datasets/imagenet100_cmc`. The expected environment is Python with PyTorch 2.6.x, torchvision 0.21.x, CUDA 12.4, and an NVIDIA L40S.
-
-The default environment locations are:
-
-1. `$HOME/caenl-v5.4.3/caenl_revision_pipeline_v5.4.3_c4_confirmatory/.venv/bin/python`
-2. `$HOME/caenl-src/caenl_revision_pipeline_v5.3_ibm_rhel_l40s/.venv/bin/python`
-
-All campaign results are written under `/mnt/caenl/active/results/caenl-feedback-study-v1`. Existing experiments are not modified. The launcher refuses to run alongside an existing GPU compute process or to overwrite different source files. The worker checks the mounted volume, source hashes, dependency versions, available disk, all dataset image hashes, CPU integration tests, and actual batch-128 CUDA training steps for both backbones before the scientific runs.
-
-Allow **several days of continuous GPU time** and approximately **160 GiB of free space initially**. This is a new 104-run campaign, not a short continuation of the six entropy-fixed runs. It runs sequentially on one GPU.
-
-Check progress:
-
-```bash
-python3 "$HOME/caenl_feedback_study_v1.py" --status
-tail -n 35 /mnt/caenl/active/results/caenl-feedback-study-v1/run.log
-```
-
-After an interruption, or after resolving an error shown by `--status`:
-
-```bash
-python3 "$HOME/caenl_feedback_study_v1.py" --resume
-```
-
-Resume verifies existing artifacts, skips completed work, and restores unfinished training from its last checkpoint. It preserves earlier failure records. A preflight check can also be run in the foreground using `--check`, but `--start` already performs it. `--unpack DIRECTORY` extracts inspectable source without starting experiments.
-
-When complete, share the generated Markdown report:
-
-```bash
-python3 "$HOME/caenl_feedback_study_v1.py" --report
-```
-
-The report file is `/mnt/caenl/active/results/caenl-feedback-study-v1/caenl-feedback-study-v1.md`. Its sibling `.md.sha256` file allows verification using `sha256sum -c` on IBM. Share the text report; transferring model checkpoints or the dataset is unnecessary for reviewing these results.
+Outputs are written to `/mnt/caenl/active/results/caenl-feedback-study-v1`, including per-seed artifacts, `SELECTION.json`, `results.json`, a Markdown numerical report, and integrity/completion records. The run lock and source/configuration bindings guard checkpoint reuse.
 
 ## Frozen experimental matrix
 
@@ -86,13 +52,13 @@ Cross-entropy, calibration error, top-5 accuracy, geometry trajectories, and tim
 - A corresponding gain on ResNet-18 supports architecture transfer within this dataset. Failure to transfer narrows the claim to the tested ResNet-50 setting.
 - An interval that includes both negligible and useful gains leaves the comparison uncertain. Statistical nonsignificance alone does not establish equivalence.
 
-This campaign does **not** establish cross-dataset generalization, adversarial robustness, superiority to every alternative regularizer, or a causal isolation of the alignment term. It holds the existing objective and Lite implementation fixed. It should not be described as restoring unsupported claims from the initial manuscript. Those require different evidence or narrower wording.
+This campaign does **not** establish cross-dataset generalization, adversarial robustness, superiority to every alternative regularizer, or a causal isolation of the alignment term. It holds the existing objective and Lite implementation fixed. Conclusions are limited to the declared objective, control grids, dataset, and training protocol.
 
 ## Audit and validation
 
 `engine/SOURCE_PROVENANCE.json` records the original module hashes and repository commit. `aligned.py`, acquisition, evaluation, and the vendored controller source remain unchanged. The new implementation adds ResNet-18 selection, predetermined strengths, suppression of official-validation evaluation during tuning, frozen selection, paired analysis, orchestration, and stronger configuration binding for resume.
 
-`CPU_VALIDATION.json` records actual CPU tests run from the embedded delivery payload. They cover mathematical identities and gradients, both real torchvision backbones, a complete small training/acquisition/selection study, no validation leakage during tuning, idempotent completion, saved-result tampering, and bitwise recovery of model/optimizer/controller state after interruption. `LAUNCHER_VALIDATION.json` records extraction and integrity tests plus mocked process orchestration. These are software checks, not scientific experiment outcomes. Actual CUDA execution and IBM `tmux` are checked when the package is run on the server.
+`CPU_VALIDATION.json` records actual CPU tests run from the embedded delivery payload. They cover mathematical identities and gradients, both real torchvision backbones, a complete small training/acquisition/selection study, no validation leakage during tuning, idempotent completion, saved-result tampering, and bitwise recovery of model/optimizer/controller state after interruption. `LAUNCHER_VALIDATION.json` records extraction and integrity tests plus mocked process orchestration. These are software checks, not scientific experiment outcomes. The engine performs actual CUDA validation during preflight; the optional launcher checks that `tmux` is available.
 
 The worker verifies saved logits against metrics and archived hashes before completion. Source, protocol, runtime, and dataset identities are bound to the run. Full checkpoints, acquisition indices, per-step logs, and per-seed outputs are retained. Reproducibility is scoped to this frozen software/hardware environment; CPU test success does not guarantee identical numerical results on a GPU.
 

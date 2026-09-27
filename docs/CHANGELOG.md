@@ -1,13 +1,8 @@
-# 2026-09-27 — Code and reproducibility documentation
+# Documentation and release notes
 
-- Refocused the root README on software, run instructions, analysis, and campaign status.
-- Added a pinned IBM run guide covering monitoring, launch, resume, and report collection.
-- Removed article files, journal templates, compiled graphics, and editorial preparation records from the current tree.
-- Preserved result plotting code and numeric inputs under `analysis/plots/`; converted historical provenance into Markdown.
-- Added repository-scope guidance and ignore rules for article preparation files.
-- Preserved the active feedback launcher's exact code, protocol, validation records, and hashes. No server execution or restart is part of this update.
+## Reproducibility documentation
 
-Earlier entries below describe historical software development and plans, not proof that every configured experiment was executed.
+The repository provides standalone CPU analysis, L40S deployment instructions, a campaign-to-source map, numerical plotting tools, and source/environment provenance. Experiment definitions and runtime dependencies are versioned independently of documentation. Historical plan descriptions below record supported software configurations, not completion evidence for every plan.
 
 # v5.2 — IBM Cloud L40S completion and scalable ImageNet campaign
 
@@ -51,7 +46,7 @@ Execution evidence remains a hard gate: the official AutoAttack path, CUDA tests
   stages (data preparation, AudioCaps acquisition) never take GPU capacity. Plans without
   `depends_on` keep their sequential semantics (smoke plans unchanged). Gates, interruption passes,
   retries and report refreshes are unchanged; tests in `tests/test_runner_gate.py`.
-* **`configs/plans/franklin_complete_8gpu.yaml`** — everything the manuscript needs in one run
+* **`configs/plans/franklin_complete_8gpu.yaml`** — the complete configured multi-task workload
   (538 jobs, ≈ 975 H100-h ≈ 5.1 days on 8× H100): ImageNet-1K ResNet-50 × 6 seeds with 14 arms
   (+ margin, Power-Margin, BALD-MC, random + MACC-Lite over the reviewed list) and full supervision,
   ViT-B/16 × 3 seeds twice (MAE-init, scratch), sanity + overhead, CIFAR-10/100, ImageNet-100, C4,

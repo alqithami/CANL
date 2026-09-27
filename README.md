@@ -1,36 +1,31 @@
 # CÆNL: Collapse-Based Active Neural Learning
 
-Research software, experiment configurations, run instructions, and numerical records for CAENL. The repository supports running experiments and reproducing their analysis. Manuscripts, journal templates, editorial correspondence, and submission packages are maintained separately.
+CAENL provides implementations of active-learning acquisition, representation regularization, and feedback control, together with experiment configurations and numerical analysis tools.
 
-## Start here
+## Choose a workflow
 
-| Task | Instructions |
+| Goal | Entry point |
 |---|---|
-| Check the ongoing IBM feedback study | [IBM run guide](docs/RUN_ON_IBM.md#check-an-existing-run) |
-| Start or resume the frozen GPU campaign | [IBM run guide](docs/RUN_ON_IBM.md) |
-| Inspect the experimental design and analysis rules | [Feedback study protocol](experiments/caenl_feedback_study_v1/README.md) |
-| Recompute statistics from completed numeric exports | [CPU analysis below](#reproduce-existing-results-on-cpu) |
-| Rebuild result plots locally | [Plotting instructions](analysis/plots/README.md) |
-| Find earlier experiment implementations | [Experiment map](docs/REPRODUCIBILITY.md) |
-| Understand provenance and replication limits | [Verification scope](docs/PROVENANCE.md) |
+| Recompute statistics from released numerical records | [CPU analysis](#reproduce-statistics-on-cpu) |
+| Run the ImageNet-100 feedback comparison on an L40S host | [GPU deployment guide](docs/RUN_ON_IBM.md) |
+| Inspect methods, seed sets, and statistical comparisons | [Feedback study protocol](experiments/caenl_feedback_study_v1/README.md) |
+| Rebuild numerical result plots | [Plotting guide](analysis/plots/README.md) |
+| Find classification, language, diffusion, or audio experiments | [Experiment map](docs/REPRODUCIBILITY.md) |
+| Check data provenance and reproducibility boundaries | [Verification scope](docs/PROVENANCE.md) |
 
-## Current GPU campaign
+## Obtain the code
 
-`caenl-feedback-study-v1` compares unchanged MACC-Lite with independently selected fixed-strength and predetermined-schedule controls, followed by ResNet-18 transfer on the same ImageNet-100 dataset.
+```bash
+git clone https://github.com/alqithami/CANL.git
+cd CANL
+git rev-parse HEAD
+```
 
-| Stage | Backbone | Seeds | Method runs |
-|---|---|---|---:|
-| Control selection | ResNet-50 | 41001–41003 | 24 |
-| Confirmation | ResNet-50 | 42001–42010 | 40 |
-| Architecture transfer | ResNet-18 | 43001–43010 | 40 |
+Record the commit used for each experiment. Use a fixed checkout throughout a run and when resuming its checkpoints. The feedback-study engine and self-contained launcher have a reference release at commit `65df044feaf3bb6604416b1011ede5ea3b2a36ed`.
 
-The full campaign has 104 method runs, 23 shared initializations, and 520 post-initialization phases. It was reported running on IBM; a completed result report has not yet been added. The table describes the planned workload, not completed results.
+## Reproduce statistics on CPU
 
-The active release is pinned to commit `65df044feaf3bb6604416b1011ede5ea3b2a36ed`. The launcher and engine remain byte-identical to that release. Repository documentation updates do not update the running server process. Use the status command in the run guide; no restart, reinstall, or repository pull is needed for an existing run.
-
-## Reproduce existing results on CPU
-
-Use a separate local environment with Python 3.12. From the repository root:
+With Python 3.12, run from the repository root:
 
 ```bash
 python3 -m venv .venv-analysis
@@ -39,19 +34,34 @@ python3 -m pip install -r analysis/requirements.txt
 python3 analysis/reproduce.py --output reproduced-results
 ```
 
-Use a new output directory. This verifies input hashes and reconstructs 39 paired contrasts, the declared separate Holm families, means and sample standard deviations, 108 learning-curve rows, and 216 geometry rows. It uses the completed records in `results/2026-09-26/`; it does not incorporate the ongoing feedback study, retrain models, or regenerate raw predictions.
+The output directory must be new. The script verifies input hashes and reconstructs 39 paired contrasts, their declared Holm families, means and sample standard deviations, 108 learning-curve rows, and 216 geometry rows. Results are written as CSV and JSON files, including `VERIFICATION.json`.
+
+This workflow uses the records in `results/2026-09-26/`. It reproduces exported-record arithmetic, without retraining models or regenerating predictions. The feedback-study design is a separate experiment and is not part of that result snapshot.
+
+## GPU feedback experiment
+
+The feedback study compares MACC-Lite with entropy acquisition alone, a selected fixed regularization strength, and a selected predetermined schedule. Control selection uses training holdouts; confirmation uses disjoint seeds. Selected settings are transferred from ResNet-50 to ResNet-18 on ImageNet-100.
+
+| Stage | Backbone | Seeds | Method runs |
+|---|---|---|---:|
+| Control selection | ResNet-50 | 41001–41003 | 24 |
+| Confirmation | ResNet-50 | 42001–42010 | 40 |
+| Architecture transfer | ResNet-18 | 43001–43010 | 40 |
+
+The protocol specifies 104 method runs, 23 shared initializations, and 520 post-initialization phases. Allow several days on one L40S and approximately 160 GiB of free result storage initially. These counts define the experiment; they do not report completed outcomes.
+
+The [deployment guide](docs/RUN_ON_IBM.md) describes dependencies, the dataset contract, preflight checks, execution, checkpoint recovery, and output files. The released runner enforces its L40S/CUDA environment and filesystem layout. Other hardware or dataset layouts require a separately validated adaptation.
 
 ## Repository layout
 
-- `experiments/caenl_feedback_study_v1/`: self-contained IBM launcher, frozen engine and protocol, software validation records.
-- `experiments/caenl_aligned_imagenet100_v1/`: earlier aligned-classification implementation and run instructions.
-- `experiments/caenl-*/`: completed follow-up campaign runners and available engines.
-- `experiments/spectral_source_snapshot/`: recorded project source used with later spectral wrappers.
-- `src/caenl/`, `configs/`, `scripts/`, `tests/`: historical pipeline, configurations, utilities, and tests.
+- `experiments/`: campaign-specific implementations, protocols, and validation records.
+- `src/caenl/`: the v5.4.3 pipeline and task implementations.
+- `configs/`, `scripts/`, `tests/`: plans, execution utilities, and software tests.
 - `analysis/`: statistical reconstruction and plotting code.
-- `results/2026-09-26/`: numeric exports from completed earlier campaigns.
-- `provenance/`, `archives/`: source identities, environment/protocol records, and an archived code package.
+- `results/2026-09-26/`: released numerical records.
+- `provenance/`: source identities, environment records, and protocol bindings.
+- `archives/`: an immutable historical code package.
 
-Historical plans include exploratory and unexecuted settings. Consult the experiment map before launching them. The IBM feedback launcher uses an existing prepared dataset and environment; it is not a general fresh-machine installer.
+Configuration files can describe planned or exploratory experiments as well as completed ones. Use the [experiment map](docs/REPRODUCIBILITY.md) to identify the corresponding implementation and available result records.
 
-Raw licensed datasets, reference-caption text, model weights, and credentials are not distributed here. Exact reconstruction of all historical AudioCaps initial states from seeds alone is not established. Third-party notices remain applicable; this update grants no new license. See [contribution and repository scope](CONTRIBUTING.md).
+Licensed datasets, reference-caption text, and model checkpoints must be obtained separately. Third-party notices remain applicable. See [contribution guidance](CONTRIBUTING.md) and [software citation metadata](CITATION.cff).

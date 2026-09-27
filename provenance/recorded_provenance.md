@@ -1,6 +1,6 @@
 # Recorded experiment provenance
 
-Source identities and verification boundaries from the completed historical campaign reports. These records do not describe outcomes of the ongoing feedback study.
+Source identities and verification boundaries from the completed historical campaign reports. The feedback-study protocol is separate from these recorded campaigns.
 
 ## Original classification
 
