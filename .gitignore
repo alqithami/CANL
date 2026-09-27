@@ -6,3 +6,30 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 .venv/
+.venv-*/
+reproduced-results*/
+
+# Article preparation is maintained outside this code repository.
+manuscript/
+submission/
+submission_package/
+editorial/
+*.tex
+*.bib
+*.cls
+*.sty
+*.pdf
+*.doc
+*.docx
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+CAENL_source*.zip
+CAENL_submission*.zip
+
+# Rebuild result graphics locally from analysis/plots/.
+analysis/plots/*.svg
+analysis/plots/*.png

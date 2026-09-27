@@ -1,3 +1,14 @@
+# 2026-09-27 — Code and reproducibility documentation
+
+- Refocused the root README on software, run instructions, analysis, and campaign status.
+- Added a pinned IBM run guide covering monitoring, launch, resume, and report collection.
+- Removed article files, journal templates, compiled graphics, and editorial preparation records from the current tree.
+- Preserved result plotting code and numeric inputs under `analysis/plots/`; converted historical provenance into Markdown.
+- Added repository-scope guidance and ignore rules for article preparation files.
+- Preserved the active feedback launcher's exact code, protocol, validation records, and hashes. No server execution or restart is part of this update.
+
+Earlier entries below describe historical software development and plans, not proof that every configured experiment was executed.
+
 # v5.2 — IBM Cloud L40S completion and scalable ImageNet campaign
 
 - Added a dedicated IBM Cloud path for `gx3-24x120x1l40s` with strict checks for one L40S, visible GPU memory, NVIDIA driver, PyTorch CUDA runtime, CPU count, and host RAM.

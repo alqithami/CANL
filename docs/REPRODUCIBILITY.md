@@ -1,6 +1,18 @@
 # Reproducibility and experiment map
 
-The main entry point for the paper's numerical evidence is `analysis/reproduce.py`. It reads only the public numeric records in `results/2026-09-26/`; NumPy/SciPy requirements and exact steps are in the root README. No GPU is used.
+The main entry point for the completed numerical exports is `analysis/reproduce.py`. It reads only the public numeric records in `results/2026-09-26/`; NumPy/SciPy requirements and exact steps are in the root README. No GPU is used.
+
+## Ongoing feedback study
+
+The current campaign is `caenl-feedback-study-v1`: 24 control-selection runs on ResNet-50, 40 fresh-seed confirmation runs on ResNet-50, and 40 transfer runs on ResNet-18. Its 23 seed-specific initializations are shared within each seed. This is the planned matrix; a completed report has not yet been added.
+
+- [Launch, monitor, resume, and collect results on IBM](RUN_ON_IBM.md).
+- [Frozen method definitions and statistical protocol](../experiments/caenl_feedback_study_v1/README.md).
+- [Source, protocol, and resume code](../experiments/caenl_feedback_study_v1/engine/).
+
+The active release is pinned to `65df044feaf3bb6604416b1011ede5ea3b2a36ed`. Its source files and checksums remain unchanged. The CPU analysis below reads earlier completed records only; it must not be interpreted as an analysis of the ongoing campaign.
+
+## Completed campaigns
 
 | Study | Executed formulation | Source location | Numeric record |
 |---|---|---|---|
@@ -14,6 +26,10 @@ The main entry point for the paper's numerical evidence is `analysis/reproduce.p
 
 All numeric record paths above are under `results/2026-09-26/`. `reported_contrasts.json` preserves the original comparison values, names and endpoint families, rather than silently pooling follow-ups. C4 perplexity is the exponential of NLL; it is not an independent primary outcome. Six diffusion references represent sampling variation of one pretrained model.
 
-Training sources are preserved for inspection and reuse with the original dataset permissions and resolved environments. They are not a claim of a newly tested clean-machine GPU reproduction. The archived runner comments and manifests identify campaign-specific paths and prerequisites. Do not run every historical configuration as though it were a paper result. Original classification instructions are in its experiment directory; C4 instructions remain in the historical runbook; diffusion/audio protocol and environment JSONs are under `provenance/protocols/`.
+Training sources are preserved for inspection and reuse with the original dataset permissions and resolved environments. They are not a claim of a newly tested clean-machine GPU reproduction. The archived runner comments and manifests identify campaign-specific paths and prerequisites. Do not run every historical configuration as though it were a completed experiment. Original classification instructions are in its experiment directory; C4 instructions remain in the historical runbook; diffusion/audio protocol and environment JSONs are under `provenance/protocols/`.
 
 `analysis/VERIFICATION.json` records the completed public-record reconstruction. Individual 95% paired-t intervals are unadjusted. Paired-t and exact sign-flip tests are Holm-adjusted separately within the declared endpoint families. With six pairs, exact-test resolution materially limits rejection after adjustment.
+
+## Local result plots
+
+[Plotting code and instructions](../analysis/plots/README.md) rebuild the existing numerical visualizations from their recorded data. The generated graphics remain local. No article source or PDF is required to run either the statistical or plotting code.
