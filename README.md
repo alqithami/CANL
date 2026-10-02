@@ -9,6 +9,7 @@ CAENL provides implementations of active-learning acquisition, representation re
 | Recompute statistics from released numerical records | [CPU analysis](#reproduce-statistics-on-cpu) |
 | Run the ImageNet-100 feedback comparison on an L40S host | [GPU deployment guide](docs/RUN_ON_IBM.md) |
 | Inspect methods, seed sets, and statistical comparisons | [Feedback study protocol](experiments/caenl_feedback_study_v1/README.md) |
+| Export saved predictions, controller traces, and training records | [Evidence export guide](docs/FEEDBACK_EVIDENCE_EXPORT.md) |
 | Rebuild numerical result plots | [Plotting guide](analysis/plots/README.md) |
 | Find classification, language, diffusion, or audio experiments | [Experiment map](docs/REPRODUCIBILITY.md) |
 | Check data provenance and reproducibility boundaries | [Verification scope](docs/PROVENANCE.md) |
@@ -58,6 +59,7 @@ The [deployment guide](docs/RUN_ON_IBM.md) describes dependencies, the dataset c
 - `src/caenl/`: the v5.4.3 pipeline and task implementations.
 - `configs/`, `scripts/`, `tests/`: plans, execution utilities, and software tests.
 - `analysis/`: statistical reconstruction and plotting code.
+- `tools/`: saved-evidence export utilities.
 - `results/2026-09-26/`: released numerical records.
 - `provenance/`: source identities, environment records, and protocol bindings.
 - `archives/`: an immutable historical code package.
