@@ -1,0 +1,201 @@
+{
+  "format": "caenl-feedback-numerical-records-v1",
+  "campaign_binding": "ae404ae3af4e41283f26da1fa354f788bb68c9f543f833f8e4e74a68fc5ea76c",
+  "launcher_commit": "65df044feaf3bb6604416b1011ede5ea3b2a36ed",
+  "original_report_sha256": "51f1bc9f6df0b06deb0cd28f53102c036486cb6af38553dc1b4e8e776845fe95",
+  "evidence_manifest_sha256": "5696c65a196fb203211928a5f4187012fc7127fc2988c24cf78fe1ee2eab593c",
+  "completed_method_runs": 104,
+  "shared_initializations": 23,
+  "postinitial_phases": 520,
+  "optimizer_steps": 4155880,
+  "primary_validation_n": 5000,
+  "sensitivity_validation_n": 4995,
+  "excluded_validation_indices": [
+    114,
+    125,
+    476,
+    939,
+    1793
+  ],
+  "index_basis": "Zero-based indices in the frozen image manifest, not filenames.",
+  "cross_split_duplicates": [
+    {
+      "sha256": "b665487ad6d743cd621cc6a51fdf38a90b5c1d08e9ae21ea38795625c1ae67c2",
+      "train_index": 22370,
+      "train_class_id": 17,
+      "validation_index": 939,
+      "validation_class_id": 18
+    },
+    {
+      "sha256": "c4d3f0e9a3fe87c586f4925319ac0541413f709e950c83ea8f19c2ef648c9a6b",
+      "train_index": 11169,
+      "train_class_id": 8,
+      "validation_index": 476,
+      "validation_class_id": 9
+    },
+    {
+      "sha256": "d22b096450a1a72384e24344baf8beaae83060977cb42236b323edfc606a95bb",
+      "train_index": 3993,
+      "train_class_id": 3,
+      "validation_index": 125,
+      "validation_class_id": 2
+    },
+    {
+      "sha256": "e3f539ed8b60a898c458b7ad026fc6d934200ef6dfe909bff7627d201fd48ac1",
+      "train_index": 4876,
+      "train_class_id": 3,
+      "validation_index": 114,
+      "validation_class_id": 2
+    },
+    {
+      "sha256": "fb4bed05ed42a84c24affbf3428fa7a2565319e7207f27a6d3d3722d7e03cd51",
+      "train_index": 82034,
+      "train_class_id": 64,
+      "validation_index": 1793,
+      "validation_class_id": 35
+    }
+  ],
+  "within_training_duplicate_pairs": 51,
+  "within_training_cross_label_pairs": 43,
+  "verification_scope": "Final prediction metrics reconstructed from 184 native NPZ files; exported hashes, splits, acquisitions, 543 step traces and controller arithmetic inspected. Earlier learning curves use verified phase summaries. Image bytes and checkpoint inference were not independently rerun. The server export reports checkpoint-hash verification. Evaluation-time duplicate exclusion does not undo training exposure.",
+  "tuning_ranking": [
+    {
+      "name": "fixed_0p003",
+      "family": "fixed",
+      "accuracy": 0.7540810953133228,
+      "ce": 0.9762121518957843
+    },
+    {
+      "name": "fixed_0p010",
+      "family": "fixed",
+      "accuracy": 0.756187467087941,
+      "ce": 0.9547864222412316
+    },
+    {
+      "name": "fixed_0p030",
+      "family": "fixed",
+      "accuracy": 0.7519747235387046,
+      "ce": 0.9629773343335524
+    },
+    {
+      "name": "fixed_0p100",
+      "family": "fixed",
+      "accuracy": 0.7656661400737231,
+      "ce": 0.8856390743579556
+    },
+    {
+      "name": "linear_up_0p03",
+      "family": "schedule",
+      "accuracy": 0.7556608741442864,
+      "ce": 0.9795379398390867
+    },
+    {
+      "name": "linear_up_0p10",
+      "family": "schedule",
+      "accuracy": 0.7593470247498683,
+      "ce": 0.9359711572189733
+    },
+    {
+      "name": "linear_down_0p03",
+      "family": "schedule",
+      "accuracy": 0.7482885729331227,
+      "ce": 0.969140232279817
+    },
+    {
+      "name": "linear_down_0p10",
+      "family": "schedule",
+      "accuracy": 0.764612954186414,
+      "ce": 0.9481015815187495
+    }
+  ],
+  "runtime": {
+    "mean_train_plus_acquisition_hours": [
+      {
+        "stage": "confirmation",
+        "method": "entropy",
+        "train_plus_acquisition_hours": 1.6260262082268795
+      },
+      {
+        "stage": "confirmation",
+        "method": "lite",
+        "train_plus_acquisition_hours": 1.6692718071037285
+      },
+      {
+        "stage": "confirmation",
+        "method": "tuned_fixed",
+        "train_plus_acquisition_hours": 1.6740368132012793
+      },
+      {
+        "stage": "confirmation",
+        "method": "tuned_schedule",
+        "train_plus_acquisition_hours": 1.6736253133272339
+      },
+      {
+        "stage": "transfer",
+        "method": "entropy",
+        "train_plus_acquisition_hours": 0.7590614974141742
+      },
+      {
+        "stage": "transfer",
+        "method": "lite",
+        "train_plus_acquisition_hours": 0.7603291860501178
+      },
+      {
+        "stage": "transfer",
+        "method": "tuned_fixed",
+        "train_plus_acquisition_hours": 0.7637409451159959
+      },
+      {
+        "stage": "transfer",
+        "method": "tuned_schedule",
+        "train_plus_acquisition_hours": 0.7622500071095095
+      },
+      {
+        "stage": "tuning",
+        "method": "fixed_0p003",
+        "train_plus_acquisition_hours": 1.6591229774275174
+      },
+      {
+        "stage": "tuning",
+        "method": "fixed_0p010",
+        "train_plus_acquisition_hours": 1.6453613715322206
+      },
+      {
+        "stage": "tuning",
+        "method": "fixed_0p030",
+        "train_plus_acquisition_hours": 1.6581342317646852
+      },
+      {
+        "stage": "tuning",
+        "method": "fixed_0p100",
+        "train_plus_acquisition_hours": 1.6536565283192666
+      },
+      {
+        "stage": "tuning",
+        "method": "linear_down_0p03",
+        "train_plus_acquisition_hours": 1.6534063573429982
+      },
+      {
+        "stage": "tuning",
+        "method": "linear_down_0p10",
+        "train_plus_acquisition_hours": 1.6416307211325816
+      },
+      {
+        "stage": "tuning",
+        "method": "linear_up_0p03",
+        "train_plus_acquisition_hours": 1.6585608870881023
+      },
+      {
+        "stage": "tuning",
+        "method": "linear_up_0p10",
+        "train_plus_acquisition_hours": 1.64889984529155
+      }
+    ],
+    "tuning_total_train_plus_acquisition_hours": 39.65631875969677,
+    "initialization_training_hours_by_stage": {
+      "tuning": 0.41082118469290435,
+      "confirmation": 1.3684776433236483,
+      "transfer": 0.6383632558729085
+    }
+  }
+}

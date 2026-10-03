@@ -1,0 +1,10 @@
+{
+  "controller_mean_windows.csv": "f4608498f5a72f3a38fdd20e33e435db647c501ea69f4ffcfd3dc4901f25bebf",
+  "duplicate_exclusion_per_seed.csv": "5775038d7f99489743b6c9b50e1522f930169b38fae782261b38267635050a60",
+  "learning_curves.csv": "34c79985f8c7c8ddd3b791ce90d5be168cbe9ff06abd9318061ac7a37a62254b",
+  "primary_contrasts.csv": "c7331695a47f3b14e351ea4055f6de8cc9f717a61332a1796e06fb40c1130fdb",
+  "provenance.json": "8a0ae77bf84554774a38d983427e4b5c177f2f4aa2d283aed9efd28c6fc1ae6c",
+  "reconstructed_evaluations.json": "a3bd5467b917d7f1e56bc9f47d75f0dab1e39d28217c8907821c124da89c642e",
+  "sensitivity_contrasts.csv": "a0d5ddd9d88999f7d88ce5b3cb7dca2def7ae88f92b47f7cde24f035d71d9de6",
+  "trace_diagnostics.csv": "4bf572ba9eacbcca3cdae4e86c83214d44f2d83351625c87bbdb1bc67f54f394"
+}
