@@ -1,0 +1,18 @@
+{
+  "format": "caenl-released-source-provenance-v1",
+  "study": "caenl-c4-confirmatory-v2-holdout-v1",
+  "retrieved_on": "2026-10-12",
+  "source_files": {
+    "run_c4_holdout_eval.py": "73e2f88f943b88656aebd1a7e9fe9b4d97905471837e4b6976d37163fa07afa5",
+    "start_c4_holdout_tmux.sh": "9817a45ee6fab58bea27a1ca4bec9e4b05253e1a0a75d14116639a51826aee13",
+    "status_c4_holdout.sh": "2884921e76eb3e8ebc2606510b377bc1028d36f5f291c7050d96f1145bbe0606"
+  },
+  "historical_evaluator_identity": {
+    "record": "caenl-c4-confirmatory-v2-holdout-v1/METADATA.json",
+    "metadata_sha256": "4ac7e1b9eb8b01cbd11a7f22543a8647eb03dd712fb62ec83bdfd8c0e4c9b685",
+    "generated_at": "2026-09-09T00:30:25.542781+00:00",
+    "script_sha256": "73e2f88f943b88656aebd1a7e9fe9b4d97905471837e4b6976d37163fa07afa5",
+    "released_evaluator_matches": true
+  },
+  "verification_scope": "Evaluator bytes match the script digest in the completed historical evaluation metadata. Shell-wrapper hashes identify recovered server copies; separate historical execution-time wrapper hashes are unavailable. Reader-facing documentation is distinct from this executable-source identity. Source correspondence is not an independent checkpoint-inference replay."
+}

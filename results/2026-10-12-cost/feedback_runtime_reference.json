@@ -1,0 +1,90 @@
+{
+  "mean_train_plus_acquisition_hours": [
+    {
+      "stage": "confirmation",
+      "method": "entropy",
+      "train_plus_acquisition_hours": 1.6260262082268795
+    },
+    {
+      "stage": "confirmation",
+      "method": "lite",
+      "train_plus_acquisition_hours": 1.6692718071037285
+    },
+    {
+      "stage": "confirmation",
+      "method": "tuned_fixed",
+      "train_plus_acquisition_hours": 1.6740368132012793
+    },
+    {
+      "stage": "confirmation",
+      "method": "tuned_schedule",
+      "train_plus_acquisition_hours": 1.6736253133272339
+    },
+    {
+      "stage": "transfer",
+      "method": "entropy",
+      "train_plus_acquisition_hours": 0.7590614974141742
+    },
+    {
+      "stage": "transfer",
+      "method": "lite",
+      "train_plus_acquisition_hours": 0.7603291860501178
+    },
+    {
+      "stage": "transfer",
+      "method": "tuned_fixed",
+      "train_plus_acquisition_hours": 0.7637409451159959
+    },
+    {
+      "stage": "transfer",
+      "method": "tuned_schedule",
+      "train_plus_acquisition_hours": 0.7622500071095095
+    },
+    {
+      "stage": "tuning",
+      "method": "fixed_0p003",
+      "train_plus_acquisition_hours": 1.6591229774275174
+    },
+    {
+      "stage": "tuning",
+      "method": "fixed_0p010",
+      "train_plus_acquisition_hours": 1.6453613715322206
+    },
+    {
+      "stage": "tuning",
+      "method": "fixed_0p030",
+      "train_plus_acquisition_hours": 1.6581342317646852
+    },
+    {
+      "stage": "tuning",
+      "method": "fixed_0p100",
+      "train_plus_acquisition_hours": 1.6536565283192666
+    },
+    {
+      "stage": "tuning",
+      "method": "linear_down_0p03",
+      "train_plus_acquisition_hours": 1.6534063573429982
+    },
+    {
+      "stage": "tuning",
+      "method": "linear_down_0p10",
+      "train_plus_acquisition_hours": 1.6416307211325816
+    },
+    {
+      "stage": "tuning",
+      "method": "linear_up_0p03",
+      "train_plus_acquisition_hours": 1.6585608870881023
+    },
+    {
+      "stage": "tuning",
+      "method": "linear_up_0p10",
+      "train_plus_acquisition_hours": 1.64889984529155
+    }
+  ],
+  "tuning_total_train_plus_acquisition_hours": 39.65631875969677,
+  "initialization_training_hours_by_stage": {
+    "tuning": 0.41082118469290435,
+    "confirmation": 1.3684776433236483,
+    "transfer": 0.6383632558729085
+  }
+}

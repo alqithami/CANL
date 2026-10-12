@@ -1,0 +1,15 @@
+{
+  "format": "caenl-released-source-provenance-v1",
+  "study": "caenl-c4-overhead-v2",
+  "retrieved_on": "2026-10-12",
+  "source_files": {
+    "run_c4_overhead.py": "cc7e247c26b7f05eec66e11705eaacd35951cf635b9a724e641a9206cc1bf7b1",
+    "start_c4_overhead_tmux.sh": "fd64bcd8b085eceeecdb437209b04e4f7a24c975064d674f8a337a2ed1eab4a4",
+    "status_c4_overhead.sh": "bea74d0a86406543fcafdfeebd7641904275a1462026768261c4cf1f2d82db6d"
+  },
+  "historical_execution_source_digest_available": false,
+  "historical_execution_source_match_established": false,
+  "released_numeric_snapshot": "results/2026-10-12-cost/",
+  "recorded_modes": ["plain", "monitor_only"],
+  "verification_scope": "Executable bytes are identical to the recovered server source copies. The historical result export supplies configuration and measured records but no execution-time source digest. Release hashes do not establish that these exact bytes produced the historical measurements. Reader-facing documentation is distinct from the executable-source identity."
+}

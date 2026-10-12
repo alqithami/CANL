@@ -18,17 +18,35 @@ The engine checks the hardware, CUDA build, mount point, and result path. The re
 
 ## Python environment
 
-Create a separate environment for a new deployment. The following Python 3.12 environment combines the prescribed CUDA packages with the non-PyTorch versions recorded in the supplied CPU validation:
+The completed feedback campaign records Python 3.11.7, PyTorch 2.6.0+cu124,
+torchvision 0.21.0+cu124, NumPy 2.4.4, SciPy 1.17.1, and Pillow 12.3.0.
+Use its `INPUT_BINDING.json` as the runtime reference. For a separate new
+deployment, begin with the matching Python 3.11 environment:
 
 ```bash
-python3.12 -m venv .venv-feedback
+python3.11 -m venv .venv-feedback
 . .venv-feedback/bin/activate
 python -m pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
-python -m pip install numpy==2.5.2 scipy==1.17.0 Pillow==12.3.0
+python -m pip install numpy==2.4.4 scipy==1.17.1 Pillow==12.3.0
 python -m pip check
 ```
 
-The PyTorch wheel combination follows the [official PyTorch 2.6 installation instructions](https://pytorch.org/get-started/previous-versions/#v260). The CPU validation is not a complete GPU environment lock: a new host must pass the CUDA preflight below. To reproduce a specific archived run, match its `INPUT_BINDING.json` environment and dependency record instead. Keep the environment fixed after the first preflight; resume checks bind it to the run.
+The PyTorch wheel combination follows the [official PyTorch 2.6 installation instructions](https://pytorch.org/get-started/previous-versions/#v260). Package versions alone are not a complete GPU environment lock: a new host must pass the CUDA preflight below. Match the archived run's `INPUT_BINDING.json` environment and dependency record when repeating that run. Keep the environment fixed after the first preflight; resume checks bind it to the run. CPU-only numerical reconstruction is a separate environment and does not define the GPU runtime.
+
+Before preflight, create a private writable temporary directory on a filesystem
+with sufficient space for multiprocessing:
+
+```bash
+mkdir -p /mnt/caenl/active/runtime-tmp
+chmod 700 /mnt/caenl/active/runtime-tmp
+export TMPDIR=/mnt/caenl/active/runtime-tmp
+df -h /mnt/caenl "$TMPDIR"
+df -i /mnt/caenl "$TMPDIR"
+```
+
+Retain this runtime setting when resuming the same deployment. A full system
+temporary filesystem can prevent PyTorch DataLoader workers from sharing
+file descriptors even when the result volume has free space.
 
 ## Dataset contract
 

@@ -1,0 +1,24 @@
+{
+  "model": "gpt2",
+  "repeats": 5,
+  "warmup_steps": 25,
+  "measure_steps": 250,
+  "seq_len": 1024,
+  "micro_batch": 2,
+  "grad_accum": 4,
+  "monitor_cadence": 25,
+  "sample_tokens": 128,
+  "max_rank": 64,
+  "lr": 5e-05,
+  "seed": 20260909,
+  "effective_batch_tokens": 8192,
+  "modes": [
+    "plain",
+    "monitor_only"
+  ],
+  "gpu": "NVIDIA L40S",
+  "torch_version": "2.6.0+cu124",
+  "cuda_runtime": "12.4",
+  "benchmark_scope": "Controlled compute benchmark; model/data initialization and untimed warm-up excluded.",
+  "c4_shard_size_bytes": 319308785
+}

@@ -1,0 +1,27 @@
+{
+  "format": "caenl-cost-records-v1",
+  "feedback_campaign_binding": "ae404ae3af4e41283f26da1fa354f788bb68c9f543f833f8e4e74a68fc5ea76c",
+  "feedback_report_sha256": "51f1bc9f6df0b06deb0cd28f53102c036486cb6af38553dc1b4e8e776845fe95",
+  "feedback_evidence_manifest_sha256": "5696c65a196fb203211928a5f4187012fc7127fc2988c24cf78fe1ee2eab593c",
+  "original_export_sha256": {
+    "feedback/runtime.csv": "0465b6f89d8a68b5454d7356f9e37aeb022e4edace65c3cafbe44eb9118e54d0",
+    "feedback/initial_summaries.json": "22f31dcf1f7fc6307fdfe093463502368897eda19bdc2a44078c9a96dc6d34a0",
+    "feedback/provenance.json": "8a0ae77bf84554774a38d983427e4b5c177f2f4aa2d283aed9efd28c6fc1ae6c",
+    "c4/overhead/raw_runs.csv": "cecfb85022bb033299391c2a8d65400717eb0ba7408a93ea556cf2e8ead86df8",
+    "c4/overhead/config.json": "a4079801c715ffdb704353b24c949c7e985a75388a1cf84f127963e84b4e90de",
+    "c4/overhead/summary.json": "faac333b694bba9523af1802d70b93c5d3df46a0feab02641d5a1e501b8294db",
+    "c4/production/all_finished_jobs.csv": "8734a863571828225510c01a6cca5e280668f2816addf35e8676785057fae5f1",
+    "c4/production/training_loop_projection.json": "f0f5da5521c81b4810e4fed0684792f08f74fd1495c97d07871383c81d164903"
+  },
+  "projection": {
+    "feedback_runtime.csv": "Byte-identical copy of the 104-row native timing export.",
+    "feedback_initializations.json": "Byte-identical copy of all 23 shared-initialization summaries.",
+    "feedback_runtime_reference.json": "Runtime object copied from the released feedback provenance.",
+    "c4_microbenchmark_raw.csv": "Byte-identical copy of all 10 raw paired timing observations.",
+    "c4_microbenchmark_config.json": "Configuration preserved except three deployment paths.",
+    "c4_microbenchmark_reference.json": "Grouped statistics and notes copied from the original summary.",
+    "c4_production_jobs.csv": "All 24 language_c4 records; scalar timing and model fields retained, deployment paths removed. Aggregate and data-preparation rows excluded.",
+    "c4_training_loop.json": "Direct scalar projection of all 24 completed per-seed summary.json records: compute.train_time_s, matching task-job wall_time_s, seeds, steps, tokens, and individual source-summary digests. Reference means and training-loop ratios accompany the rows."
+  },
+  "scope": "Completed timing observations only. CPU arithmetic reconstruction does not repeat training, benchmark timing, or model inference."
+}

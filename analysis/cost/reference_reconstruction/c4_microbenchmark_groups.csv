@@ -1,0 +1,3 @@
+mode,n_repeats,elapsed_seconds_mean,elapsed_seconds_sd,tokens_per_second_mean,tokens_per_second_sd,peak_allocated_gib_mean,peak_allocated_gib_sd,peak_reserved_gib_mean,peak_reserved_gib_sd,paired_time_increase_pct_mean,paired_time_increase_pct_sd
+plain,5,33.529250892996785,0.04292596352917277,61081.074962089566,78.25155501731011,3.837895393371582,0.0,4.33984375,0.0,0.0,0.0
+monitor_only,5,33.763299618288876,0.07305903061133541,60657.805885354035,131.30322533496573,3.926939678192139,0.0005023864288689578,4.37109375,0.0,0.6980003512624622,0.14150774707176522

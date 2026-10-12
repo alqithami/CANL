@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "caenl-revision"
 version = "5.4.3"
-description = "CAENL Franklin Open major-revision experiment pipeline (standalone, single-GPU, file-logged, resumable)"
+description = "CAENL experiment pipeline for representation regularization and active learning (single-GPU, file-logged, resumable)"
 requires-python = ">=3.10"
 dependencies = [
   "numpy>=1.26",

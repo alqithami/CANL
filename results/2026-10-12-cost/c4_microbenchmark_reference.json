@@ -1,0 +1,36 @@
+{
+  "status": "complete",
+  "completed_at": "20260909T130903Z",
+  "grouped": [
+    {
+      "mode": "plain",
+      "repeats": 5,
+      "elapsed_mean_s": 33.529250892996785,
+      "elapsed_std_s": 0.04292596352917278,
+      "tokens_per_second_mean": 61081.07496208956,
+      "tokens_per_second_std": 78.25155501731011,
+      "peak_allocated_gib_mean": 3.837895393371582,
+      "peak_allocated_gib_std": 0.0,
+      "overhead_vs_plain_mean_pct": 0.0,
+      "overhead_vs_plain_std_pct": 0.0
+    },
+    {
+      "mode": "monitor_only",
+      "repeats": 5,
+      "elapsed_mean_s": 33.763299618288876,
+      "elapsed_std_s": 0.07305903061133541,
+      "tokens_per_second_mean": 60657.805885354035,
+      "tokens_per_second_std": 131.30322533496573,
+      "peak_allocated_gib_mean": 3.926939678192139,
+      "peak_allocated_gib_std": 0.0005023864288689578,
+      "overhead_vs_plain_mean_pct": 0.6980003512624622,
+      "overhead_vs_plain_std_pct": 0.14150774707176522
+    }
+  ],
+  "notes": [
+    "This is a controlled timing benchmark, not a performance run.",
+    "Both modes use the same fixed C4 token tensors and effective batch.",
+    "Mode order is randomized independently within each paired repeat.",
+    "The measured interval excludes model loading and warm-up."
+  ]
+}

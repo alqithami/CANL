@@ -1,0 +1,4 @@
+stage,method_runs,shared_initializations,postinitial_phase_plus_acquisition_hours,shared_initialization_phase_hours,recorded_total_hours
+tuning,24,3,39.65631875969677,0.41082118469290435,40.067139944389666
+confirmation,40,10,66.4296014185912,1.3684776433236483,67.79807906191486
+transfer,40,10,30.453816356897974,0.6383632558729085,31.092179612770884

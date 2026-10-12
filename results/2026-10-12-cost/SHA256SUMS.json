@@ -1,0 +1,11 @@
+{
+  "c4_microbenchmark_config.json": "18120960349793a8282a02f2c6e0a0788c7e81050e29e94e2f7f91c215b7ddbc",
+  "c4_microbenchmark_raw.csv": "cecfb85022bb033299391c2a8d65400717eb0ba7408a93ea556cf2e8ead86df8",
+  "c4_microbenchmark_reference.json": "83261e0e1257f08b7887a8b85b6d5d2bd3e52f3c297c503f126c919d1f11f08c",
+  "c4_production_jobs.csv": "6b28ed2f74b646165f9140f7cb9ca8ed1120f61508e6a6b9bd5ac84fb4da217d",
+  "c4_training_loop.json": "f0f5da5521c81b4810e4fed0684792f08f74fd1495c97d07871383c81d164903",
+  "feedback_initializations.json": "22f31dcf1f7fc6307fdfe093463502368897eda19bdc2a44078c9a96dc6d34a0",
+  "feedback_runtime.csv": "0465b6f89d8a68b5454d7356f9e37aeb022e4edace65c3cafbe44eb9118e54d0",
+  "feedback_runtime_reference.json": "5bab1e29b915cb5464c90c478773d6c37f26fc173a22b3cdf5e3192ebffe6ca1",
+  "provenance.json": "887558374f2b5b986599803f804d23e3b666584f58cc9111e7499a657fef301d"
+}
