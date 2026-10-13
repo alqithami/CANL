@@ -1,0 +1,23 @@
+{
+  "LAUNCH_AND_SHARE.txt": "1de4815ba6e276f2ac3aa323551016e74b50167380bbe0ae4ead383ff42575e4",
+  "PROTOCOL.txt": "9e92ec0319f3db940db544ebb3b1790e2e5c885f3f96c0f7b2ecbe768141c1c3",
+  "README.txt": "5ee2aba7b31e33b423368a2bcd1239426c7d5d3fc84589739d813fce8d7ba7b6",
+  "SOURCE_PROVENANCE.json": "8e278992951e3ce06d7d114dbbd237015491c0b174341feb0546dc20633690fe",
+  "caenl_solidification_v1.py": "361b0a09d2956b11b61694f582252226920707889112eb44b58481a45828081f",
+  "engine/acquisition.py": "c6b8538083c44d4679ba5e3db7fef3ea72fe1cc603d78891c199a28f99a49264",
+  "engine/aligned.py": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+  "engine/analysis.py": "1f5e5863896479566c7f0dadbec36725f5b9f30cd4d1f0200dd86f623f1c6306",
+  "engine/checkpoint_replay.py": "f35a91e68c61fa3460c251f54b9503b3c07be20a77338cda64df79239478f65e",
+  "engine/contrastive.py": "831eef5352ec31a44aa4282813622ba4841890bb33cff2183c07ffdc9b315992",
+  "engine/control.py": "0ac59901e866317f8feac03d2bba22adfdfd93478a4f31ce9ce9ae05e0e5d183",
+  "engine/data_audit.py": "3c4681ddf11663ea940cfef1b9633751f906f4abac827c5908820e0680082024",
+  "engine/evaluation.py": "a992249469d83a97b984d71e768170441c0198f533183ebef9acc42acdbcccce",
+  "engine/protocol.json": "dc316b03ad6b9b01facc2358cd70894b75bb3f87241cb2551405807a2f6a09c4",
+  "engine/runner.py": "d256470a89cf9c3c640e115639b4fa6b332b28451ea5e8a1f0df6db15ac10f94",
+  "engine/self_test.py": "a14a0663df9afab21d4007cf3b2fe242c643dabd78657344d700d1f3c2774055",
+  "engine/study.py": "5e2a384e7c46db7dcbbad777e0a2f4071cc47cbcee8381c1293b7087a8524659",
+  "engine/support.py": "fc799010dd31c96c41b600d755d38d72a471c5817439742bfbf4bb9b308fdbbf",
+  "engine/training.py": "3543441378b3ead0045be2b94422a8b7a833ed4e1872bebddb0394f33794cfcd",
+  "engine/vendor/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "engine/vendor/controllers.py": "9e5fb0237e49643a9a2e8b24077a5b9f1cfd81487be298aa549d432a5345b88e"
+}

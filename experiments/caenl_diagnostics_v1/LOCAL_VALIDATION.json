@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "specification_date": "2026-10-11",
+  "python": "3.12.14",
+  "torch": "2.6.0+cpu",
+  "cuda_available": false,
+  "cpu_contract_tests": 26,
+  "synthetic_complete_robustness_matrix": {
+    "models": 30,
+    "suites": 150,
+    "uses_real_AutoAttack": false,
+    "scientific_results": false
+  },
+  "checks": [
+    "original-versus-streamlined DCR loss/gradient parity",
+    "fixed and Lite update parity under monitoring changes",
+    "full paired seed/endpoint integration",
+    "sparse float64 sufficient-moment parity",
+    "attack dtype/suite/threat contract",
+    "verified chunk resume and tamper rejection",
+    "completion/blocked/missing-worker gates",
+    "source integrity and package evidence manifests",
+    "same-clean-correct denominator and outcome groups"
+  ],
+  "not_locally_verified": [
+    "real torchvision ResNet execution",
+    "real CUDA AutoAttack efficacy or duration",
+    "production ImageNet byte inventory",
+    "GPU memory or microbenchmark timing"
+  ],
+  "server_preflight": "Checks original runtime/source/dataset/checkpoints, reruns CPU contracts and real ResNet input-gradient/fixed-loss-gradient parity before evaluations."
+}

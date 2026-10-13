@@ -37,7 +37,7 @@ Training sources are preserved for inspection and reuse with the original datase
 
 The later feedback study uses ten pairs for each confirmation/transfer contrast and one declared six-contrast family. Its sensitivity analysis excludes the same five duplicate-content validation images across all treatments; it does not alter the primary 5,000-image endpoint or undo training exposure. Its separate [analysis guide](../analysis/feedback/README.md) documents those boundaries.
 
-The 206-method solidification study and separate robustness diagnostics are ongoing and have no completed findings in these snapshots. Their partial outputs do not contribute to the statistical or cost reconstruction.
+The 206-method solidification study and separate robustness diagnostics are ongoing and have no completed findings in these snapshots. Their [source, fixed protocols, deployment and source-identity boundaries](PENDING_CAMPAIGNS.md) are available. Their partial outputs do not contribute to the statistical or cost reconstruction.
 
 ## Local result plots
 

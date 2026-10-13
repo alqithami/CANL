@@ -4,8 +4,8 @@ title: "CÆNL: Collapse-Based Active Neural Learning (research software)"
 authors:
   - family-names: Alqithami
     given-names: Saad
-    orcid: "https://orcid.org/0000-0002-2111-3456"
-version: "2026-10-12"
-date-released: "2026-10-12"
+    email: "alqithami@gmail.com"
+version: "2026-10-13"
+date-released: "2026-10-13"
 url: "https://github.com/alqithami/CANL"
 type: software

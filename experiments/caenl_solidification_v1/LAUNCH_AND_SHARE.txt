@@ -1,0 +1,23 @@
+CÆNL public deployment workflow
+
+Read ../../docs/PENDING_CAMPAIGNS.md before deployment. Required archived
+inputs must exist at the protocol's expected locations and pass its hashes.
+Never overwrite an active or resumable campaign's installation.
+
+On a compatible new GPU host, from the repository root:
+cp -R experiments/caenl_solidification_v1 "$HOME/CAENL_solidification_v1"
+cd "$HOME/CAENL_solidification_v1"
+sha256sum -c SHA256SUMS
+python3 -B caenl_solidification_v1.py --self-test
+python3 -B caenl_solidification_v1.py --start
+
+Status: python3 -B "$HOME/CAENL_solidification_v1/caenl_solidification_v1.py" --status
+Log: tail -n 40 -f /mnt/caenl/active/results/caenl-solidification-v1/run.log
+Ctrl+C stops the log viewer only. The campaign is finite: 206 method runs.
+Resume the unchanged installation with --start after its previous worker exits.
+
+Review: /mnt/caenl/active/results/caenl-solidification-v1/review/CAENL_SOLIDIFICATION_REVIEW.zip
+Verify the adjacent .sha256 file on Linux with sha256sum -c or macOS with
+shasum -a 256 -c. Transfer both files through your configured SSH host.
+Inspect RESULTS.json and all planned contrasts before interpreting findings.
+A COMPLETE flag alone does not establish scientific success.

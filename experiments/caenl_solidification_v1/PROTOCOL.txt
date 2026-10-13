@@ -1,0 +1,173 @@
+CAENL solidification v1 — frozen before new scientific results
+3 October 2026
+
+PURPOSE
+Address specific, fixable classification limitations: reconstruct final outputs
+from original checkpoints; eliminate known exact-content overlap prospectively;
+repeat the main control comparisons; identify component effects conditional on
+a common acquired-label sequence; add a matched representation-loss comparator
+and a 100%-annotation control with the same optimizer-step budget.
+This campaign does not promise an adaptive advantage. Every planned outcome is
+retained. No optional stopping, selective seed replacement or post-hoc retuning.
+
+STAGES AND COUNTS
+A. CPU contracts, real GPU contract steps, and original-checkpoint replay.
+   Original replay: 104 final checkpoints, 104 holdouts, 80 official evaluations.
+   No original scientific run is retrained or modified. A replay mismatch stops
+   the new training campaign and preserves a diagnostic archive.
+B. Byte-integrity and decoded-RGB image audit, frozen content filtering.
+C. Selection: ResNet-50 seeds 61001–61003, 12 candidates each = 36 method runs.
+D. Confirmation: ResNet-50 seeds 62001–62010, six end-to-end conditions and five
+   common-label replay conditions each = 110 method runs.
+E. Transfer: ResNet-18 seeds 63001–63010, the six end-to-end conditions = 60 runs.
+Total: 206 method runs, 23 independent shared initializations, 1,030 subsequent
+training phases. Exact step counts are derived from cleaned dataset size and
+recorded in DERIVED_PROTOCOL.json and RESULTS.json before their interpretation.
+Tiny CPU fixtures and GPU contract steps are checks, never scientific runs.
+
+DATA AND LABEL POLICY
+Use only the already archived ImageNet-100 images. Check every byte hash against
+the original frozen manifest. Also compute SHA-256 over decoded RGB dimensions
+and pixel bytes, detecting exact pixel copies with different file encodings.
+For an identity group with conflicting class labels, exclude EVERY member.
+For a group spanning original training and validation, exclude EVERY member.
+For same-label duplicates within one split, retain only the lexicographically
+first path. Apply this fixed rule before creating ANY new seed partition.
+Do not move, relabel, rewrite or delete original images. Record all exclusions,
+identities and original-index mappings. Verify that retained identities are unique.
+Check standard synset filename prefixes where available against folder names;
+an unresolved mismatch among retained images blocks training for inspection.
+This is an internal consistency check, not upstream image authentication.
+
+Benchmark-provided labels are used for conflict detection during dataset curation.
+The annotation budget measures simulated acquisition after that common curation;
+it does not include the cost of obtaining or verifying the original benchmark
+labels. All methods use the same frozen curated pool and evaluation set.
+Decoded equality does not detect every perceptual near-duplicate. Cleaning and
+fresh seeds do not turn this previously studied benchmark into a new unseen one.
+
+COMMON TRAINING PROTOCOL
+Retain the earlier audited optimizer, class-balanced 16 x 8 batches, transforms,
+ResNet models, frozen post-initialization BatchNorm statistics, warm starts with
+momentum, 40 initial epochs and 20 nominal epochs per acquisition phase.
+Nominal epochs mean ceil(training-count / 128) sampled batches, not a permutation.
+Initial labels = floor(cleaned training size / 10); each of five acquisitions
+adds the same count. Feedback holdout = floor(initial labels / 20), included in
+the annotation budget and excluded from gradient training and future queries.
+Shared initialization is trained anew for each new seed. No old checkpoint seeds
+or trained model weights are used to initialize the new experiments.
+Calibration targets, initial optimizer state and data partitions are shared
+within each seed. Final scheduled checkpoints are used, never best-validation
+checkpoints. Tuning never performs official validation inference.
+
+SELECTION AND COMPARATORS
+Fixed aligned DCR strengths: 0.003, 0.01, 0.03, 0.10.
+Open-loop schedules: linear up/down, each with peak 0.03 or 0.10.
+Contrastive-feature strengths: 0.003, 0.01, 0.03, 0.10.
+Each of these families receives four candidates x three selection seeds.
+Choose one per family by mean final training-holdout top-1; ties within 1e-12
+use lower mean holdout CE, then candidate name. Freeze the full ranking before
+confirmation. A boundary winner is only best within this grid, not globally optimal.
+MACC-Lite retains its previous settings: initial 0.03, cap 0.10, smoothing 0.20,
+Huber scale 0.25. It receives no new tuning; no tuning-cost advantage is inferred.
+All selected settings transfer unchanged to ResNet-18.
+
+Six end-to-end conditions:
+  entropy; tuned_fixed; tuned_schedule; lite; tuned_supcon; full_labels.
+The first five retain the original entropy acquisition implementation. The
+full_labels control annotates the entire cleaned training pool after the common
+initial phase; the same feedback holdout stays outside gradient batches. Its
+post-initialization step counts and learning-rate schedule match the AL phases.
+It is a controlled, compute-matched reference, not a separately optimized
+full-supervision model trained to convergence. Its nominal epoch count therefore
+refers to the AL step budget, not passes over all full-label training images.
+
+CONTRASTIVE-FEATURE OBJECTIVE
+Use the supervised contrastive positive-pair log-probability form in Khosla et al.,
+NeurIPS 2020, Eq. (2), averaged over anchors. Normalize each layer's feature vectors;
+temperature 0.1; exclude self-pairs from numerator and denominator. Every anchor
+has seven same-class partners in the balanced batch. Average the losses across
+layer3 and layer4, multiply by the selected coefficient, and add to cross entropy.
+There is one augmented view per example and no projection head. This is a matched
+feature-regularizer comparison, not a reproduction of the paper's two-view,
+projection-head, two-stage training recipe. No general ranking over that recipe
+will be asserted from this experiment.
+Primary source:
+https://proceedings.neurips.cc/paper_files/paper/2020/file/d89a66c7c80a29b1bdbab0f2a1a94af8-Paper.pdf
+
+COMMON-LABEL COMPONENT STUDY
+For each ResNet-50 confirmation seed, the entropy-only condition supplies the
+entire five-round acquired-label sequence. Reuse its baseline result as the
+neither-component cell, then train five new conditions from that SAME initial
+checkpoint on precisely that sequence:
+  replay_ratio: selected fixed scatter strength, no separation safeguard;
+  replay_separation: zero scatter coefficient, separation weight 0.01;
+  replay_fixed: both components, selected fixed strength;
+  replay_lite: both components, frozen feedback rule;
+  replay_schedule: both components, selected open-loop schedule.
+The first four cells, including entropy, form the 2 x 2 component design.
+Replay preserves holdout, labeled sets, batch IDs and augmentation seeds. The
+code checks per-phase batch-chain equality against the entropy donor. It reuses
+labels, not another model's features or gradients. Fixed strength is selected
+for the full objective; ablations estimate removal effects under that setting,
+not independently optimized performance of every reduced objective.
+These effects are conditional on an entropy-generated acquisition sequence.
+The end-to-end conditions separately estimate full pipeline effects when label
+sequences are allowed to diverge. They answer different questions.
+
+ANALYSIS
+Primary endpoint: final official-validation top-1 on the cleaned validation set.
+Pair by seed within backbone; training seeds, not images, are inferential units.
+One predefined family of 17 contrasts, with Holm correction separately for paired
+Student t and exact two-sided sign-flip tests:
+  For each backbone: lite minus entropy, tuned_fixed, tuned_schedule,
+                    tuned_supcon and full_labels (10 contrasts total).
+  On shared labels: ratio minus entropy; separation minus entropy;
+                    fixed minus ratio; fixed minus separation;
+                    lite minus fixed; schedule minus fixed (six contrasts).
+  Factorial interaction: fixed - ratio - separation + entropy (one contrast).
+Report means, seed SDs, paired differences, individual unadjusted 95% paired-t
+intervals, both raw tests and both Holm-adjusted tests. Adjusted inference is
+withheld until the complete family and all 206 runs are available.
+Ten seeds provide exact-test resolution but do not guarantee power. Small-sample
+t assumptions and sign-exchangeability assumptions remain. This new family does
+not supply programme-wide error control over earlier sequential development.
+No equivalence/non-inferiority margin is chosen after looking at outcomes.
+No automatic 40% label-saving claim follows from a nonsignificant difference to
+the full-label control. Curves, CE, ECE, geometry and cost are secondary records.
+
+VERIFICATION AND STORAGE
+Source, runtime, cleaned manifest, derived protocol and outputs are hash-bound.
+Every new final portable FP32 model is reloaded and evaluated before method
+completion. Fresh logits, predictions, metrics and class moments are compared
+with phase outputs. Numerical tolerances match the supplied checkpoint verifier.
+Inference code is reused; NumPy provides separate metric/moment arithmetic.
+This does not constitute an independent model implementation or raw-data authenticity proof.
+
+Only optimizer checkpoints created INSIDE THIS NEW RESULT TREE are pruned:
+a previous round's state after its verified successor completes; the last state
+after its portable final model, inference replay and method completion are saved.
+Shared initialization states, final model weights, every training trace,
+controller trajectory, selection, candidate record, and evaluation array remain.
+Original experiment checkpoints, datasets and outputs are never removed.
+Checksummed pruning receipts document which optimizer-state bytes are no longer
+retained. Do not describe a receipt as a new rehash of deleted checkpoint bytes.
+Resume requires unchanged source and input bindings. It uses the latest retained
+state and does not repeat completed method training.
+
+RESOURCES AND EXPECTATIONS
+Target the existing NVIDIA L40S and matching archived Python/CUDA environment.
+No dependency installation, weight download or dataset download on the server.
+Plan around two weeks on that single GPU, based on the earlier six-day campaign;
+this is an approximate planning estimate, not a measured completion guarantee.
+Start with about 64 GiB free on the result filesystem. The requirement decreases
+with completed methods. No automatic deletion of old work is performed.
+Audit reports remain available if space prevents training from starting.
+
+WHAT THIS DOES NOT CLOSE
+No second classification dataset, ViT/ImageNet-1K study, new adversarial training,
+new C4/diffusion/audio optimization, perceptual near-duplicate guarantee, or
+universal convergence/generalization theorem. A read-only inventory of named
+audio initialization candidates and existing initialization records is included;
+it does not itself resolve seed-only initialization nondeterminism or prove that
+all accepted tensor states are recoverable. These boundaries remain explicit.

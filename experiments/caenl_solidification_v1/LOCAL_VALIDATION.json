@@ -1,0 +1,25 @@
+{
+  "cpu_integration": "PASS",
+  "cpu_checks": 36,
+  "tiny_fixture_method_runs": 37,
+  "tiny_fixture_inferential_contrasts": 17,
+  "real_cpu_backbones": [
+    "ResNet-50",
+    "ResNet-18"
+  ],
+  "training_resume": "bitwise model and batch-chain match; optimizer momentum retained",
+  "completed_resume": "no backward calls after completed run, including after optimizer-state pruning",
+  "new_gpu_campaign": "NOT_EXECUTED",
+  "server_gpu_preflight": "required before scientific training",
+  "scientific_results_added": 0,
+  "log_sha256": "9726b2d74c1904c8c096cd01818b30e2fa29456386435bd0b5caacb713e09f16",
+  "packaging_checks": [
+    "release source manifest verified",
+    "independent evidence ZIPs and internal SHA-256 manifests",
+    "diagnostic review ZIP works without completed training",
+    "source tampering rejected",
+    "all Python source parses"
+  ],
+  "torch_test_runtime": "2.6.0+cpu; torchvision 0.21.0+cpu",
+  "note": "Redundant repeated verification calls were removed after the integration run. The exact delivered source is checked again by the server CPU preflight."
+}

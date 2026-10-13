@@ -1,0 +1,165 @@
+{
+  "campaign": "caenl-solidification-v1",
+  "role": "content-disjoint replication and component isolation",
+  "dataset_root": "/mnt/caenl/persistent/datasets/imagenet100_cmc",
+  "result_root": "/mnt/caenl/active/results/caenl-solidification-v1",
+  "expected_image_manifest_sha256": "0ba19db4a9d1aeb633d1339a5f9ec11f55dc219d884a266bb4d805eca8d6dc1f",
+  "expected_class_list_sha256": "5ee5db69d488bb799a286d8e181801c3d02798776c1ce9203e5450f64e086e07",
+  "expected_train_count": 126689,
+  "expected_val_count": 5000,
+  "num_classes": 100,
+  "initial_labels": 12669,
+  "holdout_count": 633,
+  "acquisition_per_round": 12669,
+  "rounds": 5,
+  "initial_epochs": 40,
+  "round_epochs": 20,
+  "batch_classes": 16,
+  "samples_per_class": 8,
+  "lr_initial": 0.05,
+  "lr_round": 0.025,
+  "warmup_initial_epochs": 3,
+  "warmup_round_epochs": 1,
+  "momentum": 0.9,
+  "nesterov": true,
+  "weight_decay": 0.0001,
+  "clip_grad_norm": 5.0,
+  "batchnorm": "update during shared initial training; freeze running statistics during all five AL rounds in every method",
+  "workers": 8,
+  "eval_workers": 4,
+  "eval_batch": 64,
+  "image_size": 224,
+  "resize": 256,
+  "precision": "bf16_autocast_fp32_parameters; full_precision_reporting_and_attacks",
+  "layers": [
+    "layer3",
+    "layer4"
+  ],
+  "control_interval": 100,
+  "calibration_batches": 16,
+  "training_ema_beta": 0.05,
+  "alignment": {
+    "target_kappa_factor": 0.9,
+    "between_floor_factor": 0.5,
+    "scatter_epsilon": 1e-06,
+    "feature_norm_epsilon": 1e-06,
+    "huber_delta": 0.25,
+    "floor_weight": 0.01
+  },
+  "lambda_initial": 0.03,
+  "lambda_fixed": 0.03,
+  "lambda_max": 0.1,
+  "lite_smoothing": 0.2,
+  "targets": "once per independent seed, after shared 40-epoch initial training, on fixed center-cropped 16x8 training anchors; shared by all methods; never tuned with official validation",
+  "acquisition": {
+    "candidate_size": 10000,
+    "per_pass_fraction": 0.1,
+    "quantile": 0.9,
+    "layer_weights": {
+      "layer3": 0.5,
+      "layer4": 0.5
+    },
+    "covariance": "fresh diagonal class covariance from currently labeled training images; shrinkage 1e-5",
+    "mahalanobis_shrinkage": 1e-05,
+    "noise_samples": 5,
+    "noise_scale": 0.001,
+    "badge": "exact factorized last-linear-weight gradient kernel; no random projection; bias excluded",
+    "noise_stability": "independent full-parameter Gaussian output-deviation implementation; five draws; exact concatenation/no projection; greedy k-center; not authors repository reproduction",
+    "full_macc_acquisition_head": false
+  },
+  "checkpoint_every_steps": 1000,
+  "checkpoint_each_epoch": true,
+  "new_adversarial_training": false,
+  "negative_results_are_valid": true,
+  "no_legacy_checkpoints_loaded": true,
+  "official_reporting": false,
+  "backbone": "resnet50",
+  "study": {
+    "tuning_seeds": [
+      61001,
+      61002,
+      61003
+    ],
+    "confirmation_seeds": [
+      62001,
+      62002,
+      62003,
+      62004,
+      62005,
+      62006,
+      62007,
+      62008,
+      62009,
+      62010
+    ],
+    "transfer_seeds": [
+      63001,
+      63002,
+      63003,
+      63004,
+      63005,
+      63006,
+      63007,
+      63008,
+      63009,
+      63010
+    ],
+    "fixed_coefficients": [
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ],
+    "schedule_shapes": [
+      "linear_up",
+      "linear_down"
+    ],
+    "schedule_peaks": [
+      0.03,
+      0.1
+    ],
+    "selection": "Highest mean final training-holdout top-1; ties within 1e-12 broken by lowest mean holdout CE, then candidate ID. One fixed and one schedule selected independently. All 24 tuning runs must finish first.",
+    "lite_frozen": {
+      "lambda_initial": 0.03,
+      "lambda_max": 0.1,
+      "smoothing": 0.2,
+      "huber_delta": 0.25
+    },
+    "alpha": 0.05,
+    "secondary_metrics": [
+      "cross_entropy",
+      "ece",
+      "top5_accuracy",
+      "mean_log_kappa",
+      "phase_duration"
+    ],
+    "schedule_progress": "Global post-initialization optimizer-step fraction across all five phases; coefficients refresh at phase starts and nonterminal 100-step boundaries. No observation enters a schedule.",
+    "transfer": "ResNet-18; same selected R50 control settings and frozen Lite; new from-scratch seed-specific initialization, no retuning.",
+    "negative_outcomes": "Retained; no metric-dependent stopping or replacement of seeds.",
+    "practical_reference_pp": 0.5,
+    "supcon_coefficients": [
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ],
+    "expected_method_runs": 206,
+    "expected_initializations": 23,
+    "expected_postinitial_phases": 1030,
+    "primary_question": "Clean-content replication and decomposition of the classification pipeline effect; no guaranteed positive outcome",
+    "sample_size_rationale": "Ten paired confirmation seeds per backbone and ten paired mechanism seeds, fixed before new outcomes. This enables exact-test resolution for the 17-contrast family but is not a power guarantee.",
+    "multiplicity": "One Holm family of 17 predefined contrasts, separately for paired-t and exact sign-flip tests. No adjusted inference before all 206 runs complete.",
+    "supcon_description": "One-view supervised contrastive feature regularizer, temperature 0.1, averaged across layer3/layer4; no projection head. Matched feature-penalty comparison, not reproduction of original two-view SupCon training.",
+    "scope": "One previously used ImageNet-100 dataset, prospectively filtered for exact file and decoded-RGB content duplicates. New seeds, not a new untouched benchmark. No claim of unknown near-duplicate exclusion, upstream label authenticity, robustness or cross-task generalization.",
+    "pruning": "Only checkpoints created in this new result tree: retain shared initialization states and FP32 final model weights; discard superseded optimizer checkpoints after verified successor completion, preserving hash receipts and all traces/evaluations.",
+    "full_labels": "Same shared initialization and post-initialization optimizer step counts as AL; from round1 the entire cleaned training pool is annotated, with the same feedback holdout excluded from gradient batches. Not a separately optimized or convergence-trained full-supervision reference."
+  },
+  "data_policy": {
+    "identity": "SHA256 of decoded RGB dimensions and bytes; byte SHA256 also checked against original manifest",
+    "conflicting_labels": "quarantine every member",
+    "cross_split_identity": "quarantine every member",
+    "same_label_same_split_duplicates": "keep lexicographically first path only",
+    "near_duplicates": "not certified",
+    "budgets": "floor(clean_train_count/10) initial and per query round; floor(0.05*initial_labels) feedback images are included in annotation budget"
+  }
+}

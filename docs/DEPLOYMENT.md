@@ -102,3 +102,5 @@ file-transfer mechanism and keep the checksum with the archive.
 The ongoing 206-method solidification and 30-model/150-suite robustness
 diagnostic campaigns contribute no outcomes to the completed snapshots.
 Their findings require separate completion, verification and release.
+
+For the additional content-disjoint replication and checkpoint diagnostics, see [PENDING_CAMPAIGNS.md](PENDING_CAMPAIGNS.md). These public packages preserve scientific executable bytes but have newly bound public documentation; keep existing campaign installations unchanged when resuming.

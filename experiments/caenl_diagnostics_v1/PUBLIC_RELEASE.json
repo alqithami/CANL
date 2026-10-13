@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-13",
+  "status": "source_and_protocol_only; verified_completed_results_not_released",
+  "original_source_manifest_sha256": "9c26eb114a0e346505943bc4bba2012a9fa20739fbe92b1cb8d55e98681731b7",
+  "public_source_manifest_sha256": "bd33bb50f7e79fa655702fdd00fc7f6ca23047c3f4783e87cb92e5cb058560c4",
+  "unchanged_executable_and_protocol_sha256": {
+    "caenl_diagnostics_v1.py": "593cd84ca046b4e1023c4c72f3b3a9080b773d51b0d490f9a43e9221b9749443",
+    "common.py": "c8cfc6ee975cd0e139e664fa8aea10870d5f4c7644381554018c15e5bb2cb999",
+    "cost.py": "bae8733d0367e309912c3ba823549fd36c69a842efceac9e37314fe90d5ab386",
+    "protocol.json": "03381cffd3ba35afbbe937fee0bd01162c76e7b4b9a9c2c93a8077a9e631e98a",
+    "robust.py": "fc6267529d4cae28e2ee88058647cf58ba62103d3794735cb3f55427bd546a9a",
+    "test_cost.py": "3d6ab7fb19d12c0c981c05f87d61d606498c20188257d88332aef9953b0ed89d",
+    "test_launcher.py": "25e40086c7628750e80fa52a4283b536d019ebc507167d811d9ed1c9a8af1955",
+    "test_robust.py": "831d035edef1d2497a05092a8a307fd18fef2a3b33087295070e2d8dbefb1e42"
+  },
+  "changed_metadata_or_documentation": [
+    "CAMPAIGN_SOURCE_MANIFEST.json",
+    "README.md"
+  ],
+  "resume_boundary": "Public documentation changes alter full source identity. Do not install over an existing campaign; retain its original source and runtime for resume.",
+  "validation_boundary": "Original CPU fixture evidence is historical. This release verifies syntax, byte identities and metadata bindings; it does not claim a new GPU reproduction."
+}

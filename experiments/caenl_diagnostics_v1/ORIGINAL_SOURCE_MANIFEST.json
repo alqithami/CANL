@@ -1,0 +1,14 @@
+{
+  "CAMPAIGN_SOURCE_MANIFEST.json": "28b997e9bc28a106979334e5e854c8fc4de6b1ac710c1fb9fd84ed70dd93e070",
+  "LOCAL_VALIDATION.json": "f771eb91e0b10643fdc8be0d31c6fa8d032a62d0947fada0fb2be28f741a6b07",
+  "PROTOCOL.md": "8cb15ca20869555aeb4978a8caaccab95b792e0d1bc43e4ca259b61e10ad9e4c",
+  "README.md": "97a52149f5a20daa52d9be3023073bcca0f2719cd0af205f87b287a4e0ba6ff8",
+  "caenl_diagnostics_v1.py": "593cd84ca046b4e1023c4c72f3b3a9080b773d51b0d490f9a43e9221b9749443",
+  "common.py": "c8cfc6ee975cd0e139e664fa8aea10870d5f4c7644381554018c15e5bb2cb999",
+  "cost.py": "bae8733d0367e309912c3ba823549fd36c69a842efceac9e37314fe90d5ab386",
+  "protocol.json": "03381cffd3ba35afbbe937fee0bd01162c76e7b4b9a9c2c93a8077a9e631e98a",
+  "robust.py": "fc6267529d4cae28e2ee88058647cf58ba62103d3794735cb3f55427bd546a9a",
+  "test_cost.py": "3d6ab7fb19d12c0c981c05f87d61d606498c20188257d88332aef9953b0ed89d",
+  "test_launcher.py": "25e40086c7628750e80fa52a4283b536d019ebc507167d811d9ed1c9a8af1955",
+  "test_robust.py": "831d035edef1d2497a05092a8a307fd18fef2a3b33087295070e2d8dbefb1e42"
+}

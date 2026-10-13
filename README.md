@@ -1,4 +1,4 @@
-# CÆNL: Collapse-Based Active Neural Learning
+# CÆNL: Collapse-Based Active Neural Learning with Objective-Aligned Representation Control
 
 CAENL provides implementations of active-learning acquisition, representation regularization, and feedback control, together with experiment configurations and numerical analysis tools.
 
@@ -8,7 +8,7 @@ The released evidence includes 72 earlier ImageNet-100 classification runs, a la
 
 In the later classification comparison, MACC-Lite improves mean clean accuracy over entropy alone by 1.742 percentage points on ResNet-50 and 1.834 on ResNet-18. Selected fixed regularization has slightly higher mean accuracy than Lite on both backbones; their differences are inconclusive, so these results establish neither adaptive superiority nor equivalence. The earlier clean-geometry improvements do not establish adversarial robustness. The spectral extensions have mixed outcomes: a small fixed-regularization C4 NLL reduction, worse diffusion FID under regularization, and inconclusive AudioCaps differences. Negative and inconclusive outcomes are retained in the released records.
 
-The separate 206-method solidification study and robustness diagnostics are ongoing. Their partial outputs are excluded from the completed findings and numerical snapshots below.
+The separate 206-method solidification study and robustness diagnostics are ongoing. Their [implementations, fixed protocols and deployment instructions](docs/PENDING_CAMPAIGNS.md) are released separately. Their partial outputs are excluded from the completed findings and numerical snapshots below.
 
 ## Choose a workflow
 
@@ -18,6 +18,7 @@ The separate 206-method solidification study and robustness diagnostics are ongo
 | Recompute the completed feedback-study statistics and plots | [Feedback CPU analysis](analysis/feedback/README.md) |
 | Recompute the earlier numerical comparisons | [CPU analysis](#reproduce-statistics-on-cpu) |
 | Recompute feedback and C4 computation costs | [Cost CPU analysis](analysis/cost/README.md) |
+| Inspect or deploy the additional content-disjoint replication and checkpoint diagnostics | [Pending campaign protocols and deployment](docs/PENDING_CAMPAIGNS.md) |
 | Identify execution dependencies and required assets | [Deployment and asset map](docs/DEPLOYMENT.md) |
 | Run the ImageNet-100 feedback comparison on an L40S host | [GPU deployment guide](docs/RUN_ON_IBM.md) |
 | Inspect methods, seed sets, and statistical comparisons | [Feedback study protocol](experiments/caenl_feedback_study_v1/README.md) |
