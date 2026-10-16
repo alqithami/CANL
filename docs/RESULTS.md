@@ -2,7 +2,7 @@
 
 This page summarizes the completed experiments released with CÆNL. It covers classification, language modeling, diffusion generation, audio captioning, representation geometry, adversarial evaluation, and computational cost. Positive, negative, and inconclusive outcomes are retained. Numerical inputs, comparison families, and reconstruction code are linked below.
 
-The strongest classification evidence supports aligned representation regularization combined with entropy acquisition at the specified final annotation budget. The completed comparisons do **not** establish that adaptive feedback outperforms an independently tuned constant. The spectral formulation used for language, diffusion, and audio is a distinct objective, so its outcomes cannot be treated as tests of the aligned supervised classification objective.
+The strongest classification evidence supports the evaluated scatter-regularization intervention with entropy acquisition at the specified final annotation budget. Common-label replay now identifies a benefit from the scatter-ratio penalty conditional on the shared acquired-label sequence. The completed comparisons do **not** establish that adaptive feedback outperforms an independently tuned constant. The spectral formulation used for language, diffusion, and audio is a distinct objective, so its outcomes cannot be treated as tests of the aligned supervised classification objective.
 
 ## Records and statistical conventions
 
@@ -10,19 +10,84 @@ The strongest classification evidence supports aligned representation regulariza
 |---|---|---|
 | Earlier ImageNet-100 classification | 72 method–seed runs: 12 conditions × 6 paired seeds, 360 post-initialization phases | [Earlier snapshot](../results/2026-09-26/), [classification records](../results/2026-09-26/classification_per_seed.json) |
 | ImageNet-100 control selection, confirmation, and architecture transfer | 104 additional method runs, 23 shared initializations, 520 post-initialization phases: 24 tuning runs, 40 ResNet-50 confirmation runs, 40 ResNet-18 transfer runs | [Feedback snapshot](../results/2026-10-02-feedback/), [native-metric extracts](../results/2026-10-02-feedback/reconstructed_evaluations.json) |
+| Content-filtered ImageNet-100 replication and components | 206 method runs, 23 shared initializations, 1,030 subsequent phases: 36 selection, 110 ResNet-50 confirmation/component, 60 ResNet-18 transfer runs | [Numerical release and reconstruction](../results/caenl-solidification-v1/), [all endpoint records and 17 contrasts](../results/caenl-solidification-v1/RESULTS.json) |
 | GPT-2/C4 | 24 trained checkpoints: 4 conditions × 6 training seeds; the same checkpoints subsequently evaluated on another local validation shard | [C4 records](../results/2026-09-26/c4_per_seed.json) |
 | CIFAR-10 diffusion | 24 trained runs plus 6 sampling streams from one unchanged pretrained reference | [Diffusion records](../results/2026-09-26/diffusion_per_seed.json) |
 | AudioCaps captioning | 24 trained runs: 4 conditions × 6 training seeds | [Audio records](../results/2026-09-26/audio_per_seed.json) |
 
-Development screens, implementation checks, reused initializations, and a second evaluation of existing checkpoints are not additional independent confirmation seeds. The earlier classification study and the later 104-run study have separate seed sets and inferential families. They are not pooled.
+Development screens, implementation checks, reused initializations, and a second evaluation of existing checkpoints are not additional independent confirmation seeds. The 72-, 104- and 206-run classification studies have separate seed sets and inferential families. They are not pooled; the 206-run study also uses a separately filtered inventory.
 
 Throughout this page, `mean ± SD` denotes the sample standard deviation across training seeds. Effect intervals are individual, unadjusted 95% paired-t intervals. They are not simultaneous intervals. `Holm t` and `Holm exact` are separately multiplicity-adjusted paired-t and exhaustive sign-flip p-values within the specified family. Classification accuracy effects use percentage points (pp); ECE values use proportions unless otherwise stated. A nonsignificant comparison does not demonstrate equivalence or non-inferiority.
 
 With six pairs, the minimum two-sided exact sign-flip p-value is 0.03125. For a Holm family with at least two comparisons, no contrast can cross the first 0.05 threshold at this sample size. We retain the exact results alongside the paired-t results rather than treating either as interchangeable evidence. The ten-seed control study uses all 1,024 sign patterns and has finer resolution.
 
-The complete machine-readable comparison lists, including secondary C4 outcomes, are in [reported_contrasts.json](../results/2026-09-26/reported_contrasts.json). The later study releases [primary contrasts](../results/2026-10-02-feedback/primary_contrasts.csv) and [sensitivity contrasts](../results/2026-10-02-feedback/sensitivity_contrasts.csv).
+The earlier machine-readable comparison lists, including secondary C4 outcomes, are in [reported_contrasts.json](../results/2026-09-26/reported_contrasts.json). The 104-run study releases [primary contrasts](../results/2026-10-02-feedback/primary_contrasts.csv) and [sensitivity contrasts](../results/2026-10-02-feedback/sensitivity_contrasts.csv). The separate [206-run endpoint file](../results/caenl-solidification-v1/RESULTS.json) retains all 17 new contrasts and their raw/adjusted tests.
 
-## Classification: separately selected controls and architecture transfer
+## Classification: completed content-filtered replication and components
+
+The 206-method study filters exact content before new training and seed partitions. The fixed policy groups original file hashes and decoded-RGB identities, excludes every member of conflicting-label and cross-split groups, and retains one representative of same-label duplicates within a split. It excludes 104 images (99 training and five validation), retaining 126,590 training and 4,995 validation images. This is prospective exact-content filtering on a previously studied benchmark, not certification against perceptual near-duplicates or authentication of upstream images/labels. Benchmark labels used for common curation are outside the simulated acquisition budget.
+
+Each active-learning condition uses exactly 60% annotations: 75,954 labels including a 632-label feedback holdout, leaving 75,322 gradient-training images. Selection uses seeds 61001–61003: four fixed strengths, four schedules and four contrastive-feature strengths, for 36 runs. Each family is selected by mean training-holdout accuracy with cross-entropy and identifier tie-breaks; official validation is not used during selection. The selected fixed coefficient is 0.10, the schedule decreases from peak 0.10, and the contrastive coefficient is 0.10. These are choices within finite grids, not global optima. Frozen Lite settings and selected controls transfer without retuning.
+
+ResNet-50 seeds 62001–62010 supply 60 end-to-end and 50 common-label replay runs. ResNet-18 seeds 63001–63010 supply 60 end-to-end transfer runs. The experiment executes 23 shared initializations, 1,030 subsequent phases and 8,141,080 optimizer steps. Every condition shares its seed's initialization; each has 39,100 post-initialization steps. Final validation top-1 is primary; other endpoint measures below are descriptive.
+
+| Backbone | Treatment | Top-1 (%) | Cross-entropy | ECE | Top-5 (%) | Mean log scatter |
+|---|---|---:|---:|---:|---:|---:|
+| ResNet-50 | Entropy | 71.493 ± 0.542 | 1.144 ± 0.016 | 0.079 ± 0.003 | 90.875 ± 0.216 | 1.389 ± 0.011 |
+| ResNet-50 | Entropy + Lite | 73.393 ± 0.707 | 1.021 ± 0.021 | 0.055 ± 0.006 | 91.982 ± 0.333 | 0.499 ± 0.060 |
+| ResNet-50 | Entropy + tuned fixed | 73.546 ± 0.747 | 1.012 ± 0.018 | 0.055 ± 0.006 | 92.130 ± 0.208 | 0.355 ± 0.066 |
+| ResNet-50 | Entropy + schedule | 72.763 ± 0.808 | 1.056 ± 0.022 | 0.066 ± 0.006 | 91.784 ± 0.310 | 1.006 ± 0.033 |
+| ResNet-50 | Entropy + contrastive | 72.300 ± 0.777 | 1.093 ± 0.024 | 0.074 ± 0.005 | 91.369 ± 0.314 | 1.007 ± 0.031 |
+| ResNet-50 | Full labels, matched steps | 73.524 ± 0.606 | 0.992 ± 0.017 | 0.039 ± 0.004 | 92.012 ± 0.395 | 1.197 ± 0.017 |
+| ResNet-18 | Entropy | 71.540 ± 0.567 | 1.196 ± 0.023 | 0.095 ± 0.004 | 90.454 ± 0.409 | 1.165 ± 0.014 |
+| ResNet-18 | Entropy + Lite | 73.151 ± 0.557 | 1.090 ± 0.022 | 0.083 ± 0.005 | 91.508 ± 0.427 | 0.539 ± 0.026 |
+| ResNet-18 | Entropy + tuned fixed | 73.243 ± 0.410 | 1.086 ± 0.017 | 0.081 ± 0.004 | 91.495 ± 0.237 | 0.424 ± 0.023 |
+| ResNet-18 | Entropy + schedule | 72.871 ± 0.595 | 1.119 ± 0.021 | 0.084 ± 0.005 | 91.183 ± 0.385 | 0.816 ± 0.020 |
+| ResNet-18 | Entropy + contrastive | 72.282 ± 0.484 | 1.144 ± 0.020 | 0.090 ± 0.004 | 91.023 ± 0.192 | 0.839 ± 0.021 |
+| ResNet-18 | Full labels, matched steps | 74.819 ± 0.490 | 0.970 ± 0.018 | 0.052 ± 0.004 | 92.276 ± 0.319 | 0.997 ± 0.015 |
+
+Common-label replay holds entropy's acquired-label sequence, batches and augmentation streams constant. Ratio-only and separation-only conditions retain the strengths selected for the combined objective; they are removal comparisons, not independently tuned reduced objectives. The entropy row is reused as the donor and is not another training run.
+
+| ResNet-50 common-label intervention | Top-1 (%) |
+|---|---:|
+| No representation penalty (entropy donor) | 71.493 ± 0.542 |
+| Ratio only, fixed 0.10 | 73.614 ± 0.703 |
+| Separation only, weight 0.01 | 71.421 ± 0.587 |
+| Ratio + separation, fixed | 73.481 ± 0.812 |
+| Ratio + separation, Lite | 73.542 ± 0.785 |
+| Ratio + separation, schedule | 73.037 ± 0.828 |
+
+All 17 planned final-top-1 contrasts form one Holm family, applied separately to paired-t and exhaustive sign-flip tests. Each uses ten paired seeds. Intervals below are individual and unadjusted; interval exclusion alone does not establish adjusted significance. In replay rows, `fixed` means ratio plus separation at fixed strength. The interaction is fixed − ratio − separation + entropy.
+
+| Design | Target minus reference | Effect (pp) | 95% interval (pp) | Holm t | Holm exact |
+|---|---|---:|---|---:|---:|
+| ResNet-50 | Lite − entropy | +1.900 | [+1.536, +2.264] | 0.00001315 | 0.03320 |
+| ResNet-50 | Lite − tuned fixed | −0.152 | [−0.593, +0.289] | 1.0000 | 1.0000 |
+| ResNet-50 | Lite − schedule | +0.631 | [+0.196, +1.065] | 0.08543 | 0.15820 |
+| ResNet-50 | Lite − contrastive | +1.093 | [+0.691, +1.495] | 0.002030 | 0.04688 |
+| ResNet-50 | Lite − full labels | −0.130 | [−0.531, +0.270] | 1.0000 | 1.0000 |
+| ResNet-18 | Lite − entropy | +1.612 | [+1.247, +1.977] | 0.00005061 | 0.03320 |
+| ResNet-18 | Lite − tuned fixed | −0.092 | [−0.403, +0.219] | 1.0000 | 1.0000 |
+| ResNet-18 | Lite − schedule | +0.280 | [−0.152, +0.712] | 1.0000 | 1.0000 |
+| ResNet-18 | Lite − contrastive | +0.869 | [+0.428, +1.309] | 0.01731 | 0.04688 |
+| ResNet-18 | Lite − full labels | −1.668 | [−2.248, −1.087] | 0.001456 | 0.03320 |
+| R50 common labels | Ratio − entropy | +2.120 | [+1.783, +2.457] | 0.000003050 | 0.03320 |
+| R50 common labels | Separation − entropy | −0.072 | [−0.328, +0.183] | 1.0000 | 1.0000 |
+| R50 common labels | Fixed − ratio | −0.132 | [−0.437, +0.173] | 1.0000 | 1.0000 |
+| R50 common labels | Fixed − separation | +2.060 | [+1.672, +2.448] | 0.00001217 | 0.03320 |
+| R50 common labels | Lite − fixed | +0.060 | [−0.199, +0.320] | 1.0000 | 1.0000 |
+| R50 common labels | Schedule − fixed | −0.444 | [−0.730, −0.159] | 0.06514 | 0.11719 |
+| R50 common labels | Factorial interaction | −0.060 | [−0.524, +0.404] | 1.0000 | 1.0000 |
+
+The end-to-end gains over entropy survive both adjusted procedures on both backbones. The matched contrastive-feature comparison also favors Lite under both procedures, but uses one view, normalized layer3/layer4 features, temperature 0.1 and no projection head; it does not reproduce or establish general superiority over the original SupCon training recipe. Tuned fixed DCR has slightly higher mean accuracy than Lite on both backbones, and neither the adaptive-versus-fixed comparisons nor the common-label feedback increment establishes superiority, equivalence or non-inferiority.
+
+The common-label ratio-only benefit and fixed-both advantage over separation-only survive both corrections. Separation's increment, feedback's increment and the factorial interaction remain inconclusive. Acquisition-sequence differences cannot explain these replay comparisons, but the results do not establish geometric mediation, isolate normalization, or allocate all gains of freely evolving acquisition pipelines to one component.
+
+The full-label reference uses all 126,590 annotations after shared initialization with the same post-initialization optimizer-step budget; it is not separately optimized to convergence. ResNet-18 favors full labels, whereas ResNet-50 is inconclusive. Neither establishes an equal-performance 40% annotation saving. Geometry is also not a universal predictive ranking: full-label ResNet-18 has higher mean log scatter than Lite (0.997 versus 0.539) and higher accuracy (74.819% versus 73.151%). This is descriptive, not a mediation test.
+
+The [release guide](../results/caenl-solidification-v1/README.md) documents frozen inputs, data filtering, original archive identity, the normalized public export and separate checkpoint-replay scopes. Run its CPU reconstruction to inspect all endpoints and raw/adjusted tests. The separate robustness and practical-cost diagnostics remain pending; the 206-run clean-classification study supplies no new attack-radius or dedicated deployment-cost findings.
+
+## Classification: earlier 104-run selected controls and architecture transfer
 
 All four treatments use entropy acquisition on ImageNet-100. Control selection evaluates eight candidate fixed/scheduled settings using 633-example training holdouts on ResNet-50 seeds 41001–41003. Official validation is not evaluated during selection. The selected constant is 0.10; the selected schedule decreases linearly from peak 0.10. Selection is within the tested grid, not a global optimum. Their settings and MACC-Lite settings are frozen for ten ResNet-50 confirmation seeds 42001–42010 and ten ResNet-18 transfer seeds 43001–43010.
 
@@ -96,7 +161,7 @@ Each follow-up has its own two-contrast Holm family:
 | Fixed-strength follow-up | Entropy + fixed minus entropy | +0.800 | [+0.498, +1.102] | 0.001442 | 0.0625 |
 | Fixed-strength follow-up | Entropy + Lite minus entropy + fixed | +1.097 | [+0.714, +1.479] | 0.001442 | 0.0625 |
 
-These comparisons support favorable clean-accuracy directions for the aligned treatment under the specified controls, subject to the six-pair inference qualifications. The entropy-plus-fixed follow-up was specified after entropy and Lite outcomes were known and is not fresh-seed confirmation. Later acquisitions depend on model predictions and can differ between conditions: these comparisons assess complete active-learning pipelines, not a common-label causal decomposition. UHerding uses the documented fixed-feature/selection-domain adaptation, so this is not a claim about an unmodified external benchmark implementation. Full MACC is active but has no established additional benefit. Geometric acquisition alone is below entropy in mean accuracy. These completed experiments do not include an equal-performance full-supervision comparison establishing a 40% label saving.
+These comparisons support favorable clean-accuracy directions for the aligned treatment under the specified controls, subject to the six-pair inference qualifications. The entropy-plus-fixed follow-up was specified after entropy and Lite outcomes were known and is not fresh-seed confirmation. Later acquisitions depend on model predictions and can differ between conditions: these earlier comparisons assess complete active-learning pipelines, not a common-label causal decomposition. UHerding uses the documented fixed-feature/selection-domain adaptation, so this is not a claim about an unmodified external benchmark implementation. Full MACC is active but has no established additional benefit. Geometric acquisition alone is below entropy in mean accuracy. These earlier experiments do not include an equal-performance full-supervision comparison establishing a 40% label saving; the new matched-step reference above also does not establish such a saving.
 
 ## Geometry, feedback dynamics, and adversarial evaluation
 
@@ -208,9 +273,9 @@ Fixed DCR still computes the differentiable representation statistics used by it
 | Earlier classification synchronized training compute | Entropy 5,092.81 s; geometric + fixed 5,238.40 s; geometric + Lite 5,238.85 s; geometric + Full 5,240.13 s | Six-seed means including an allocated shared initialization; excludes later controller observation/policy operations, with feedback and acquisition separately timed |
 | Earlier entropy phase duration | Entropy 5,255.02 s; entropy + Lite 5,391.31 s: +136.29 s, or +2.59% | Sum of five post-initialization phases; sequential campaigns, not interleaved timing trials |
 | Earlier entropy phase peak allocation | 6,066,439,680 versus 6,066,701,824 bytes: +262,144 bytes (0.25 MiB) | PyTorch phase allocation, not isolated controller memory or total application memory |
-| Later control-selection cost | 39.66 h training plus acquisition for 24 candidates; 40.07 h including three shared initializations | Excludes final reporting and other unrecorded overhead; earlier Lite development is additional |
-| Later ResNet-50 per-run training plus acquisition | Entropy 1.626 h; Lite 1.669 h; fixed 1.674 h; schedule 1.674 h | Post-initialization mean; all paths record matched holdout/geometry measurements |
-| Later ResNet-18 per-run training plus acquisition | Entropy 0.759 h; Lite 0.760 h; fixed 0.764 h; schedule 0.762 h | Same research-monitoring boundary as ResNet-50 |
+| Earlier 104-run control-selection cost | 39.66 h training plus acquisition for 24 candidates; 40.07 h including three shared initializations | Excludes final reporting and other unrecorded overhead; earlier Lite development is additional |
+| Earlier 104-run ResNet-50 per-run training plus acquisition | Entropy 1.626 h; Lite 1.669 h; fixed 1.674 h; schedule 1.674 h | Post-initialization mean; all paths record matched holdout/geometry measurements |
+| Earlier 104-run ResNet-18 per-run training plus acquisition | Entropy 0.759 h; Lite 0.760 h; fixed 0.764 h; schedule 0.762 h | Same research-monitoring boundary as ResNet-50 |
 | GPT-2 microbenchmark | Plain 33.5293 ± 0.0429 s; sampled monitoring 33.7633 ± 0.0731 s; paired increase 0.698%, SD 0.142 pp; about +0.089 GiB allocation | Five randomized-order pairs of 250 measured steps after 25 warmup steps; excludes loading/initialization; BF16 parameters and batch/accumulation differ from production |
 | C4 production successful training-loop time | Baseline 2,332.71 s; fixed 2,516.53 s (+7.88%); Lite 2,511.91 s (+7.68%); Full 2,720.48 s (+16.62%) | Ratios of six-seed group mean successful training-loop times against the monitored baseline, with matched 12,207-step workloads |
 | C4 production task-job wall time | Baseline 2,395.42 s; fixed 2,542.26 s (+6.13%); Lite 2,537.28 s (+5.92%); Full 2,743.34 s (+14.52%) | Broader task-driver job boundary; ratios of group means against the monitored baseline; all six seeds retained |
@@ -227,9 +292,9 @@ When representative labeled feedback data allow coefficient selection, tuned fix
 
 ## Dataset sensitivity and verification boundaries
 
-The frozen ImageNet-100 manifest contains five exact training/validation SHA-256 matches with conflicting labels, 51 duplicate-content pairs within training, and 43 within-training conflicting-label pairs. Seven of the 23 later holdouts contain one or two examples duplicated elsewhere in training; no tuning holdout is affected. Index-disjoint splits therefore do not guarantee content-disjoint splits.
+The earlier studies' frozen ImageNet-100 manifest contains five exact training/validation SHA-256 matches with conflicting labels, 51 duplicate-content pairs within training, and 43 within-training conflicting-label pairs. Seven of the 23 feedback-study holdouts contain one or two examples duplicated elsewhere in training; no tuning holdout is affected. Index-disjoint splits therefore do not guarantee content-disjoint splits.
 
-The primary endpoint retains all 5,000 images. A post-hoc sensitivity analysis excludes the same five validation indices for every treatment, retaining 4,995. Lite-minus-entropy is +1.742/+1.836 pp on ResNet-50/ResNet-18, and Lite-minus-fixed is −0.188/−0.328 pp. All six adjusted-test decisions and selected controls remain unchanged. Evaluation-time exclusion does not undo training exposure or create a deduplicated training benchmark. The released [provenance](../results/2026-10-02-feedback/provenance.json) preserves the indices and overlap information.
+The earlier feedback study's primary endpoint retains all 5,000 images. A post-hoc sensitivity analysis excludes the same five validation indices for every treatment, retaining 4,995. Lite-minus-entropy is +1.742/+1.836 pp on ResNet-50/ResNet-18, and Lite-minus-fixed is −0.188/−0.328 pp. All six adjusted-test decisions and selected controls remain unchanged. Evaluation-time exclusion does not undo training exposure or create a deduplicated training benchmark. The released [provenance](../results/2026-10-02-feedback/provenance.json) preserves the indices and overlap information. The separate 206-run study instead applies its documented prospective exclusions before all new partitions and training.
 
 The public snapshots contain numerical metrics, comparisons, timing and trace summaries, source identities, and checksums. Licensed dataset bytes, large checkpoints, corpus/reference-caption text, generated images, and complete native prediction archives are not bundled. Statistical reconstruction checks released-record arithmetic and hashes; it is distinct from rerunning training or inference. The [provenance guide](PROVENANCE.md) documents upstream saved-array audits, source correspondence, and reproducibility limits, including accepted audio initial-state hashes without a guarantee that all corresponding binary states are publicly available.
 
@@ -245,9 +310,11 @@ python3 analysis/reproduce.py --output reproduced-results
 python3 -m pip install -r analysis/feedback/requirements.txt
 python3 analysis/feedback/reproduce.py --output reproduced-feedback
 python3 analysis/cost/reproduce.py --output reproduced-cost
+python3 results/caenl-solidification-v1/reconstruct_stats.py
 python3 analysis/feedback/plot.py --output feedback-plots
 ```
 
-The first reconstruction checks the earlier snapshot and rebuilds 39 declared paired contrasts, their families, means/SDs, learning curves, and geometry rows. The feedback reconstruction verifies its eight numerical inputs and rebuilds the six primary contrasts, duplicate-exclusion sensitivity, selection rankings, and verification output. The standard-library cost reconstruction verifies its released input hashes and rebuilds feedback stage allocation, paired C4 microbenchmark measurements, and production successful-loop/job timing summaries. Plots use measured curves and controller-window summaries. These workflows do not analyze unrelated campaign directories or count incomplete runs as findings.
+The first reconstruction checks the earlier snapshot and rebuilds 39 declared paired contrasts, their families, means/SDs, learning curves, and geometry rows. The feedback reconstruction verifies its eight numerical inputs and rebuilds the six primary contrasts, duplicate-exclusion sensitivity, selection rankings, and verification output. The standard-library cost reconstruction verifies its released input hashes and rebuilds feedback stage allocation, paired C4 microbenchmark measurements, and production successful-loop/job timing summaries. The separate solidification reconstruction checks 206 endpoint records, selections, counts and budgets, and rebuilds all 17 planned contrasts. Plots use measured curves and controller-window summaries. These workflows do not analyze unrelated campaign directories or count incomplete runs as findings.
 
 For training entry points and prerequisites, use the [experiment map](REPRODUCIBILITY.md), [GPU deployment guide](RUN_ON_IBM.md), [feedback analysis guide](../analysis/feedback/README.md), and [cost-analysis guide](../analysis/cost/README.md). Record the Git commit and resolved environment before execution; keep a fixed source checkout when resuming checkpoints. Retrieve datasets and pretrained assets under their applicable terms; original accepted checkpoint states are not all supplied by this repository. A successful CPU reconstruction is not a claim of independently repeated GPU training.
+

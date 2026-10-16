@@ -12,6 +12,7 @@ python analysis/reproduce.py --output reproduced-earlier
 python -m pip install -r analysis/feedback/requirements.txt
 python analysis/feedback/reproduce.py --output reproduced-feedback
 python analysis/cost/reproduce.py --output reproduced-cost
+python results/caenl-solidification-v1/reconstruct_stats.py
 ```
 
 These reconstruct released arithmetic, with no training or inference. See the
@@ -61,6 +62,7 @@ launch, recording that runtime setting with the deployment.
 |---|---|---|
 | Initial nine-condition ImageNet-100 study | [Aligned experiment](../experiments/caenl_aligned_imagenet100_v1/README.md) | Authorized images, exact class/image manifests and compatible runtime. |
 | Completed 104-run tuned-control study | [L40S guide](RUN_ON_IBM.md) | Bound ImageNet-100 dataset/manifest and runtime; controls and initializations are generated within the campaign. |
+| Completed 206-run content-filtered study | [Numerical release and CPU reconstruction](../results/caenl-solidification-v1/README.md); [GPU protocol and deployment](PENDING_CAMPAIGNS.md) | CPU reconstruction needs NumPy/SciPy only. New training requires the archived feedback tree, original image manifests and compatible source/runtime bindings; endpoint records do not replace checkpoints or datasets. |
 | Earlier entropy/Lite, UHerding and entropy/fixed additions | `experiments/caenl-focused-completion-v1/runner.py`, `experiments/caenl-uherding-v1/runner.py`, `experiments/caenl-entropy-fixed-v1/runner.py` | Completed original classification source/results, shared initial checkpoints, manifests and audit inputs; the fixed addition also needs completed Lite records. |
 | GPT-2/C4 training | [C4 runbook](C4_CONFIRMATORY_V2_RUNBOOK.md) | Compatible historical project, pretrained GPT-2/tokenizer, C4 shards/caches, resolved configuration and runtime. |
 | C4 unused-shard evaluation | [Evaluator](../tools/c4_holdout_eval/README.md) | All 24 final checkpoints, summaries, campaign metadata and C4/model/tokenizer assets. |
@@ -99,8 +101,10 @@ sha256sum -c result-archive.zip.sha256
 On macOS use `shasum -a 256 -c`. Transfer through your configured host's normal
 file-transfer mechanism and keep the checksum with the archive.
 
-The ongoing 206-method solidification and 30-model/150-suite robustness
-diagnostic campaigns contribute no outcomes to the completed snapshots.
-Their findings require separate completion, verification and release.
+The completed 206-method solidification study has a separate
+[verified numerical release](../results/caenl-solidification-v1/).
+The 30-model/150-suite robustness and practical-cost diagnostics remain
+pending and contribute no partial outcomes to completed snapshots.
 
-For the additional content-disjoint replication and checkpoint diagnostics, see [PENDING_CAMPAIGNS.md](PENDING_CAMPAIGNS.md). These public packages preserve scientific executable bytes but have newly bound public documentation; keep existing campaign installations unchanged when resuming.
+For the content-filtered replication and checkpoint diagnostics, see [PENDING_CAMPAIGNS.md](PENDING_CAMPAIGNS.md). These public packages preserve scientific executable bytes but have newly bound public documentation; keep existing campaign installations unchanged when resuming.
+

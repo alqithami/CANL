@@ -1,6 +1,6 @@
 # Reproducibility and experiment map
 
-Three CPU workflows reconstruct the completed numerical records: [earlier comparisons](../README.md#reproduce-statistics-on-cpu), [feedback statistics and plots](../analysis/feedback/README.md), and [feedback/C4 costs](../analysis/cost/README.md). No GPU or licensed dataset is required for these calculations. The [findings guide](RESULTS.md) explains every completed study; the [deployment and asset map](DEPLOYMENT.md) distinguishes statistical reconstruction from training and inference.
+Four CPU workflows reconstruct the completed numerical records: [earlier comparisons](../README.md#reproduce-statistics-on-cpu), [feedback statistics and plots](../analysis/feedback/README.md), [feedback/C4 costs](../analysis/cost/README.md), and [the 206-run content-filtered study](../results/caenl-solidification-v1/README.md). No GPU or licensed dataset is required for these calculations. The [findings guide](RESULTS.md) explains every completed study; the [deployment and asset map](DEPLOYMENT.md) distinguishes statistical reconstruction from training and inference.
 
 ## Feedback-study protocol
 
@@ -21,6 +21,7 @@ Reference implementation: `65df044feaf3bb6604416b1011ede5ea3b2a36ed`. The statis
 | Uncertainty herding | Six fixed-feature adapted branches | `experiments/caenl-uherding-v1/runner.py` | same classification record |
 | Entropy + fixed | Six matched fixed-coefficient branches | `experiments/caenl-entropy-fixed-v1/runner.py` | same classification record and budget curves |
 | Feedback control selection, confirmation, and architecture transfer | Aligned classification DCR; 24 tuning and 80 fresh-seed method runs | `experiments/caenl_feedback_study_v1/` | `results/2026-10-02-feedback/` |
+| Content-filtered classification replication and components | 206 method runs: 36 selection, 110 confirmation/component, 60 transfer; 23 shared initializations; 1,030 subsequent phases | `experiments/caenl_solidification_v1/` | `results/caenl-solidification-v1/` |
 | GPT-2/C4 | Historical spectral implementation, seeds 301–306; separate unused-shard evaluation | root `src/caenl/language/` and `docs/C4_CONFIRMATORY_V2_RUNBOOK.md` | `c4_per_seed.json` |
 | CIFAR-10 diffusion | Spectral confirmation, 24 trained runs plus six pretrained references | `experiments/caenl-diffusion-confirm-v1/` and spectral source snapshot | `diffusion_per_seed.json` |
 | AudioCaps captioning | Spectral confirmation, 24 runs on available-recording subset | `experiments/caenl-audiocaps-confirm-v1/` and spectral source snapshot | `audio_per_seed.json` |
@@ -37,8 +38,11 @@ Training sources are preserved for inspection and reuse with the original datase
 
 The later feedback study uses ten pairs for each confirmation/transfer contrast and one declared six-contrast family. Its sensitivity analysis excludes the same five duplicate-content validation images across all treatments; it does not alter the primary 5,000-image endpoint or undo training exposure. Its separate [analysis guide](../analysis/feedback/README.md) documents those boundaries.
 
-The 206-method solidification study and separate robustness diagnostics are ongoing and have no completed findings in these snapshots. Their [source, fixed protocols, deployment and source-identity boundaries](PENDING_CAMPAIGNS.md) are available. Their partial outputs do not contribute to the statistical or cost reconstruction.
+The 206-method solidification study is complete and has its own [normalized endpoint release and reconstruction](../results/caenl-solidification-v1/). Its 17 final-top-1 contrasts form one separate Holm family; training seeds are paired units, and ten pairs permit exact-test rejection without guaranteeing power. The new inventory filters exact content before training and retains 4,995 validation images, unlike the earlier feedback study's post-hoc sensitivity analysis. Common-label replay conditions share entropy's acquired labels, batches and augmentation streams; their effects are conditional on that sequence. The full-label control matches optimizer steps and is not separately optimized to convergence. No equivalence or equal-performance annotation saving follows from a nonsignificant comparison.
+
+Run `python3 results/caenl-solidification-v1/reconstruct_stats.py` from the repository root with NumPy and SciPy installed. It checks the separate release; the earlier analysis scripts retain their original inputs and scopes. The [source, fixed protocols, deployment and source-identity boundaries](PENDING_CAMPAIGNS.md) remain available. The separate 30-model/150-suite robustness and practical-cost diagnostics remain pending; their partial outputs do not enter completed statistical or cost reconstruction.
 
 ## Local result plots
 
 [Plotting code and instructions](../analysis/plots/README.md) rebuild the existing numerical visualizations from their recorded data. The generated graphics remain local. Both the statistical and plotting workflows use the released numerical inputs.
+

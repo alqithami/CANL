@@ -1,13 +1,13 @@
-# Content-disjoint replication and checkpoint diagnostics
+# Content-filtered replication and checkpoint diagnostics
 
-These packages release scientific implementations and fixed protocols. Their completed, verified findings are not yet released and do not contribute to the completed result snapshots. Consult [RESULTS.md](RESULTS.md) for the evidence currently available.
+These packages release scientific implementations and fixed protocols. The 206-method content-filtered replication is complete, with its [verified numerical endpoints and reconstruction](../results/caenl-solidification-v1/) released separately. The 30-model/150-suite robustness and practical-cost diagnostics remain pending; no partial diagnostic findings enter completed snapshots. Consult [RESULTS.md](RESULTS.md) for the completed evidence and its scope.
 
 ## Scientific questions and finite workload
 
-| Campaign | Design | Planned records |
+| Campaign | Design | Records and evidence status |
 |---|---|---|
-| [Content-disjoint replication](../experiments/caenl_solidification_v1/README.txt) | Prospective exact-content filtering; independently selected constants/schedules; entropy and representation-loss controls; common-label component attribution; matched-step full-label comparison; architecture transfer | 36 selection + 110 confirmation + 60 transfer method runs; 23 shared initializations |
-| [Checkpoint diagnostics](../experiments/caenl_diagnostics_v1/README.md) | Frozen ResNet-50 checkpoints for entropy, tuned fixed DCR and MACC-Lite; AutoAttack at 0.5, 1, 2, 4 and 8/255; descriptive geometry/sensitivity measurements; six practical-cost paths | 30 models × five radii = 150 attack suites; five timing repetitions per cost path |
+| [Content-filtered replication](../experiments/caenl_solidification_v1/README.txt) | Prospective exact-content filtering; independently selected constants/schedules; entropy and representation-loss controls; common-label component attribution; matched-step full-label comparison; architecture transfer | Complete: 36 selection + 110 confirmation + 60 transfer method runs; 23 shared initializations; [numerical release](../results/caenl-solidification-v1/) |
+| [Checkpoint diagnostics](../experiments/caenl_diagnostics_v1/README.md) | Frozen ResNet-50 checkpoints for entropy, tuned fixed DCR and MACC-Lite; AutoAttack at 0.5, 1, 2, 4 and 8/255; descriptive geometry/sensitivity measurements; six practical-cost paths | Pending: 30 models × five radii = 150 attack suites; five timing repetitions per cost path |
 
 The 206-method protocol separates end-to-end adaptive-vs-fixed comparisons from component comparisons conditional on a common acquired-label sequence. The latter do not establish an unconditional acquisition-policy effect. The diagnostic primary endpoint is robust accuracy at 2/255 with three paired contrasts in its own Holm family. Smaller-radius geometry and local margin gradients are descriptive measurements, not robustness certificates or causal mediation proofs. Timing repetitions are not independent scientific training seeds. Both protocols retain negative and inconclusive outcomes.
 
@@ -96,3 +96,4 @@ Each result tree writes a compact review ZIP in `review/` with a companion check
 Transfer each ZIP together with its checksum using the host's configured SSH connection; on macOS verify with `shasum -a 256 -c`. Review archives exclude licensed raw images and model binaries. Preserve their separate access arrangements and original weights. Each numbered numerical evidence ZIP is independently readable and has its own payload manifest.
 
 A recovery review may exist without scientific completion. Before reporting results, confirm stopped workers, expected matrices and identities, the authoritative archive hash and internal payload manifests; inspect `RESULTS.json` and the full planned contrast or diagnostic summaries. Report adaptive-vs-tuned-fixed effects, common-label attribution, smaller-radius robustness/geometry and measured costs separately, including negative or inconclusive outcomes. A progress log or `COMPLETE` flag alone does not establish the hypothesis.
+

@@ -4,21 +4,22 @@ CAENL provides implementations of active-learning acquisition, representation re
 
 ## Completed findings
 
-The released evidence includes 72 earlier ImageNet-100 classification runs, a later 104-run feedback comparison, 24 GPT-2/C4 training runs with an additional unused-shard evaluation, 24 trained CIFAR-10 diffusion runs plus six pretrained-reference sampling streams, and 24 AudioCaps captioning runs. The [complete findings guide](docs/RESULTS.md) explains the formulations, controls, endpoint families, and limitations of each study.
+The released evidence includes 72 earlier ImageNet-100 classification runs, a later 104-run feedback comparison, a subsequent 206-run content-filtered classification and component study, 24 GPT-2/C4 training runs with an additional unused-shard evaluation, 24 trained CIFAR-10 diffusion runs plus six pretrained-reference sampling streams, and 24 AudioCaps captioning runs. The [complete findings guide](docs/RESULTS.md) explains the formulations, controls, endpoint families, and limitations of each study.
 
-In the later classification comparison, MACC-Lite improves mean clean accuracy over entropy alone by 1.742 percentage points on ResNet-50 and 1.834 on ResNet-18. Selected fixed regularization has slightly higher mean accuracy than Lite on both backbones; their differences are inconclusive, so these results establish neither adaptive superiority nor equivalence. The earlier clean-geometry improvements do not establish adversarial robustness. The spectral extensions have mixed outcomes: a small fixed-regularization C4 NLL reduction, worse diffusion FID under regularization, and inconclusive AudioCaps differences. Negative and inconclusive outcomes are retained in the released records.
+In the completed 206-run study, MACC-Lite improves mean clean accuracy over entropy alone by 1.900 percentage points on ResNet-50 and 1.612 on ResNet-18 after prospective exact-content filtering. Common-label replay identifies a 2.120-point benefit from the scatter-ratio penalty alone under the selected strength and shared entropy-generated labels. Selected fixed regularization has slightly higher mean accuracy than Lite on both backbones; the adaptive-versus-fixed and common-label feedback-increment comparisons are inconclusive, establishing neither adaptive superiority nor equivalence. The earlier 104-run comparison separately records gains over entropy of 1.742 and 1.834 points. Clean-geometry improvements do not establish adversarial robustness. The spectral extensions have mixed outcomes: a small fixed-regularization C4 NLL reduction, worse diffusion FID under regularization, and inconclusive AudioCaps differences. Negative and inconclusive outcomes are retained in the released records.
 
-The separate 206-method solidification study and robustness diagnostics are ongoing. Their [implementations, fixed protocols and deployment instructions](docs/PENDING_CAMPAIGNS.md) are released separately. Their partial outputs are excluded from the completed findings and numerical snapshots below.
+The [206-run numerical release](results/caenl-solidification-v1/) includes all endpoints, all 17 planned contrasts, selection scores and CPU reconstruction. The separate robustness and practical-cost diagnostics remain pending; their partial outputs are excluded from completed findings. Both campaigns' [implementations, fixed protocols and deployment instructions](docs/PENDING_CAMPAIGNS.md) remain available.
 
 ## Choose a workflow
 
 | Goal | Entry point |
 |---|---|
 | Read all completed findings and their scope | [Findings guide](docs/RESULTS.md) |
+| Reconstruct the completed content-filtered study and all 17 planned contrasts | [206-run numerical release](results/caenl-solidification-v1/) |
 | Recompute the completed feedback-study statistics and plots | [Feedback CPU analysis](analysis/feedback/README.md) |
 | Recompute the earlier numerical comparisons | [CPU analysis](#reproduce-statistics-on-cpu) |
 | Recompute feedback and C4 computation costs | [Cost CPU analysis](analysis/cost/README.md) |
-| Inspect or deploy the additional content-disjoint replication and checkpoint diagnostics | [Pending campaign protocols and deployment](docs/PENDING_CAMPAIGNS.md) |
+| Inspect or deploy the content-filtered replication and checkpoint diagnostics | [Campaign protocols and deployment](docs/PENDING_CAMPAIGNS.md) |
 | Identify execution dependencies and required assets | [Deployment and asset map](docs/DEPLOYMENT.md) |
 | Run the ImageNet-100 feedback comparison on an L40S host | [GPU deployment guide](docs/RUN_ON_IBM.md) |
 | Inspect methods, seed sets, and statistical comparisons | [Feedback study protocol](experiments/caenl_feedback_study_v1/README.md) |
@@ -58,6 +59,14 @@ The additional cost snapshot is `results/2026-10-12-cost/`. Its standard-library
 python3 analysis/cost/reproduce.py --output reproduced-cost
 ```
 
+The completed content-filtered classification study has a separate, normalized endpoint release at `results/caenl-solidification-v1/`. With NumPy and SciPy installed, reconstruct its selections, counts, budgets and all 17 contrasts from the repository root:
+
+```bash
+python3 results/caenl-solidification-v1/reconstruct_stats.py
+```
+
+The [release guide](results/caenl-solidification-v1/README.md) documents provenance, checksums, the common-label design and the distinction between endpoint arithmetic and checkpoint re-execution. The 72-, 104- and 206-run studies remain separate numerical snapshots.
+
 ## GPU feedback experiment
 
 The feedback study compares MACC-Lite with entropy acquisition alone, a selected fixed regularization strength, and a selected predetermined schedule. Control selection uses training holdouts; confirmation uses disjoint seeds. Selected settings are transferred from ResNet-50 to ResNet-18 on ImageNet-100.
@@ -82,9 +91,11 @@ The [deployment guide](docs/RUN_ON_IBM.md) describes dependencies, the dataset c
 - `results/2026-09-26/`: earlier numerical records.
 - `results/2026-10-02-feedback/`: completed control-selection, confirmation, and transfer records.
 - `results/2026-10-12-cost/`: completed feedback and C4 timing records with independent CPU reconstruction.
+- `results/caenl-solidification-v1/`: completed 206-run content-filtered classification endpoints, 17 planned contrasts and statistical reconstruction.
 - `provenance/`: source identities, environment records, and protocol bindings.
 - `archives/`: an immutable historical code package.
 
 Configuration files can describe planned or exploratory experiments as well as completed ones. Use the [experiment map](docs/REPRODUCIBILITY.md) to identify the corresponding implementation and available result records.
 
 Licensed datasets, reference-caption text, and model checkpoints must be obtained separately. Third-party notices remain applicable. See [contribution guidance](CONTRIBUTING.md) and [software citation metadata](CITATION.cff).
+
