@@ -1,0 +1,8 @@
+{
+  "verified_date": "2026-10-23",
+  "original_review_archive_sha256": "ba7873743f506f333057c8c77616b520173be1292e2e0cfbee8c899211bf22e1",
+  "original_results_json_sha256": "4c72cb2b432af8a1ff9211d507ebbc5ba1214be1d60b2ed030db0d56e5dbd02e",
+  "input_binding": "84a1b79ba4ee5122071f4cfcb101a98455de0153e4549de879820ae2299036f4",
+  "normalization": "Absolute deployment-root strings replaced by placeholders; all numerical records and comparisons retained. This export is not the original bound archive.",
+  "verification_scope": "Authoritative archive/checksum, ZIP and payload hashes verified after worker exit. CPU endpoint reconstruction is separate from independent training or checkpoint inference."
+}

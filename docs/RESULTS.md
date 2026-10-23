@@ -85,7 +85,7 @@ The common-label ratio-only benefit and fixed-both advantage over separation-onl
 
 The full-label reference uses all 126,590 annotations after shared initialization with the same post-initialization optimizer-step budget; it is not separately optimized to convergence. ResNet-18 favors full labels, whereas ResNet-50 is inconclusive. Neither establishes an equal-performance 40% annotation saving. Geometry is also not a universal predictive ranking: full-label ResNet-18 has higher mean log scatter than Lite (0.997 versus 0.539) and higher accuracy (74.819% versus 73.151%). This is descriptive, not a mediation test.
 
-The [release guide](../results/caenl-solidification-v1/README.md) documents frozen inputs, data filtering, original archive identity, the normalized public export and separate checkpoint-replay scopes. Run its CPU reconstruction to inspect all endpoints and raw/adjusted tests. The separate robustness and practical-cost diagnostics remain pending; the 206-run clean-classification study supplies no new attack-radius or dedicated deployment-cost findings.
+The [release guide](../results/caenl-solidification-v1/README.md) documents frozen inputs, data filtering, original archive identity, the normalized public export and separate checkpoint-replay scopes. Run its CPU reconstruction to inspect all endpoints and raw/adjusted tests. The 206-run clean-classification study remains its own record. The subsequently completed [diagnostics](../results/caenl-diagnostics-v1/) supply the separately specified attack-radius and cached-path cost evidence below.
 
 ## Classification: earlier 104-run selected controls and architecture transfer
 
@@ -318,3 +318,59 @@ The first reconstruction checks the earlier snapshot and rebuilds 39 declared pa
 
 For training entry points and prerequisites, use the [experiment map](REPRODUCIBILITY.md), [GPU deployment guide](RUN_ON_IBM.md), [feedback analysis guide](../analysis/feedback/README.md), and [cost-analysis guide](../analysis/cost/README.md). Record the Git commit and resolved environment before execution; keep a fixed source checkout when resuming checkpoints. Retrieve datasets and pretrained assets under their applicable terms; original accepted checkpoint states are not all supplied by this repository. A successful CPU reconstruction is not a claim of independently repeated GPU training.
 
+
+## Completed frozen-checkpoint robustness and cost diagnostics
+
+The separate diagnostic protocol is complete: entropy, tuned fixed and Lite, ten final ResNet-50 seeds 62001–62010, all 4,995 content-filtered validation images, five standard AutoAttack radii (150 suites). No training protocol or checkpoint was changed. All three primary effects at 2/255 have adjusted paired-t p=0.90699 and adjusted exact p=1; confidence intervals below are individual unadjusted 95% paired-t intervals.
+
+| Target minus reference | Robust top-1 difference (pp) | 95% interval |
+|---|---:|---|
+| Lite − entropy | −0.01001 | [−0.03805, +0.01803] |
+| Fixed − entropy | +0.00801 | [−0.03637, +0.05238] |
+| Lite − fixed | −0.01802 | [−0.05527, +0.01924] |
+
+| Radius | Entropy robust accuracy (%) | Fixed (%) | Lite (%) |
+|---|---:|---:|---:|
+| 0.5/255 | 22.30030 | 22.28028 | 22.19419 |
+| 1/255 | 4.04004 | 3.98198 | 3.95596 |
+| 2/255 (primary) | 0.31231 | 0.32032 | 0.30230 |
+| 4/255 | 0.05806 | 0.06607 | 0.06006 |
+| 8/255 | 0.01401 | 0.00801 | 0.01001 |
+
+Other radii and the 15 common-clean-correct contrasts are descriptive. Every individual interval for the latter spans zero. There is no established primary robustness advantage or equivalence. Similar descriptive results at 0.5/255 address the objection that only the 8/255 floor was examined. Clean scatter decreases without a demonstrated robustness gain. Returned-output geometry mixes unchanged initially wrong/surviving inputs with successful perturbations from heterogeneous attacks; local gradient, margin and displacement summaries do not establish causal mediation or a certified radius. Only ResNet-50 checkpoints were attacked in this campaign.
+
+Five repetitions of each 20-warm-up/200-measured-step cached-data path give mean elapsed seconds:
+
+| Path | Entropy | Fixed | Lite |
+|---|---:|---:|---:|
+| Streamlined | 23.7322 | 24.7621 | 26.1157 |
+| Instrumented | 25.5770 | 26.2770 | 26.2909 |
+
+Mean paired overhead is 4.34% for streamlined fixed versus entropy, 5.47% for Lite versus fixed and 10.04% for Lite versus entropy. Instrumented Lite versus fixed is 0.05%. Shared monitoring changes the timing boundary. Timing repetitions are not training seeds; caching/setup, serialization, acquisition and attacks are excluded. The completed fixed, schedule and contrastive selection grids record 19.57, 19.60 and 19.48 training-plus-acquisition hours; Lite's prior development cost is unknown. These observations establish neither full-job efficiency nor lifetime tuning savings.
+
+## Separate raw-source AudioCaps follow-up
+
+All 58 runs completed: six fixed-strength candidates × three tuning seeds, then four conditions × ten paired confirmation seeds. The fixed audit retains 49,025 training, 487 validation and 956 official-test clips (about 98% coverage per split), with no retained all-zero clips. The earlier 24-run/866-test-clip study remains separate. Frozen AST features are newly extracted; every method shares the saved full initial model for its seed. Development-only selection chooses fixed strength 0.001 before confirmation; official-test captions/NLL do not enter tuning.
+
+| Condition | CIDEr-D mean ± seed SD | SPIDEr mean | Test token NLL mean |
+|---|---:|---:|---:|
+| Baseline | 0.689205 ± 0.010920 | 0.430446 | 1.994744 |
+| Tuned fixed | 0.686467 ± 0.012286 | 0.428578 | 1.994845 |
+| Lite | 0.689326 ± 0.012525 | 0.430622 | 1.999819 |
+| Full | 0.678143 ± 0.016335 | 0.424531 | 1.997075 |
+
+CIDEr-D is primary. All five planned contrasts belong to one exact-sign-flip Holm family; a separate paired-t family is sensitivity only, never a second route to success. Intervals are individual and unadjusted.
+
+| Contrast | Difference | 95% interval | Holm exact p | Holm t p |
+|---|---:|---|---:|---:|
+| Fixed − baseline | −0.002738 | [−0.011768, +0.006293] | 1 | 1 |
+| Lite − baseline | +0.000121 | [−0.010363, +0.010606] | 1 | 1 |
+| Full − baseline | −0.011062 | [−0.020274, −0.001851] | 0.136719 | 0.118677 |
+| Lite − fixed | +0.002859 | [−0.008740, +0.014458] | 1 | 1 |
+| Full − fixed | −0.008324 | [−0.019602, +0.002953] | 0.5 | 0.517169 |
+
+None rejects after primary multiplicity correction. Full is numerically lower; its raw exact p=0.027344 and individual interval do not establish an adjusted-significant harm claim. No adaptive benefit, fixed benefit or equivalence is established. BLEU, SPIDEr and NLL are descriptive and cannot replace the endpoint. Job-wall means are approximately 55.01/57.39/57.34/57.97 minutes for baseline/fixed/Lite/Full, with 16.71 hours across tuning jobs; extraction, initialization and separate audit phases are outside those job means.
+
+Wider coverage and tuned fixed control address limitations of the earlier comparison, while prior benchmark exposure, possible AST pretraining overlap, acoustic near-duplicates and upstream authenticity remain unresolved. This is spectral audio regularization, not the classification common-label scatter ablation or a test of one unchanged objective across modalities. No video result is claimed.
+
+The [new CPU reconstruction](../analysis/completed/) verifies every new primary contrast, all 15 descriptive intersection contrasts, timing summaries and all audio outcomes. [Diagnostic records](../results/caenl-diagnostics-v1/) and [raw-source audio records](../results/caenl-audiocaps-raw-v1/) retain negative and inconclusive measurements. Statistical reconstruction remains distinct from independent training, attack generation or caption regeneration.

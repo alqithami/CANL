@@ -103,8 +103,8 @@ file-transfer mechanism and keep the checksum with the archive.
 
 The completed 206-method solidification study has a separate
 [verified numerical release](../results/caenl-solidification-v1/).
-The 30-model/150-suite robustness and practical-cost diagnostics remain
-pending and contribute no partial outcomes to completed snapshots.
+The 30-model/150-suite robustness and practical-cost diagnostics are complete
+and have their own [numerical release](../results/caenl-diagnostics-v1/).
 
 For the content-filtered replication and checkpoint diagnostics, see [PENDING_CAMPAIGNS.md](PENDING_CAMPAIGNS.md). These public packages preserve scientific executable bytes but have newly bound public documentation; keep existing campaign installations unchanged when resuming.
 

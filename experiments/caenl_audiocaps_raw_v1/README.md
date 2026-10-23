@@ -1,0 +1,7 @@
+# Completed controlled raw-source AudioCaps study
+
+Completed: 18 development-selection runs and 40 confirmation runs (ten paired seeds, four methods). The scientific Python and protocol files in this directory are byte-identical to the verified review archive. `ORIGINAL_SOURCE_MANIFEST.json` identifies those original files; this README is new public documentation. Historical reference files are retained because `train_study.py` verifies and uses their pinned source, including the terminal-loop class AST; the old launchers are not invoked.
+
+Read [TRAINING_README.md](TRAINING_README.md) for required assets, stages, and execution boundaries. Paths in the frozen protocol are archival layout examples. Reproduction requires authorized audio, exact model/metric/Java assets, and the recorded compatible runtime; neither licensed recordings nor initial/final checkpoint binaries are redistributed. Do not run the coordinator against an existing evidence tree. Public endpoint arithmetic requires only the [numerical release](../../results/caenl-audiocaps-raw-v1/) and its CPU reconstruction, with no GPU or original assets.
+
+The earlier 24 audio runs remain separate. This spectral objective is distinct from supervised classification scatter DCR. No primary comparison demonstrates an adjusted-significant benefit or equivalence. Full MACC is numerically lower than baseline; its raw p-value and individual interval must not replace the prespecified five-test Holm decision.

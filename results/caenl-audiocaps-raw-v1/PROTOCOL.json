@@ -1,0 +1,219 @@
+{
+  "study": "caenl-audiocaps-raw-source-controlled-followup-v1",
+  "evidence_role": "separate raw-source follow-up with development-selected fixed spectral control and paired confirmation",
+  "historical_results": "The earlier 24 method runs remain a separate campaign. They are neither restarted nor pooled with these results.",
+  "reference_commit": "8b64be063e92d9ec94c1249ff791da262f755e68",
+  "dataset": {
+    "name": "AudioCaps V1",
+    "source": "raw original encoded WAV archive; official pinned train/valid/test memberships and original captions",
+    "selection": "All eligible official source members after fixed duration, finite-decode, cross-split canonical-audio and YouTube-ID exclusions; no outcome-dependent selection.",
+    "duration_seconds_inclusive": [
+      8,
+      12
+    ],
+    "minimum_retained_coverage_each_official_split": 0.8,
+    "all_zero_audio": "retained and reported; zero PCM groups do not trigger duplicate exclusion",
+    "readiness": "data/DATA_READY.json plus full manifest and audit hashes; counts are determined by this fixed audit, never historical mirror counts",
+    "prior_exposure": "This dataset has been studied previously. This study does not claim an unseen test benchmark.",
+    "pretraining": "Frozen AST AudioSet pretraining can include underlying AudioCaps recordings. No untouched-pretraining claim."
+  },
+  "features": {
+    "new_extraction": true,
+    "model": "MIT/ast-finetuned-audioset-10-10-0.4593",
+    "model_assets": "assets/ast; exact historical assets/MODELS_FROZEN.json hashes",
+    "canonicalization": "unchanged retained load_audio_16k: soundfile float32 always_2d, arithmetic mean channels, scipy.signal.resample_poly to 16000 Hz, float32; no amplitude adjustment",
+    "max_windows": 1,
+    "window_samples": 163840,
+    "window_seconds": 10.24,
+    "long_audio": "first 10.24 seconds",
+    "AST_forward_dtype": "float32",
+    "AST_forward_batch_size": 4,
+    "AST_frozen": true,
+    "pooling": "drop two special tokens; adaptive average pool patch sequence to 64 tokens",
+    "feature_shape_per_clip": [
+      64,
+      768
+    ],
+    "cache_dtype": "float16",
+    "cache_layout": "resumable numpy memmap, immutable committed batch records",
+    "cache_binding": "full manifest ordered rows, raw-source readiness binding, exact model files, preprocessing, reference/code hashes and runtime; never path/count-only",
+    "duplicate_audit": "hash exact canonical first-window input including its shape; reject cross-split nonzero equal inputs",
+    "test_features": "frozen AST extraction only; no caption-model/test outcome during tuning"
+  },
+  "architecture": {
+    "source": "unchanged reference/src/caenl/audio/captioning.py PrefixCaptioner",
+    "trainable": "2-layer AudioTokenEncoder, 8-query learned prefix with cross-attention, GPT-2 decoder",
+    "dimension": 768,
+    "heads": 8,
+    "parameter_dtype": "float32",
+    "training_autocast": "bfloat16",
+    "loss": "retained pooled next-token cross entropy plus retained rank-16 spectral DCR on prefix and pooled audio encoder features",
+    "objective_interpretation": "spectral representation regularization; no supervised aligned classification-ratio objective claim"
+  },
+  "initialization": {
+    "rule": "construct one complete CPU model per seed, save immutable initial.pt and RNG after construction; every method strictly loads that same binary and asserts its full state tensor hash",
+    "seeds": 13,
+    "historical_discrepancy": "The cause of the historical initial-state mismatch is unknown. The reference positional parameter uses torch.zeros followed by nn.init.trunc_normal_; it is not uninitialized."
+  },
+  "optimization": {
+    "epochs": 10,
+    "batch_size": 32,
+    "steps": "10 * floor(retained training pairs / 32)",
+    "last_batch": "drop final incomplete batch each epoch; deterministic fresh per-epoch permutation",
+    "optimizer": "AdamW",
+    "encoder_prefix_learning_rate": 0.0001,
+    "decoder_learning_rate": 5e-05,
+    "weight_decay": 0.01,
+    "warmup_steps": 100,
+    "schedule": "unchanged retained cosine",
+    "gradient_clip_norm": 1.0,
+    "paired_randomness": "same immutable seed initial state, deterministic epoch data order, per-step reset CPU/CUDA dropout stream, same optimizer budget",
+    "checkpoint_selection": "final scheduled step only",
+    "checkpoint_every_steps": 250,
+    "resume": "model, optimizer, complete controller/monitor/action/pending reward state, CPU/CUDA/Python/numpy RNG and data-order RNG, bound to INPUT_BINDING and resolved job configuration"
+  },
+  "split_routing": {
+    "gradient": "train only",
+    "controller_feedback": "first 64 lexicographically sorted official-valid IDs; all original five references",
+    "development": "remaining valid IDs; no gradient updates",
+    "test": "all retained official-test IDs, confirmation final checkpoints only",
+    "no_test_tuning": "No test caption decoding or test NLL during tuning. Final tuning development CIDEr-D is the only selection score."
+  },
+  "tuning": {
+    "runs": 18,
+    "fixed_lambdas": [
+      0,
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.05
+    ],
+    "seeds": [
+      81001,
+      81002,
+      81003
+    ],
+    "epochs_each": 10,
+    "selection": "highest arithmetic mean final-step development CIDEr-D across the three seeds; exact tie selects smaller lambda",
+    "selection_metric": "historical pycocoevalcap CIDEr-D with Java PTB tokenizer only",
+    "freeze": "SELECTED_FIXED.json before any confirmation training; all 18 outcomes retained",
+    "interpretation": "tuned fixed is an added control selection procedure, not a changed spectral algorithm"
+  },
+  "confirmation": {
+    "runs": 40,
+    "methods": [
+      "baseline",
+      "tuned_fixed",
+      "macc_lite",
+      "full_macc"
+    ],
+    "seeds": [
+      82001,
+      82002,
+      82003,
+      82004,
+      82005,
+      82006,
+      82007,
+      82008,
+      82009,
+      82010
+    ],
+    "fresh_seeds": true,
+    "epochs_each": 10,
+    "all_outcomes_retained": true,
+    "no_gain_stopping_rule": true
+  },
+  "spectral_control": {
+    "layers": [
+      "prefix",
+      "audio_enc"
+    ],
+    "retained_spectral_rank": 64,
+    "target_rank": 16,
+    "covariance_ema_decay": 0.99,
+    "cadence_steps": 50,
+    "adaptive_initial_lambda": 0.01,
+    "lambda_bounds": [
+      0,
+      0.05
+    ],
+    "lite_eta": 0.001,
+    "lite_error": "absolute_log_ratio",
+    "lite_deadband": 0.1,
+    "full_macc_configuration": "literal audio-side engine.configure historical dictionary in train_study.py",
+    "terminal_credit": "compile unchanged historical TerminalSafeLoop class AST only; reward final pending action, never draw an unused next action; no historical engine/diffusion import",
+    "minimum_full_learned_policy_updates": 20,
+    "acquisition_head": false
+  },
+  "evaluation": {
+    "decoder": {
+      "beam_size": 3,
+      "max_new_tokens": 30,
+      "batch_size": 32
+    },
+    "metrics": [
+      "CIDEr-D",
+      "BLEU-1",
+      "BLEU-2",
+      "BLEU-3",
+      "BLEU-4",
+      "ROUGE-L",
+      "METEOR",
+      "SPICE",
+      "SPIDEr"
+    ],
+    "metric_assets": "exact historical metric_vendor copy, SHA-256 bound; frozen local Java 8; no fallback or asset downloads",
+    "nll": "target-token-weighted pooled next-token NLL, test and development, final confirmation only",
+    "conditioning_diagnostic": "deterministic cyclic mismatching of development audio and original captions; no gradient and no favorable-result gate",
+    "saved_outputs": "every candidate plus all five original references, token-loss batches, controller trajectory, summary, final float32 state, full resume checkpoint",
+    "audit": "fresh child process strict final-state reload and bitwise full-logit/NLL development probe; saved-caption metric recomputation, reference and token-weighting checks before DONE",
+    "empty_or_unfavorable": "retain and report"
+  },
+  "statistics": {
+    "primary_endpoint": "CIDEr-D",
+    "paired_seed_count": 10,
+    "contrasts": [
+      [
+        "tuned_fixed",
+        "baseline"
+      ],
+      [
+        "macc_lite",
+        "baseline"
+      ],
+      [
+        "full_macc",
+        "baseline"
+      ],
+      [
+        "macc_lite",
+        "tuned_fixed"
+      ],
+      [
+        "full_macc",
+        "tuned_fixed"
+      ]
+    ],
+    "primary_inference": "two-sided exact enumeration of all 1024 sign flips including ties; Holm across the five prespecified contrasts at familywise alpha 0.05",
+    "sensitivity_inference": "two-sided paired Student t with a separate five-contrast Holm adjustment; sensitivity only, never an alternative success criterion",
+    "multiplicity": "primary family: five exact sign-flip p-values; separate sensitivity family: five paired-t p-values; no success rule based on either family being significant",
+    "intervals": "individual unadjusted 95% paired t confidence intervals, not simultaneous",
+    "secondary": "all other metrics and conditioning diagnostics descriptive only",
+    "incomplete_or_nonfinite": "stop; no dropped seed, replacement seed or partial inferential table",
+    "assumptions": "paired t: independent seed pairs with approximately normal paired differences; sign flips: sign exchangeability/symmetry under the null"
+  },
+  "execution": {
+    "environment": "Python 3.12; torch 2.6.0+cu124; transformers 5.15.1; exact assets frozen separately",
+    "feature_process": "logical GPU 0 only; exits before task workers",
+    "workers": 1,
+    "gpu_mapping": "coordinator sets each child's CUDA_VISIBLE_DEVICES; runner --gpu 0 is logical index",
+    "sharding": "finite unchanged deterministic list, confirmation method order rotated by seed; job_index modulo 1; one worker executes all 18 tuning and 40 confirmation jobs sequentially on physical GPU 0; own fcntl worker and per-job child locks",
+    "job_isolation": "training subprocess then separate clean-audit subprocess; GPU memory released between them",
+    "smoke": "two real train clips, two optimizer steps, matched initial assertion, finite nonzero caption/spectral gradients, exact interruption/resume check, two validation-only real-model generations with no quality gate, fixed synthetic-text PTB/CIDEr-D/BLEU/ROUGE-L/METEOR/SPICE/SPIDEr runtime fixture, Full-MACC terminal fixture; zero scientific runs and no test outcomes",
+    "physical_gpu_indices": [
+      0
+    ]
+  }
+}
