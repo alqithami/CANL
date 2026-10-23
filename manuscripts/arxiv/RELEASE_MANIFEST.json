@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-23",
+  "evidence_repository": "https://github.com/alqithami/CANL",
+  "evidence_commit": "51412af5df877a8b87746bd7a8a9422192895132",
+  "original_archives": {
+    "solidification": "37b1d7d55f2bab65582f2109583381cf83433686c6a0517fd24f7364483565db",
+    "diagnostics": "21a4c69c69f6915c031e2d20961e84795ebbda1051849e7994e5179fb8ca6430",
+    "audiocaps_raw": "ba7873743f506f333057c8c77616b520173be1292e2e0cfbee8c899211bf22e1"
+  }
+}

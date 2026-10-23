@@ -1,0 +1,29 @@
+CÆNL — arXiv submission fields
+Prepared 23 October 2026
+
+TITLE
+C{\AE}NL: Collapse-Based Active Neural Learning with Objective-Aligned Representation Control
+
+AUTHORS
+Saad Alqithami
+
+CONTACT EMAIL
+alqithami@gmail.com
+
+ABSTRACT
+Active learning changes the representations used to acquire subsequent labels. We study this interaction through Collapse-Based Active Neural Learning (C{\AE}NL), which separates acquisition, Dynamic Collapse Regularization (DCR), and its coefficient policy. DCR penalizes a normalized within-class to between-class scatter residual above a frozen reference, with a separate class-separation safeguard. Fixed, scheduled, deterministic-feedback, and learned-feedback policies apply this objective. The analysis establishes scatter invariances, conditional local descent, and coefficient bounds, and shows why clean geometry alone cannot guarantee input robustness. Earlier classification studies are followed by a 206-run evaluation with pretraining exact-content filtering, independent control selection, ten-seed tests on each of two backbones, and common-label component ablations. At 60% annotations on the filtered ImageNet-100 inventory, entropy acquisition with DCR and MACC-Lite reaches 73.393 +/- 0.707% accuracy on ResNet-50 and 73.151 +/- 0.557% on ResNet-18 (mean +/- seed SD), exceeding entropy alone by 1.900 and 1.612 percentage points. Both gains survive the prespecified 17-comparison Holm correction under paired-t and exact sign-flip tests. With acquired labels held constant, the scatter-ratio penalty alone improves accuracy by 2.120 points. Common-label ablations support the scatter intervention, while comparisons with tuned fixed regularization leave the additional value of feedback unresolved. Completed diagnostics evaluate 30 frozen classifiers at five AutoAttack radii and establish no robust-accuracy advantage at the prespecified 2/255 endpoint. A separate 58-run raw-source AudioCaps study adds development-selected fixed control and ten paired confirmation seeds; none of its five adjusted CIDEr-D comparisons rejects. Earlier spectral studies yield a small fixed-regularization C4 loss reduction and worse CIFAR-10 diffusion FID. Short cached-data timings quantify feedback overhead without establishing whole-job efficiency. The results support the evaluated scatter-based classification intervention and delineate the task dependence of geometry-informed regularization.
+
+COMMENTS
+43 pages, 7 figures, 43 tables, 2 algorithms. Code and numerical reproduction: https://github.com/alqithami/CANL
+
+PRIMARY CATEGORY
+cs.LG
+
+OPTIONAL CROSS LIST
+cs.CV
+
+JOURNAL REFERENCE / EXTERNAL DOI / REPORT NUMBER
+Leave blank unless a subsequent publication supplies them.
+
+PROCESSOR
+pdfLaTeX; main file main.tex. TeX Live 2023 tested locally.

@@ -1,0 +1,11 @@
+CÆNL — revision dated 23 October 2026
+
+Incorporates all completed 30-model/150-suite frozen-checkpoint robustness diagnostics, the six-path practical-cost benchmark and the separate 58-run raw-source AudioCaps study. The earlier 72-, 104- and 206-run classification studies, 24-run audio study, C4 and diffusion observations remain separate and unchanged.
+
+The abstract, Introduction, experimental design, Results, Discussion, Conclusion and provenance now reflect the complete evidence. Classification benefit is attributed conditionally to the tested scatter-ratio intervention. Adaptive-versus-tuned-fixed advantages, equivalence, meaningful robustness improvements, cross-task gains and total-cost savings remain unestablished. Full audio MACC's numerical adverse direction and adjusted nonrejection are retained.
+
+The diagnostic and audio contrast families are separate. The audio primary decision uses five Holm-adjusted exact tests; paired-t results are sensitivity only. Individual intervals are unadjusted. No study-wide error guarantee is asserted across sequential experiments.
+
+Adds one column-sized measured figure and eight column-sized tables. The former Table 12 now fits a column. The title, all 48 bibliography entries, equations, theoretical statements/proofs and algorithms are preserved. The author block contains only Saad Alqithami and his Gmail address.
+
+Public numerical evidence and the installed audio scientific source are pinned to GitHub revision 51412af5df877a8b87746bd7a8a9422192895132. CPU reconstruction reproduces the new primary, descriptive, timing and selection summaries; it is distinct from independent GPU training/inference. No new experiment was launched and original frozen sources/checkpoints were not altered. No video result or video completion is claimed.

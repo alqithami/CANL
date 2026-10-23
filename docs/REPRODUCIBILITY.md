@@ -1,6 +1,6 @@
 # Reproducibility and experiment map
 
-Four CPU workflows reconstruct the completed numerical records: [earlier comparisons](../README.md#reproduce-statistics-on-cpu), [feedback statistics and plots](../analysis/feedback/README.md), [feedback/C4 costs](../analysis/cost/README.md), and [the 206-run content-filtered study](../results/caenl-solidification-v1/README.md). No GPU or licensed dataset is required for these calculations. The [findings guide](RESULTS.md) explains every completed study; the [deployment and asset map](DEPLOYMENT.md) distinguishes statistical reconstruction from training and inference.
+Five CPU workflows reconstruct the completed numerical records: [earlier comparisons](../README.md#reproduce-statistics-on-cpu), [feedback statistics and plots](../analysis/feedback/README.md), [feedback/C4 costs](../analysis/cost/README.md), [the 206-run content-filtered study](../results/caenl-solidification-v1/README.md), and [completed robustness/cost and raw-source audio](../analysis/completed/). No GPU or licensed dataset is required for these calculations. The [findings guide](RESULTS.md) explains every completed study; the [deployment and asset map](DEPLOYMENT.md) distinguishes statistical reconstruction from training and inference.
 
 ## Feedback-study protocol
 
@@ -25,6 +25,8 @@ Reference implementation: `65df044feaf3bb6604416b1011ede5ea3b2a36ed`. The statis
 | GPT-2/C4 | Historical spectral implementation, seeds 301–306; separate unused-shard evaluation | root `src/caenl/language/` and `docs/C4_CONFIRMATORY_V2_RUNBOOK.md` | `c4_per_seed.json` |
 | CIFAR-10 diffusion | Spectral confirmation, 24 trained runs plus six pretrained references | `experiments/caenl-diffusion-confirm-v1/` and spectral source snapshot | `diffusion_per_seed.json` |
 | AudioCaps captioning | Spectral confirmation, 24 runs on available-recording subset | `experiments/caenl-audiocaps-confirm-v1/` and spectral source snapshot | `audio_per_seed.json` |
+| Frozen-checkpoint robustness and practical cost | 30 final ResNet-50 models, five attack radii, six cached training paths | `experiments/caenl_diagnostics_v1/` | `results/caenl-diagnostics-v1/` |
+| Separate raw-source AudioCaps | 18 fixed selection and 40 paired confirmation runs on newly extracted AST features | `experiments/caenl_audiocaps_raw_v1/` | `results/caenl-audiocaps-raw-v1/` |
 
 Earlier per-seed filenames in this table are under `results/2026-09-26/`; the later feedback row specifies its separate directory. `reported_contrasts.json` preserves the original comparison values, names and endpoint families, rather than silently pooling follow-ups. C4 perplexity is the exponential of NLL; it is not an independent primary outcome. Six diffusion references represent sampling variation of one pretrained model.
 
