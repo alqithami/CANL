@@ -1,0 +1,96 @@
+{
+  "status": "PASS_STATIC_SCIENCE_AND_CONTRACT_REVIEW_V2",
+  "reviewed_utc": "2026-10-28T04:19:09.507464+00:00",
+  "reviewer": "independent test_release_science_audit agent",
+  "evaluator_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0",
+  "official_test_accessed_by_reviewer": false,
+  "remote_execution_by_reviewer": false,
+  "passed_checks": [
+    "Training/source/cache bindings and all200receipts checked before release",
+    "Complete160treatment finite matrix; no epoch/method/configuration selection",
+    "Explicit immutable release receipt precedes testmember opening/deserialization",
+    "Locked analysis copy changes only locked and release receipt hash",
+    "Source binding uses semantic frozen source_binding.sha256, not manifest SHA",
+    "Original CIFAR100testorder and uint8tensor reshape; same normalization/noaugmentation",
+    "Raw model_new finalResNet18CIFARstem classifier; strictcheckpointmethod/config/source binding",
+    "eval+inference_mode; deterministicfloat32noTF32/noAMP; modelstateunchanged check",
+    "All160predictions/receipts hashbound and accuracy numerators recomputed",
+    "Unchanged frozenAULC/signflipHolm3 and separatetHolm3; no development scores as test",
+    "Nonemptyoutput blocks silentreplay; GPU/project locks and2hourglobal/180spermodel caps",
+    "Known frozen module APIs and call signatures exist",
+    "Only filename uniqueness assumption removed; original10krows/order/images/labels kept",
+    "Priorv1officialtestaccesstrue andpriorreleaseSHA retained in amendedrelease",
+    "Priorzeroattempts/receipts/scoreoutputs explicitly required",
+    "Priorstart/deadline retained exactly; globalalarm uses remaining allowance",
+    "Newoutput separate from priorrelease tree; priorrelease/status/sourcebytes untouched",
+    "Exact same released models/source/archive andanalysisdecisions required"
+  ],
+  "interpretation_caveats": [
+    "Inference is forfour fixed selectedrecipes conditional onthese datasets; tenpairedseeds",
+    "Signflip exactness requires signexchangeability; not assumptionfree",
+    "Ratiofull differ selectedratioweights andfloor; not isolated floorcausalablation",
+    "DCRprefixreset versus continuous CE/Fisher recipes limit penaltymechanism attribution",
+    "No equivalence, annotation savings, activeacquisition, robustness, mechanism or excludedSupCon/NONL confirmationclaims",
+    "Cost end_to_end_seconds field means sumofrecordedjobtimes under statedscope; do not call it fullprojectwalltime",
+    "Savedpredictionclass vectors permit independent accuracyrecomputation; savedlosses permit consistencycheck but not independentlogitCEreplay"
+  ],
+  "synthetic_analysis_tests": {
+    "passed": 25,
+    "failed": 0
+  },
+  "independent_stats_checker": "independent_stats_check.py",
+  "runtime_execution_tests": "Handled separately by evaluator author; this staticreview does not claim executioncompletion",
+  "evaluator_file": "release_and_evaluate_v2.py",
+  "prior_reviewed_evaluator_sha256": "a56a0be8d7ad2dcb87c530dc33868159bd9e0ba7802d46b0974d9c378ae31a2d",
+  "amendment_scope": "Correct invalid filename uniqueness assumption before any model attempts/scores; preserve all10000archive rows under rowindexidentity. No model, configuration, sample, statistical decision or time allowance change.",
+  "independent_loader_regression": {
+    "status": "PASS",
+    "synthetic_only": true,
+    "real_test_data_accessed": false,
+    "remote_access": false,
+    "v1_reproduces_filename_validation_failure": true,
+    "v2_keeps_all_10000_rows_with_9999_unique_filenames": true,
+    "image_bytes_order_labels_and_names_unchanged": true,
+    "member_payload_sha_recomputed": true,
+    "invalid_class_counts_still_refused": true,
+    "evaluator_v2_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0"
+  },
+  "independent_recovery_gate_regression": {
+    "status": "PASS",
+    "synthetic_only": true,
+    "checks": [
+      "Original zero-model failure accepted without changing original bytes/deadline",
+      "Any prior model attempt blocks continuation",
+      "Any prior analysis outcome blocks continuation",
+      "Live prior process blocks continuation",
+      "Expired original deadline blocks continuation",
+      "Extended original deadline blocks continuation",
+      "Incorrect prior access provenance blocks continuation",
+      "Prior release/protocol byte hash mismatch blocks continuation"
+    ],
+    "real_test_data_accessed": false,
+    "remote_execution": false,
+    "evaluator_v2_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0"
+  },
+  "author_mocked_full_orchestration_regression": {
+    "status": "PASSED",
+    "synthetic_only": true,
+    "real_dataset_accessed": false,
+    "real_gpu_accessed": false,
+    "checks": [
+      "Only explicit release fields change; unchanged analysis contract validates",
+      "Original two-hour start/deadline and prior accessed release bytes preserved exactly",
+      "New release binds prior access and proves zero model attempts/receipts/scores",
+      "Any prior model attempt evidence blocks input-validation recovery",
+      "Full160-model mocked orchestration reaches frozen three-contrast analysis",
+      "First and only synthetic test access occurs after immutable release and locked protocol",
+      "Complete 40-record descriptive cost family validates",
+      "Independent per-example accuracy/CE recomputation rejects score tampering",
+      "Existing release evidence refuses any replay",
+      "Compact review CRC and every payload hash verified",
+      "Duplicate filename regression retains all10000 rows and original order"
+    ],
+    "evaluator_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0"
+  },
+  "portable_evidence_note": "Preserve/download originalv1release,status,lockedanalysis,source andrunrequest alongsidev2review;v2reviewincludes hashes andamendmentrecord butdoesnotembed priorfiles."
+}

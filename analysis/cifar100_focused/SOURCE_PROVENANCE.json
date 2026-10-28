@@ -1,0 +1,10 @@
+{
+  "scope": "Public CPU reconstruction and figure generation; no training or model inference.",
+  "analyze.py": "Byte-identical to the analyzer frozen before confirmation training.",
+  "test_analysis.py": "Byte-identical to the frozen analysis test suite.",
+  "independent_stats_check.py": "Independent adjacent-trapezoid, explicit sign-vector, Holm and confidence-interval reconstruction used to audit released scores.",
+  "plot_and_tables.py": "Measured-data exporter used for the revised paper; all 160 rows and nonmonotone budgets retained.",
+  "reproduce.py": "New repository-relative public wrapper. Verifies distributed checksums, metadata, complete grids and frozen statistics; does not regenerate predictions.",
+  "dependencies": "Exact original GPU environment is recorded in original training receipts. Public CPU dependencies are declared separately; floating-point comparisons allow only numerical rounding tolerance.",
+  "verification_boundaries": "Public arithmetic and metadata checks remain distinct from the independent saved-array/model verification performed before release."
+}

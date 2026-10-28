@@ -1,0 +1,297 @@
+{
+  "all_candidate_results_retained": true,
+  "anchor_batches": 16,
+  "architecture": "resnet18_cifar_stem",
+  "automatic_next_stage": false,
+  "automatic_retry": false,
+  "backbone_learning_rate_schedule": "cosine_to_zero_over_own_training_stage",
+  "batch_size": 100,
+  "batches_per_epoch": 90,
+  "classes": 100,
+  "classes_per_batch": 10,
+  "classifier_probe_learning_rate_schedule": "step_decay_at60_75_90_factor0.2",
+  "confirmation_enabled": false,
+  "created_utc": "2026-10-24T12:04:38.143257+00:00",
+  "dcr_prefix_counted_inside200": true,
+  "decision_basis": "Previously saved design plus verified engineering pilot and timing; grids frozen before new development outcomes",
+  "development_enabled": true,
+  "development_size": 5000,
+  "evaluation": "final_epoch_development_only",
+  "examples_per_class": 10,
+  "excluded_pilot_seed": 91001,
+  "external_epochs": 1000,
+  "feature_dim": 512,
+  "geometry": {
+    "between_floor_fraction": 0.5,
+    "feature_norm_epsilon": 1e-06,
+    "huber_delta": 0.25,
+    "scatter_epsilon": 1e-06,
+    "target_ratio_fraction": 0.9
+  },
+  "initialization": "common_raw_backbone_per_seed_independent_method_head_substreams_DCRonlyshared_postCEprefix",
+  "interpretation_limits": [
+    "Three candidates each is limited tuning, not exhaustive optimization",
+    "Treatments differ in epochs,image views,and compute; this is not equal-cost or loss-only comparison",
+    "CIFAR ResNet18 batch100 balanced sampler deviates from unchanged published comparator recipes",
+    "SupervisedCE/DCR/Fisher200epochs is a new finite choice; not SupContrastCE500epochdefault",
+    "SupCon1000+100probe and NONL1000 durations retained; NONLpaper1000vsYAML500 discrepancy explicitly resolved in favor1000",
+    "DCR oneCEepoch is counted inside200; other methods do not receive thisprefix",
+    "Fisherrawratio grids have independent scale; no assertion of gradient-strength equivalence",
+    "Development outputs select configs; no official-test or confirmation scientific result is produced",
+    "No active acquisition,annotation-savings,robustness,mechanismorsecond-dataset inference from thisstage"
+  ],
+  "label_count": 9000,
+  "label_fraction_of_pool": 0.2,
+  "label_sampling": "one_uniform_permutation_of_45000_pool_ids_per_seed_independent_of_true_labels_prefix9000",
+  "max_wall_seconds": 345600,
+  "methods": {
+    "ce": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 0,
+          "learning_rate": 0.05,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 2,
+          "learning_rate": 0.2,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200
+    },
+    "full_dcr": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 0,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 2,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.3,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200,
+      "separation_weight_policy": "fixed_0.01_not_tuned",
+      "shared_ce_prefix_epochs_included": 1
+    },
+    "nonl": {
+      "augmentation": "RRC32_scale0.2to1_horizontal_flip",
+      "classifier": "normalized_bias_free",
+      "configs": [
+        {
+          "candidate_index": 0,
+          "learning_rate": 0.0390625,
+          "momentum": 0.9,
+          "temperature": 0.05,
+          "weight_decay": 0.0001
+        },
+        {
+          "candidate_index": 1,
+          "learning_rate": 0.0390625,
+          "momentum": 0.9,
+          "temperature": 0.1,
+          "weight_decay": 0.0001
+        },
+        {
+          "candidate_index": 2,
+          "learning_rate": 0.0390625,
+          "momentum": 0.9,
+          "temperature": 0.2,
+          "weight_decay": 0.0001
+        }
+      ],
+      "epochs": 1000,
+      "objective": "author_NONL_normalize_and_symmetric_negative_set_only"
+    },
+    "plain_fisher": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.001,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 2,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200
+    },
+    "ratio_dcr": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        {
+          "candidate_index": 2,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.3,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200,
+      "shared_ce_prefix_epochs_included": 1
+    },
+    "supcon": {
+      "augmentation": "two_independent_RRC32_scale0.2to1_flip_colorjitter0.4_0.4_0.4_0.1_probability0.8_grayscale_probability0.2",
+      "configs": [
+        {
+          "base_temperature": 0.07,
+          "candidate_index": 0,
+          "learning_rate": 0.05,
+          "momentum": 0.9,
+          "temperature": 0.05,
+          "weight_decay": 0.0001
+        },
+        {
+          "base_temperature": 0.07,
+          "candidate_index": 1,
+          "learning_rate": 0.05,
+          "momentum": 0.9,
+          "temperature": 0.07,
+          "weight_decay": 0.0001
+        },
+        {
+          "base_temperature": 0.07,
+          "candidate_index": 2,
+          "learning_rate": 0.05,
+          "momentum": 0.9,
+          "temperature": 0.1,
+          "weight_decay": 0.0001
+        }
+      ],
+      "epochs": 1000,
+      "probe": {
+        "augmentation": "RRC32_scale0.2to1_horizontal_flip",
+        "decay_epochs": [
+          60,
+          75,
+          90
+        ],
+        "decay_factor": 0.2,
+        "epochs": 100,
+        "freeze_batchnorm": true,
+        "input": "raw_frozen_backbone_features_not_projector",
+        "learning_rate": 0.9765625,
+        "momentum": 0.9,
+        "weight_decay": 0
+      }
+    }
+  },
+  "official_test_access": false,
+  "ordinary_epochs": 200,
+  "overall_max_seconds": 345600,
+  "pairing": "label_ids_and_raw_backbone_shared_all_methods;batch_ids_shared_where90step_balancedsampler_same;single_view_augmentations_shared_CE_DCR_Fisher_only;external_augmentations_differ",
+  "physical_optimizer_updates": {
+    "ce": 162000,
+    "full_dcr_postprefix": 161190,
+    "nonl": 810000,
+    "plain_fisher": 162000,
+    "ratio_dcr_postprefix": 161190,
+    "shared_CE_prefixes": 270,
+    "supcon_pretrain": 810000,
+    "supcon_probe": 81000,
+    "total": 2347650
+  },
+  "pilot_source_binding_sha256": "a5b69520bf0c7d462dd24f090fbf9b6eae1cd02b4b65bf90defc4297fae22e05",
+  "planned_counts": {
+    "backbone_treatment_branches": 54,
+    "calibration_forward_batches_total": 48,
+    "shared_DCR_CE_preparations": 3,
+    "supcon_classifier_fits": 9,
+    "training_stages_total": 66
+  },
+  "precision": "float32_no_AMP_no_TF32",
+  "pretrained": false,
+  "probe_epochs": 100,
+  "rawinitprep_max_seconds": 1800,
+  "recipe_label": "architecture_batch_sampler_and_learning_rate_adapted_author_duration_comparators_plus200epoch_common_supervised_track",
+  "regular_job_max_seconds": 7200,
+  "resume_supported": false,
+  "sampler": "balanced_classes_and_distinct_examples_within_each_batch_repetition_between_batches_allowed_acquired_prefix_only",
+  "schema": 1,
+  "scientific_claims_enabled": false,
+  "seeds": [
+    91011,
+    91012,
+    91013
+  ],
+  "select_per_confirmation_budget": false,
+  "selection": "mean_final_development_accuracy_over_three_seeds_per_method_tie_lower_total_treatment_cost_then_candidate_index",
+  "shared_prefix_learning_rate_schedule": "constant_one_epoch",
+  "shared_prefix_optimizer": {
+    "learning_rate": 0.1,
+    "momentum": 0.9,
+    "weight_decay": 0.0005
+  },
+  "split_seed": 91000,
+  "stage": "DEVELOPMENT_ONLY",
+  "standard_train_batchnorm": true,
+  "study_id": "caenl-cifar100-development-v1",
+  "supcon_job_max_seconds": 21600,
+  "support_policy": "UNSUPPORTED_CLASS_SUPPORT_if_any_class_has_fewer_than10_acquired_examples_preserve_draw_and_stop_no_reseed",
+  "train_pool_size": 45000,
+  "treatment_optimizer_reset_after_prefix": true,
+  "warmup_epochs": 1,
+  "warmup_max_seconds": 1800,
+  "warmup_steps": 90
+}

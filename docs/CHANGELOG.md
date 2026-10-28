@@ -240,3 +240,12 @@ Every blocker of the review maps to a change below. Section numbers refer to the
 - Retained and evaluated MACC-Lite and Full MACC.
 - Added configurable cross-modal comparisons and strict significance gating.
 - Added deterministic source-snapshot provenance independent of Git.
+
+
+## 2026-10-28 — focused CIFAR-100 confirmation
+
+- Release all 160 official-test recipe outcomes, 40 shared preparations and all 54 six-method development outcomes.
+- Preserve the prospectively amended four-method scope, all three planned AULC contrasts and the separate paired-t sensitivity family.
+- Report no adjusted primary AULC advantage for ratio DCR over CE, full DCR or the specified Fisher recipe; retain nonmonotone budget outcomes and the 11.40% paired job-time overhead over CE.
+- Add exact frozen source trees, explicit test-release/input-loader recovery provenance, original model receipt bindings and independent CPU statistical reconstruction.
+- Retain all earlier studies and their negative or inconclusive findings. Raw datasets, test labels, prediction arrays and large model binaries remain outside the public release.

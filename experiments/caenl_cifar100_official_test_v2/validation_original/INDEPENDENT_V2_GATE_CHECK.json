@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "synthetic_only": true,
+  "checks": [
+    "Original zero-model failure accepted without changing original bytes/deadline",
+    "Any prior model attempt blocks continuation",
+    "Any prior analysis outcome blocks continuation",
+    "Live prior process blocks continuation",
+    "Expired original deadline blocks continuation",
+    "Extended original deadline blocks continuation",
+    "Incorrect prior access provenance blocks continuation",
+    "Prior release/protocol byte hash mismatch blocks continuation"
+  ],
+  "real_test_data_accessed": false,
+  "remote_execution": false,
+  "evaluator_v2_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0"
+}

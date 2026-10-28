@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "synthetic_only": true,
+  "real_test_data_accessed": false,
+  "remote_access": false,
+  "v1_reproduces_filename_validation_failure": true,
+  "v2_keeps_all_10000_rows_with_9999_unique_filenames": true,
+  "image_bytes_order_labels_and_names_unchanged": true,
+  "member_payload_sha_recomputed": true,
+  "invalid_class_counts_still_refused": true,
+  "evaluator_v2_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0"
+}

@@ -1,0 +1,4604 @@
+{
+  "accessed_member_after_release": "cifar-100-python/test",
+  "analysis_decisions_changed": false,
+  "analysis_template_sha256": "bff2b4cd44d455c26b03b1252440244dc684294595cda4a7c34e53b195eda173",
+  "archive_path": "/mnt/caenl/active/caenl-cifar100-v1/pilot_output/cifar-100-python.tar.gz",
+  "archive_sha256": "85cd44d02ba6437773c5bbd22e183051d648de2e7d6b014e1ef29b855ba677a7",
+  "authorization": "User instructed proceed after completion/verification; evaluate all frozen models with unchanged analysis.",
+  "automatic_retry": false,
+  "configuration_changes": false,
+  "created_utc": "2026-10-28T04:19:40.339433+00:00",
+  "evaluation": {
+    "augmentation": null,
+    "batch_size": 256,
+    "count": 10000,
+    "network_mode": "eval",
+    "normalization_mean": [
+      0.5071,
+      0.4867,
+      0.4408
+    ],
+    "normalization_std": [
+      0.2675,
+      0.2565,
+      0.2761
+    ],
+    "partition": "official_test",
+    "precision": "float32_no_AMP_no_TF32",
+    "selection": "all160_final_epoch_checkpoints"
+  },
+  "evaluator_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0",
+  "freeze_sha256": "0c330280a7dd84d0b208f646003e498bcfbf3b1d231056bd2023220cc0d03d3a",
+  "input_validation_recovery_sha256": "533c3a974659d5d19480b6a22c0dfe2dc9f7364fc9eb54b4729360516be3f325",
+  "models": {
+    "s92001_n18000_ce": {
+      "checkpoint_sha256": "5a88b151b2999d60b094a04018cee3cedfa5e21d31265cb081c811ac43270650",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92001_n18000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "c286ff0f7d666f03f3ab2da12de919f8460e24a6f5f84308573484cba1a64ad0"
+    },
+    "s92001_n18000_full_dcr": {
+      "checkpoint_sha256": "37021f6972c5db55b2e5dbf3bde16f87a99c4f957b07e5b543a4dd333882aee0",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92001_n18000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "98136955c1b542605d08404729d50d9f8828ca29282ea36d6b3809358a1f8113"
+    },
+    "s92001_n18000_plain_fisher": {
+      "checkpoint_sha256": "5d40ef848f0970a4fbdce1255c7f2667a9e667556a7db7e248f47d31d5ba6128",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92001_n18000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "4a6168581e3de4081e173404aaab9a0568ba810243447788c94a9a7568afc70b"
+    },
+    "s92001_n18000_ratio_dcr": {
+      "checkpoint_sha256": "435925c1c644bf3776dc9b41954eaef3b0b0fcc446b64d42ad8dd9b9e0e4f3bd",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92001_n18000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "39e6b66c032fd6b8a1eeaabeb5a90c86b690a383594daf166daa53f3cfc9fab6"
+    },
+    "s92001_n27000_ce": {
+      "checkpoint_sha256": "77143ed8a52facef95524bc5d37354449efbc0aca418e5832bb418fdbb4ab44f",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92001_n27000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "1956a8e723a3bcf0d712e0d3b7305787fa6813789ebdb0d4bdfa433b99512fb3"
+    },
+    "s92001_n27000_full_dcr": {
+      "checkpoint_sha256": "216935e731a53277ec691f4bd62880e6c7ef6c3f542976b7665bbcf45935d21d",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92001_n27000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "2e4ee17e623385e1a63201c7e18be1eb61c91c21100a9e14a95036bb022c5671"
+    },
+    "s92001_n27000_plain_fisher": {
+      "checkpoint_sha256": "1ae037ce1a6e0c367d5e07e2d37184af997243bf33ef354049d02adb512aa7ab",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92001_n27000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "31f9e0efa3933d9504b17fb0478aef6cee8c1da5c2ea46e0a7bf343a84dcd5eb"
+    },
+    "s92001_n27000_ratio_dcr": {
+      "checkpoint_sha256": "208e546f22e699539af8f1441a43d049ab4c803d222a2c4c6fe004212c1a5949",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92001_n27000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "182538512269ab7e6a703931e46907d7a3f151a7e97b9fb9d916360245fc9380"
+    },
+    "s92001_n4500_ce": {
+      "checkpoint_sha256": "3c2318f90377de3a068248122f3a481294bb6f63907865d3c0ef15504f8b14bb",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92001_n4500",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "aa60015bf22369c8b8bb93cfeaee1274deb8ab98af8bc2af929495408ec62fbc"
+    },
+    "s92001_n4500_full_dcr": {
+      "checkpoint_sha256": "09257f39ff283299dd6d9e1ed43b87ced782603f0a791ab8d2b0d53f4b5139ba",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92001_n4500",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "a4bf7ff7716c885e9b87db89afbb688ce4ef544986fd57ddf899ef229494c635"
+    },
+    "s92001_n4500_plain_fisher": {
+      "checkpoint_sha256": "36c2846a79adb154db4c3f0876673b37899c13a2b3eb61648043e12dd1986275",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92001_n4500",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "30ccbee145eaf470531e1487ddd2db35d02f4e6ec69ffd46cc1115511d686e45"
+    },
+    "s92001_n4500_ratio_dcr": {
+      "checkpoint_sha256": "fb1c7a2084f7600b427711dfd3ea75b4e684335ec5751ac27f909cc570122742",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92001_n4500",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "93aeaaf326ec8ad1312032012c7db59c80e7d56c02d23806f4a12463dea13437"
+    },
+    "s92001_n9000_ce": {
+      "checkpoint_sha256": "20a944d5bae7919672826649114f6283bf2d2d9fe659fe82fd1a357760608dfe",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92001_n9000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "491c3a71d58539adb2b71c426d62788d4fcb62138e9472d31e166b53c58dd899"
+    },
+    "s92001_n9000_full_dcr": {
+      "checkpoint_sha256": "227ae67b22638536051fd3dec6c68be22db4ff80cf357abf91bd122ca633c3c4",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92001_n9000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "ccde966121e55ae335d1502f1347f9d88b1cf83ddc2493bba1f74c140d56a2ae"
+    },
+    "s92001_n9000_plain_fisher": {
+      "checkpoint_sha256": "09ce8ead807d9345b54c1809bb5f1d2a287fe142e015f53271a50d7a4ef6073f",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92001_n9000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "68c256e65f9593eb3d307c401e84e2e3ce9ec1bc97b2b8be58349cea584db3e4"
+    },
+    "s92001_n9000_ratio_dcr": {
+      "checkpoint_sha256": "cf89ff1a28100df508c7ae96f9739291cb87761ba09c89fb69de407597a7764b",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92001_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92001_n9000",
+        "probe_steps": 0,
+        "seed": 92001,
+        "seed_index": 0,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "cab105c9c256d4817fee8345c95a8101c6b65bbccce8c04b5719299c532f5d31"
+    },
+    "s92002_n18000_ce": {
+      "checkpoint_sha256": "ca24895013b05d2abc961fa18c7d11afcc47b51bf95b0795f3b65b9ac51cac32",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92002_n18000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "3e384d49bd0d636f81e5b6fe6e64031c6ae55aa5f4ad5e6447812b0167014c3e"
+    },
+    "s92002_n18000_full_dcr": {
+      "checkpoint_sha256": "bac733264c192f32117e41aafa4106009285f3c9f5eec5014397146c19425301",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92002_n18000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "01fd989110db279bae2e6cdf877c5b5938980b55d4952f32e646273ba5466591"
+    },
+    "s92002_n18000_plain_fisher": {
+      "checkpoint_sha256": "e031667e433c214669f939e5f3b74ec49b747de5bebbed3cf46059b87fbeb052",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92002_n18000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "12a32a5ba1b13249d71f7445795c7dce8f65143bc44852e6d955767b473ccefb"
+    },
+    "s92002_n18000_ratio_dcr": {
+      "checkpoint_sha256": "fabf98ccbc40d1b9bbcc611d48ad431d00d2f7698afb4b87b15baf4248e65bb8",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92002_n18000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "9f0c1b74c37bcba7a1a6b0489b1d8e9cfaa76af90ba9f28a428ac7b06b7451f2"
+    },
+    "s92002_n27000_ce": {
+      "checkpoint_sha256": "7aaae1a26a2ac9c683e4ba3234c5ba830c1cc35b5a84c4fd775045267df13ec1",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92002_n27000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "d197559f8d8ea7dce008a7078e94e10253099649ccc76492d9623087528c09a4"
+    },
+    "s92002_n27000_full_dcr": {
+      "checkpoint_sha256": "e3bdfdf7a244ac26b11e48396a95291bd048876d0b4012c66458921f9f65cedb",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92002_n27000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "3a518bb18d74bacd3699e5aa3bc179b9c6f4aa0e0788227bad25ccab1834f549"
+    },
+    "s92002_n27000_plain_fisher": {
+      "checkpoint_sha256": "b2609138bc5be6e79d0bbd3047bd1c2d3a5133bb6e6a4994f0c3eb8a96aa0184",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92002_n27000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "0e0c22f033210dfb592933c099a432ebea55ffdf94026825b457a1c9ca20d826"
+    },
+    "s92002_n27000_ratio_dcr": {
+      "checkpoint_sha256": "d98a04f0d8000683124254d6e487533171c0f536fb9303abed225c3155179d8c",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92002_n27000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "0454e76a426360357101adc9586959ff0489240f76f654623ef79ce86e10240e"
+    },
+    "s92002_n4500_ce": {
+      "checkpoint_sha256": "e683672bac7386eb23eec7d97c9a8c8b3e8a9c433d013d0c6e7c1bf2e9cd35e1",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92002_n4500",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "ce338ea3809d7a85555d08a826e104b57a152b34702e7d1d1e25f3ad67a3f1fc"
+    },
+    "s92002_n4500_full_dcr": {
+      "checkpoint_sha256": "6501141d08e20dc353166380b5ceab27aadbf29cd4e36bf3bfe18b680e8ded99",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92002_n4500",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "ac7835fcf4d01c07e90f05ef9ecc4bae015eb8ef09d2318e6c17a7a46c12590b"
+    },
+    "s92002_n4500_plain_fisher": {
+      "checkpoint_sha256": "204ec67b0493ed8c7c0bcee5d3c10ded0e2f5a43e321e739fedda579f8e18594",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92002_n4500",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "91a0723d75ddc210a020872bb4da94a1e590ed7ef67ab4dc6accd35ee97409f7"
+    },
+    "s92002_n4500_ratio_dcr": {
+      "checkpoint_sha256": "588544c72fa6f2479ab1240a86c491eaa394eb0b77b37737a86171213cd20126",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92002_n4500",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "fadba58572052c825b4682937d33aec4db70d0d16a089919fb52516c1b996248"
+    },
+    "s92002_n9000_ce": {
+      "checkpoint_sha256": "8fe9d5e554fefcef05ae656ee89b5514c772df32682e85f2ee89791b84920f45",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92002_n9000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "f4188e9f08f74a2014b20223e7ffd03c7fb7f9a8740179b9dde2671bbe5982b2"
+    },
+    "s92002_n9000_full_dcr": {
+      "checkpoint_sha256": "32e8a2798b2999eb3922bdab4de1b0f9d6f43f329e03208d95172d4d2e2920e2",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92002_n9000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "f54094dca8434f85b2ce24a493e59b6a9eaf290e4054d6e1545fd9c147cf999f"
+    },
+    "s92002_n9000_plain_fisher": {
+      "checkpoint_sha256": "5fc13e5d3ecc1835483ef3af6c111fb14ae7894617c4dddc44a4d633e9bfc969",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92002_n9000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "9c43a1d481b0e1fdabcc1317ddb25bd2359e9b4b08ba6a38703d977767af9e28"
+    },
+    "s92002_n9000_ratio_dcr": {
+      "checkpoint_sha256": "b9309f54e95a03d7204bfb0ed7fd376ba0a2b34e2579dc726059dcb15901d5bc",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92002_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92002_n9000",
+        "probe_steps": 0,
+        "seed": 92002,
+        "seed_index": 1,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "192994a37e66ef6e94aa07fb9b9b54b6a63b86e56098d07a5f11b1356b5931a3"
+    },
+    "s92003_n18000_ce": {
+      "checkpoint_sha256": "f3b8a88f5d93002afd3d47d745f7989070740e9ae95817c1b4f29306b633b98e",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92003_n18000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "60c1a0d091ddcd5839b3a215d719b8c4ae0c5093cb8593719059b1717a1a5829"
+    },
+    "s92003_n18000_full_dcr": {
+      "checkpoint_sha256": "29631199947d0ec73263ef57faa01063bf9c9e8010a01ff5a994558719a4f060",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92003_n18000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "ae3f7afdcb231135a4c7eaecffebc22249aeb490d84e20fc939bb431ea65b9e8"
+    },
+    "s92003_n18000_plain_fisher": {
+      "checkpoint_sha256": "8b7e43065ed6a0341711cc118aef1576e583554d61fb64578de96562d82482b7",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92003_n18000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "84c34f364a8119c02847d2d0a1d4111f60de4bc24eebf7861b49793411366904"
+    },
+    "s92003_n18000_ratio_dcr": {
+      "checkpoint_sha256": "6044778d45d4fb3fa9c3b79dccdad40d57198b6a49851efc7ffbb55d2d5ba995",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92003_n18000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "530e0a6fb30390f7837bb2094b5f094ba91f31a4a1f0cdaf59d49678cfbece8a"
+    },
+    "s92003_n27000_ce": {
+      "checkpoint_sha256": "d470a380f14462f745a898afc5edfdef2832975466a1dd7688e91f8896337ec5",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92003_n27000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "7d25963b411510048f26c4dc8adde9a5a547c1e289c35e4cba206a9ea5689978"
+    },
+    "s92003_n27000_full_dcr": {
+      "checkpoint_sha256": "73374a46da38c2eb53e92fa81c3a35e6172defc591e10d2693e5968546eb3f39",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92003_n27000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "868cf55d0bbd85d4b3e16a74aa9050141a9e6617f01ceaabe8b5dd05c476f821"
+    },
+    "s92003_n27000_plain_fisher": {
+      "checkpoint_sha256": "677baa67d49a622f7ec3e5fc3015bde4be6da41403efa9abc0dac32838c606e2",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92003_n27000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "a3d4a4c66571b3eece76bee5bcbecee593e4d6af412713e8692eb709e4bdc5d5"
+    },
+    "s92003_n27000_ratio_dcr": {
+      "checkpoint_sha256": "3bdeefd3dae436f1a7193268fb65b2e6fa0e73c818c2ddb9ffa6a39c43226d2d",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92003_n27000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "78f6c363101686f8a16ea450927a5324f0bb430fc207cac7b7f814704f5d910f"
+    },
+    "s92003_n4500_ce": {
+      "checkpoint_sha256": "cce706f5c42999682ca1827780e4e98544f05da05bf3a0a782b0fdb941667616",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92003_n4500",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "a29a2af5f1a7364fe93d0c92b2c8bc94d7da4b49fe36e008a26aa073d13e5ff6"
+    },
+    "s92003_n4500_full_dcr": {
+      "checkpoint_sha256": "517cbb5bbcf454764d8091563acee4b39a169b7da79632b42263e1ae390b62f2",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92003_n4500",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "a4dd1d31fe6023088b0073a12cac4290a4a4af4cd63cb566ccce995bd33ad8ef"
+    },
+    "s92003_n4500_plain_fisher": {
+      "checkpoint_sha256": "d43650c17da685c2d5cef444cc10d762d13c4df94bc21a99057a132d6cc85783",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92003_n4500",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "1f9ef32dee1602ab22ad882086e0b647d884b0596db18c6d40a8d16b02211466"
+    },
+    "s92003_n4500_ratio_dcr": {
+      "checkpoint_sha256": "d41950cb6000ab0c2d070a42ef8330df3f5ef8c186070d6fc5aec921a1dd4010",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92003_n4500",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "edb2412699e214b94caf63617c7f46be0eb8ff6bd38836bf02400ac054e68d22"
+    },
+    "s92003_n9000_ce": {
+      "checkpoint_sha256": "e4254f836e35300fb3cc4aa91ec5f227bbb56100958b9efb602d2c075804aa76",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92003_n9000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "3d34f500a7d564761741325c3682621d521183350180000783fd2f2e16673e16"
+    },
+    "s92003_n9000_full_dcr": {
+      "checkpoint_sha256": "299f586111129c5674815e8104ceaadfb57ad0be5e6ecf65e5fe74c306d965c7",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92003_n9000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "7a4346faef493881ee24142bf9cf05c9ac9530cc0237004da3596c0742159bb8"
+    },
+    "s92003_n9000_plain_fisher": {
+      "checkpoint_sha256": "4f60c05b1a993d55d5cdac4cad8aa90e4b39cc0e445b4bbf8bbcb7bdfee78726",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92003_n9000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "e0f284f284fc68f504e58ba7105d3fe7fc772433dd874c4c70277b51c60f7c56"
+    },
+    "s92003_n9000_ratio_dcr": {
+      "checkpoint_sha256": "3c6b17eeafe9249693bb2d035d962d5cee536260577e4bd3078b197198e254fc",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92003_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92003_n9000",
+        "probe_steps": 0,
+        "seed": 92003,
+        "seed_index": 2,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "35a4ebc41e50403ecd09fd4401274e0c04418a4991cfa0cfb99caa2fe4673c4d"
+    },
+    "s92004_n18000_ce": {
+      "checkpoint_sha256": "5266cb6839ad0f3cd1a78e7b52df1f6e7ca2296fb443ecc5fb91ef7c245e822d",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92004_n18000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "471d936b95b87398ba878169fa23c6ba796b9ad968e0d982d8d44a3419e933e3"
+    },
+    "s92004_n18000_full_dcr": {
+      "checkpoint_sha256": "86febcabf744a9c07d90f07c3f9e1d8e715e89ef2894018c6762e40c6d23d61a",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92004_n18000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "d1f964e93800c0dc1574a4eec180930ddf63898be66e32ffbb8f879ee8ae7032"
+    },
+    "s92004_n18000_plain_fisher": {
+      "checkpoint_sha256": "bb6e323fb1d1e80b76c91dfcbba0dc4be878a79233c87ba33f72750f4942b62b",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92004_n18000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "ef7d5709aaa0d4960be7b0070a78d39f6bd2c14a3c492cec21b8fab6acd84d84"
+    },
+    "s92004_n18000_ratio_dcr": {
+      "checkpoint_sha256": "037910c84e7198dfab5679492f3a9623fc978b4a7a0c728c2c3be084799720f3",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92004_n18000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "e9aa5033c67c4d64c89835fa9b8721ad0bc8ed4499a1876ac2a5af7e55d2a401"
+    },
+    "s92004_n27000_ce": {
+      "checkpoint_sha256": "dbfd860a83a7f253beb733adee6f2a0f2cc149f65d2381b16fa65567346485a8",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92004_n27000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "809fbffcfa0ac795d8e5a4765d30a1fa0695679c0dc8b02394178d99a6c855f8"
+    },
+    "s92004_n27000_full_dcr": {
+      "checkpoint_sha256": "4321bc0467072edc7f3f75c6e33ee24b8eaec4013753cc6a5bf964046531788d",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92004_n27000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "0a8f0f8d2f2dc5a4646ac4402b4d5e8371299f5d8e384a970151b2f2b1199296"
+    },
+    "s92004_n27000_plain_fisher": {
+      "checkpoint_sha256": "b74d3c5fe9e4c05e89e8f962849688aadb129ad2527a00f215a9e2a3242d28a5",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92004_n27000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "0fd5466acf075d07c2b48e211b34a96a3764c52cd0006ddf22d37bfcfd9b9987"
+    },
+    "s92004_n27000_ratio_dcr": {
+      "checkpoint_sha256": "e3983a87d6a4bfc8ecee6b23e4108cb1fdd90a0d87b759383ee28abfb3153d3b",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92004_n27000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "168827676ad869e08a97f2f8a25dfa79d767b345318b4a0ab9ee4962e6455bad"
+    },
+    "s92004_n4500_ce": {
+      "checkpoint_sha256": "330fe0e8fcd8f535ac64fad4d21fa3e4b47a24de875aeebf300df137c1b48801",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92004_n4500",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "49fc18483b6101d078ec46b67461f3c2ce72446394eeccf2dbb40cffb9fff92e"
+    },
+    "s92004_n4500_full_dcr": {
+      "checkpoint_sha256": "930ddec537387605cdbe8f1f5975b807d102864024587713c2179181efbd59c5",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92004_n4500",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "2e539deb2cb55613ce04fc9cfe307f7c232d8a4579c6900f0e24f527f1b999fc"
+    },
+    "s92004_n4500_plain_fisher": {
+      "checkpoint_sha256": "a3354c3a04e50bd7820f73182f16880f440472d4d9f7e6900b8cf652675263d0",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92004_n4500",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "4ecf90c7fdc2ed0cc2258aa9e6b9819bb14741522dbe2add9fddfde32523f706"
+    },
+    "s92004_n4500_ratio_dcr": {
+      "checkpoint_sha256": "d7b770c7f4c354bb4ecca2a6855f9b9e9a8adbe76d02cfa67cda7e7560c5c758",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92004_n4500",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "18badcbf83b778e5e0554d1f9ddc6210fd70baf3200816e74a88b955a7061d80"
+    },
+    "s92004_n9000_ce": {
+      "checkpoint_sha256": "cd107c788f75e1332400cfa2fc7d81a12b96b678bb54862bd97131cd1e7c13d0",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92004_n9000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "9f7d60ed4a9473c4b60d8af8453974cc7e54d74bab75faf26c74ff4de3d80ee7"
+    },
+    "s92004_n9000_full_dcr": {
+      "checkpoint_sha256": "31788aa401b377e288cd195f7b09f0cfe891b782b308c85bde60e9955a9de45a",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92004_n9000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "19ffa75ce121abe55bff829e246029074ab000e3416a11fde88e657c109f2b46"
+    },
+    "s92004_n9000_plain_fisher": {
+      "checkpoint_sha256": "7757884ddfc47597a9ba41da6111ded7cd078df728a63e6413e6b9cb09c119e1",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92004_n9000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "2b129c117e16aa87940ab72d1ac68c7605d63a0bb0ebc5a77f4cd6714b6d5ea4"
+    },
+    "s92004_n9000_ratio_dcr": {
+      "checkpoint_sha256": "03601c8b9ab1018b4990d189b6646333c585d247848f6e15a4e69ebdcdc22a25",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92004_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92004_n9000",
+        "probe_steps": 0,
+        "seed": 92004,
+        "seed_index": 3,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "d1dad5bcdaf346724ebd0d42091822fc6b58ff67ecf74b9b466fbbee29b83fd6"
+    },
+    "s92005_n18000_ce": {
+      "checkpoint_sha256": "630c92e656fc68002f7dad9fc9be1b5aee30a67ffe6ecdfdb457a7688b941e78",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92005_n18000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "aa9ce77a05c88723603052ed0fb7a187a02f89ee3c34c29906c31993e1267b0f"
+    },
+    "s92005_n18000_full_dcr": {
+      "checkpoint_sha256": "b88adf40c8431f9f55c6dd8faca0de72b9f619711b43bac9d18ca75ab2faeb1c",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92005_n18000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "bb635631c9496f2f97069a72f11fc611c379908728a78e1eca1a98b185c48c21"
+    },
+    "s92005_n18000_plain_fisher": {
+      "checkpoint_sha256": "35d39bea4ffe78cb22cff492c9bce85368e4c19e2bd13edf4c93314ddd2b4cf4",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92005_n18000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "b1860dcb99b004bca8b75fa7d72a2b2854e993ab00e940ea03cc43003cdac8b2"
+    },
+    "s92005_n18000_ratio_dcr": {
+      "checkpoint_sha256": "f8060254aa8c6353414a1b5da75a5d89e41b01ebdd748ef9e661153c427686e4",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92005_n18000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "1a64a168675f3fd9daabfed102e9c2481d7bc14cc2ef97aa7424ca48e73a81a1"
+    },
+    "s92005_n27000_ce": {
+      "checkpoint_sha256": "12a2b5dad099193e925c114cb33bf7c6e9acd8aa324672a51a04f23955539f94",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92005_n27000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "bd196d175f2e669413de0db0c49bfd030841b7cdc8a4026da5652b5d1b03e337"
+    },
+    "s92005_n27000_full_dcr": {
+      "checkpoint_sha256": "c6104d53f303a095f580017ea0cbdde0d5cc20cae342e7918343baa80cca6f10",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92005_n27000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "80c9b9c4c1fc7bb9762982dad90e430e861d25750647365437075a234e223cb0"
+    },
+    "s92005_n27000_plain_fisher": {
+      "checkpoint_sha256": "21249e4b5349a0bdc3515f9c24396c1458f85b58c8ecd92bdefc9ae109eea3a6",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92005_n27000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "d271b5e2538fafe046b79aaa71b7cd6975eee7cfdf0fa1d67be7a4cbdce516d1"
+    },
+    "s92005_n27000_ratio_dcr": {
+      "checkpoint_sha256": "1d3ed49ea7297d70c58f418b06a6ad9527e9915cb7351e80579bdbf11aa9adca",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92005_n27000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "2ab9a990f0105261c9c4b51cf49668245c1804a67322617dc649f1785bfb5f70"
+    },
+    "s92005_n4500_ce": {
+      "checkpoint_sha256": "003976522396faa38f707296c339544e7e78086c59dc557e502843dd8c95b90d",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92005_n4500",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "449e1f9ca81c5f7dcb07653840d8b88f21cca6fb9f6dda993c8e20e1a1c13eef"
+    },
+    "s92005_n4500_full_dcr": {
+      "checkpoint_sha256": "9bb1ec81bfc832c3dfc489d2735048a87f065626a187881a1beaf832413a432e",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92005_n4500",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "f6bd3e54124abd4becfc0d6565e36663edd9f8c999b920b00c3cbc9461c93782"
+    },
+    "s92005_n4500_plain_fisher": {
+      "checkpoint_sha256": "84d3c1bbdc647fe96ffe59672b808509ef5a89b716ef5105536354490d9b7ed8",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92005_n4500",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "7fdffc430dcafcede70a13d8a320018d7d444f381a9b5d1ccc6cc6df3b237140"
+    },
+    "s92005_n4500_ratio_dcr": {
+      "checkpoint_sha256": "72b558e64d16ccc6a3a43ea05f3048b6f11c9fc92ab85ec4e1ee82b0bc96541c",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92005_n4500",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "49044778e8f3fdfc846034052a0cbfaba423dc1c4dc5dbcc5e07cb2a5f0aeea6"
+    },
+    "s92005_n9000_ce": {
+      "checkpoint_sha256": "34ac24f8b0c8ab1ade5071e839dea6a7ae06bdc5bbda94902dfabd926ee00603",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92005_n9000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "74ea5df255908764fa3badabd92a62fe39a90456cf338c9b0966ac70849987d7"
+    },
+    "s92005_n9000_full_dcr": {
+      "checkpoint_sha256": "3538b682e883a5e5c1c87caa0f0584eac1c3bac8590b62ce268ad48e69b1d5a5",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92005_n9000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "3b99f3c141f9084a44d7ba45984c81463ca1da39a01d603dafe3ac5da2d2da33"
+    },
+    "s92005_n9000_plain_fisher": {
+      "checkpoint_sha256": "a193767a87fc3651a848cace7544543f78543762eb4286d0ba5500cb134bd7af",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92005_n9000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "8a742ca49e53df9ca0e474b5c18bcdb6dac82ea9f73d908004e8700427607f60"
+    },
+    "s92005_n9000_ratio_dcr": {
+      "checkpoint_sha256": "66239cfe69b4c5ddcb9048bb9241fa386e4ba66417db4381f91a55dcd4d98506",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92005_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92005_n9000",
+        "probe_steps": 0,
+        "seed": 92005,
+        "seed_index": 4,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "396e24ea484489706a1263e4aff04b96de2d0dc22a0ef7c88e4b7dc492df43d8"
+    },
+    "s92006_n18000_ce": {
+      "checkpoint_sha256": "79aaf82e94a89bb9374680cc66c709d5d221611cfb75783534b88d431312cda1",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92006_n18000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "6bbe4b0548f0dc1ed4b3016a0f18d7e722d340dea5090637e49ad12460551926"
+    },
+    "s92006_n18000_full_dcr": {
+      "checkpoint_sha256": "b85c248dac48008aeb472bb6805a7cf9714b76bc9777101a5faa7e701f0b887c",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92006_n18000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "5084e5d1bd281387fdd160299de5a4064169f0658f7b5e3b145263c6ee4fc393"
+    },
+    "s92006_n18000_plain_fisher": {
+      "checkpoint_sha256": "0e3fcaef8d5c573d708efba67f14ecb4d2f5f3c98efa8087752d54c4f0446d6e",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92006_n18000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "cc102d651490aca36c5070cc34b3bd93e49b7d7712f7142870b446ae2b65744d"
+    },
+    "s92006_n18000_ratio_dcr": {
+      "checkpoint_sha256": "53a2c8eef3587ebe15bd87f4510b9e884df9e5a65a25e0d2e2c32e164186e866",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92006_n18000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "efee255a47a5946a97fb5bfa75bba8abd9956074312b70f18a2af7f756198b9b"
+    },
+    "s92006_n27000_ce": {
+      "checkpoint_sha256": "2cab1ffe87a2df59ef34637963b4b86f8bfcd8ec45bb88e2524585d3e2bcb3c1",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92006_n27000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "ac57ef9829e4fddeb8b18230798522e46347383ae8d7ff2b1679c39a037077fc"
+    },
+    "s92006_n27000_full_dcr": {
+      "checkpoint_sha256": "8a1c33bb23f9ddc9394f104de76162fd71d256191b22083a0cd6bf53d333c1eb",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92006_n27000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "19ffaedd5be1eb1d46471e33bb91c5fff203cf854ba688bf5c5f8d0d1246695c"
+    },
+    "s92006_n27000_plain_fisher": {
+      "checkpoint_sha256": "a97af10a0c38fe724ad613f9e2f2c2df7052d7a2d9217ce3bc74e2861fbbf38b",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92006_n27000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "6e91705348f011034a5ca452490e90200c95ca1b584475aa11308b69d4df9f7e"
+    },
+    "s92006_n27000_ratio_dcr": {
+      "checkpoint_sha256": "35244999556e44510b1b65d78bce67e6b54b1820e544b9b2043b3dbeaf1244dc",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92006_n27000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "ab11989b22da30a205489a909d7abe2d6e1c90fb7fb88424876c90134a105ccd"
+    },
+    "s92006_n4500_ce": {
+      "checkpoint_sha256": "1f9f8b014c08ba0a2cbc2fcae079a57646b195adcc6b304b95a14bf281968f53",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92006_n4500",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "dea807074589c357fd8092fb97a605b642e3fe92ec37053bddd904929ceb7f7e"
+    },
+    "s92006_n4500_full_dcr": {
+      "checkpoint_sha256": "b152358034d7193237af862001d0eecd820177f8b669ecc501ab3c7aead28b0d",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92006_n4500",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "119ffe33f400364ba530dd44f96e868f7b03b484b06b8002e638049f3738443c"
+    },
+    "s92006_n4500_plain_fisher": {
+      "checkpoint_sha256": "89b026e38a5deb0a286f40d8a6ff7245ee5d0fe2b2943c67257a5259c3ff74f3",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92006_n4500",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "d64b116046d319bf036e03b39d3b4a7a947a6b2845c52d4bfcc1fe5253d30bea"
+    },
+    "s92006_n4500_ratio_dcr": {
+      "checkpoint_sha256": "e70593ca1e3b1bc75c2f8a0d7725c3fef30dc1029e2c8bc1c05838f8dff4a78e",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92006_n4500",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "1561d956bcf382cbb9484557035e5814b31ed835b8ea8cca9dcfcb6092603960"
+    },
+    "s92006_n9000_ce": {
+      "checkpoint_sha256": "cf415bd338a627a6f77d77a301be3bb81f14b7ae5960e709acc092e1e369dda8",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92006_n9000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "857669571fbc29408dd863fa8e92401bd7f89950d1a2628131a08c12a8335621"
+    },
+    "s92006_n9000_full_dcr": {
+      "checkpoint_sha256": "c811d975f4384939466ecab83af0079a0ce2d0659137b279f7841d39ad27a1cd",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92006_n9000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "6f1bb11abdfab55427d26f343bc13e28833991fe3d772d243b702b9125c03849"
+    },
+    "s92006_n9000_plain_fisher": {
+      "checkpoint_sha256": "eed5344a30188462f9a01c43ff6b58cb4523a8fc6c12e56c2fe3c70ffbbae5b0",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92006_n9000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "b62054401140a50bed4c44a30bff1a719dcdb16de122b9dc3cc144cc82f0add5"
+    },
+    "s92006_n9000_ratio_dcr": {
+      "checkpoint_sha256": "690a7e9b1d1326a68df526b12e3820cf50bd00136faed61086f787c8e67faae2",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92006_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92006_n9000",
+        "probe_steps": 0,
+        "seed": 92006,
+        "seed_index": 5,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "73ddb6159592c9b042d684a33bd694c7f8d5c9050b5b10bbf9791bfa6dff30a7"
+    },
+    "s92007_n18000_ce": {
+      "checkpoint_sha256": "cab5243436444e5b746b2a5584fb4f3a53be59626f8fca19efe95bed6184b69e",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92007_n18000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "a92e8d0fbaa628e5b5176c57d28830a62c8093bfd4d3717c9f4111f5250c067f"
+    },
+    "s92007_n18000_full_dcr": {
+      "checkpoint_sha256": "f133f90c928edccdf118c5447e6665a4b2b3b9530cf5fdd004b13aa94e299299",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92007_n18000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "5f731382b5a521cf7d678367f51822a27b64374a2299942f77e2003057afcbac"
+    },
+    "s92007_n18000_plain_fisher": {
+      "checkpoint_sha256": "264288f87e3a9ad33355b90d77e81a2691b2c12224de3dcbda5abe2878d7534e",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92007_n18000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "b35270ed209898f23b89e33053071690028558ef19986d0989f77d2892d16b6b"
+    },
+    "s92007_n18000_ratio_dcr": {
+      "checkpoint_sha256": "f7ab64da0624cf200644333668244d161947532918d536f3b450d957cbc84b1a",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92007_n18000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "13c952a4b6e50a2afcf60442cdac90a71c5ff05bb089391933d681252b683bdc"
+    },
+    "s92007_n27000_ce": {
+      "checkpoint_sha256": "fd70354e57e5645194301822fb7f0a856cc9c727b539a8998148529d3ade089a",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92007_n27000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "38dbec8280b6bd0196de125ab12cb2d0370fab6944192e076521beba37f3746d"
+    },
+    "s92007_n27000_full_dcr": {
+      "checkpoint_sha256": "ddf9a800641e5018b117b094081c14ce762a6a50ce3c31412f114e2a028405d0",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92007_n27000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "e327bf458fdfda0740ec179f57a2ae1d61d0cdacc12eb0a0780a3eb2b8b9b37c"
+    },
+    "s92007_n27000_plain_fisher": {
+      "checkpoint_sha256": "6185e3a5a75ab8766ee72b283b626425c6282d95a03c3a40ae3e89a385cb6745",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92007_n27000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "621c3d8c1bef218b0574c04b386d0f6e7e4d3e1b7ec6c35b5f61ae7d60e57340"
+    },
+    "s92007_n27000_ratio_dcr": {
+      "checkpoint_sha256": "f28a19daf9d376005d93457d80d7acf36b0e268ac9dbce9b92aba90296b13998",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92007_n27000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "db242d3f81b84510dca3af5165ba56dfbecf0808107efad57f4aed5520ad4d9f"
+    },
+    "s92007_n4500_ce": {
+      "checkpoint_sha256": "9dee5215711f5607488656c2470d86a8184456851951f91812cb742a9c37b7c3",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92007_n4500",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "2f17bbd5d7aa6cd3dc7204a81c8421b6910747fc2078f29ce047a20dcf491bbe"
+    },
+    "s92007_n4500_full_dcr": {
+      "checkpoint_sha256": "8eab73c76b5f43392a1838a5e2bb5d41f2c107d37f30a347eb6041015b367a9a",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92007_n4500",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "2dfbd87a287c205a2d459b8881fea89d0b28589b6a2c66312a35478e238875ee"
+    },
+    "s92007_n4500_plain_fisher": {
+      "checkpoint_sha256": "b48a123c0f410850a7221f01fb4b6fceb230134fd1d3d1a69af210c3e357b691",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92007_n4500",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "47e7d504aa9d5c276bc6d2a4390626535b9bf18921406cad1b2b3eeb61e6d915"
+    },
+    "s92007_n4500_ratio_dcr": {
+      "checkpoint_sha256": "5c46911f1e2ed9fb51439e6fd2fb07ab56eae3c473215679c6a862ae6513f731",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92007_n4500",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "d7f6a7d5e5f5b1e754c8e1ae0ba1fd784b00cbd23755ad8db458f56b4a137bcc"
+    },
+    "s92007_n9000_ce": {
+      "checkpoint_sha256": "03361c480318481d5b0d846e3b571e8c7e5fe0c77c9f47583d757af1b0800785",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92007_n9000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "c62ec5c97b9e1af3f513a4d1d4ad28a80bf273f0c207edf214925a0d2bd3b127"
+    },
+    "s92007_n9000_full_dcr": {
+      "checkpoint_sha256": "f8c21023861f537ceb93923bd9662b004b88e8fb1449bc324ca25d4c3dbfdf5a",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92007_n9000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "ce20f2e6eafb49a7f11c7f09ad0862e6325433447098744b3b85ca8a50efbe8d"
+    },
+    "s92007_n9000_plain_fisher": {
+      "checkpoint_sha256": "18977208e49d95305b0615acfcce6a3ee84f4d175b5b8ed0ef74c8042c766892",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92007_n9000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "b3c8968a646fd0a12eec9c0d73fd40fde59f64fdbafd67b302a280238bf03a1c"
+    },
+    "s92007_n9000_ratio_dcr": {
+      "checkpoint_sha256": "6210403638b3e09d5df4e4599aa6de89bd6218a8256df812ca58631614a18818",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92007_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92007_n9000",
+        "probe_steps": 0,
+        "seed": 92007,
+        "seed_index": 6,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "bb93f03b9bc8caef9479690cd253fb031cb4525277a05025fc6b45d895739456"
+    },
+    "s92008_n18000_ce": {
+      "checkpoint_sha256": "4fc52ef0c2e5e0b335b23b1ab5d6de07e297c54455b1a2af5253f7820a471c88",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92008_n18000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "cc15c22e3ca8bd1b25544386f3f830d04d1c6c5ddf71d3a1427cf1245a0a081d"
+    },
+    "s92008_n18000_full_dcr": {
+      "checkpoint_sha256": "de1138af37cfcb2a766cfa5c0c8243b055102af867408896b8317eb52ebbad18",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92008_n18000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "7e91e4a598b8a007540551f7377b06c9ac5e71af2aaf3baf3cd6b2e6ba6fc959"
+    },
+    "s92008_n18000_plain_fisher": {
+      "checkpoint_sha256": "6094b3e6b673343f04b88981755a9d467a7ff2d50a1934233731125b78df5efb",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92008_n18000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "6aa77517c895bf38e7c415d827e44acbdb4d46fc07234d8605283261dc318453"
+    },
+    "s92008_n18000_ratio_dcr": {
+      "checkpoint_sha256": "547df598a9aa7261d2836ecf5cbb67207c04fa4fda7f1b7195477459b7d927a9",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92008_n18000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "196f5546cfce84567730152b80f30dda258e3bdf1069b2576e8d51f1e7885991"
+    },
+    "s92008_n27000_ce": {
+      "checkpoint_sha256": "a771c5969862f90552eb2d111df0c20e232a781fa32bce442871656e3c1ea786",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92008_n27000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "f41c0c8bf32ef5b93ffcf71cab7f66713901297d19d130fd60eebf440714a033"
+    },
+    "s92008_n27000_full_dcr": {
+      "checkpoint_sha256": "8c6075f09c04b93ebfce251e26a4715043e9f7be6a7b42fe60cef7c0e81e5edc",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92008_n27000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "7e749c4b6141525cd6f549f80c83a244e916a8769b3396033e799b4ecc5779e3"
+    },
+    "s92008_n27000_plain_fisher": {
+      "checkpoint_sha256": "ba552cca008d7bc4aabc5673534fdabd1aa564d94079435eec1159d1e479de21",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92008_n27000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "f40744c085522ad0ff4335108447e5afcba7c6f77f9db3e4e656c3c5b1dcfea2"
+    },
+    "s92008_n27000_ratio_dcr": {
+      "checkpoint_sha256": "bea118cf445e127f746b742610b56ea24289eb800c01538992a918592e3a4121",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92008_n27000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "2ac09f8e9166fd48ca02de3bbfc6d1c0dd0a7f2c28b7ac86b7ae9b990d6d14e6"
+    },
+    "s92008_n4500_ce": {
+      "checkpoint_sha256": "6dcb24bd6202265815de632ebb7af4f1b488efa995f4600961094d9775158046",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92008_n4500",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "bdbda7ca3b23d97495aa1bf12ceb341f3b89552fcf0db7bed0326dd85a420119"
+    },
+    "s92008_n4500_full_dcr": {
+      "checkpoint_sha256": "49ed9ec34b5f5cf4b05bf8fc7f94a3be5afe98ba7c22b04097391cc611a11b5e",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92008_n4500",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "f0b1352a6811e9d535d06fed42ac7b6381a872db80e0d1ec0a25118a00593db1"
+    },
+    "s92008_n4500_plain_fisher": {
+      "checkpoint_sha256": "cf2c88fe7e81727f95c63745da5f62f183d99cfa5200a8781cd52cf2a7a7106a",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92008_n4500",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "a37078207ca87ab491596d308b07e82ab8c969afbc7f1bf2e0e26e84048afcb5"
+    },
+    "s92008_n4500_ratio_dcr": {
+      "checkpoint_sha256": "1d85ef9eca837eafd6fbaac7de8e838ecb1f8b539e6e4900cf0ded155b677eb9",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92008_n4500",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "002182a9f3b8cc929581f1e9f944ca9c3b79ed4a355b0ceb2bd7749d6ec946ef"
+    },
+    "s92008_n9000_ce": {
+      "checkpoint_sha256": "b42675040fb4a964e2f697f8d8c898520ab68fb1531c05ea1e5ca5557c5165b3",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92008_n9000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "b996a53a3ca4d1b8f8f4af3ab81201bc7c6dc4af226351f8499be40e58d5c950"
+    },
+    "s92008_n9000_full_dcr": {
+      "checkpoint_sha256": "d61eb17383c1ad8fd53d77e63c23a51adf12d42ec8b3408be666497b3b82f44d",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92008_n9000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "2830a9a0ffff8e464f50c8d7c2d405bde9e28580643293d56d3769647cd1f6fb"
+    },
+    "s92008_n9000_plain_fisher": {
+      "checkpoint_sha256": "e2fcf5b01664eee6e07e9e0a6e9a735e94ffc7919cd8b60fcd2690434099875d",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92008_n9000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "e4d82145055ea429cafce1b7f74d5cc7d3f4b2684c30ecdb0996585f3ebb38bb"
+    },
+    "s92008_n9000_ratio_dcr": {
+      "checkpoint_sha256": "36e44ae055e5730223404aa96b3322800ccf432c90fd8607fac52d6d06b8544f",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92008_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92008_n9000",
+        "probe_steps": 0,
+        "seed": 92008,
+        "seed_index": 7,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "e7d646421bc022df6f27d38e4892ab3755b3fa73f97f48f191cbdeb93678d1e0"
+    },
+    "s92009_n18000_ce": {
+      "checkpoint_sha256": "2a0042586222cfbb6267db3b90da9310858c7446a056ae2266621e3949eaf439",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92009_n18000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "643c9d73aa21f491cec5a959c6300446d880d86c1b2b72b9e5c20ddef2720624"
+    },
+    "s92009_n18000_full_dcr": {
+      "checkpoint_sha256": "c7d68bc56157721a9cc258b881e05c220646b88c3afe17a312ecaa3fbe0bf9e3",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92009_n18000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "c5a33bf84e14ea0f27913bcab2d878324688d213ea1a193c6134db2f95316f30"
+    },
+    "s92009_n18000_plain_fisher": {
+      "checkpoint_sha256": "94d46bfce2eb25453714fbc5dd922a9989594b4138d641014deff0bb632a4df7",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92009_n18000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "d2078316dea2e5dc2465ae92b33715aa05fa5034732a6b86d9eef0e3cbec62cc"
+    },
+    "s92009_n18000_ratio_dcr": {
+      "checkpoint_sha256": "8063c51fe6c93efd28692bf00f469c849e2c83181b5141883511bd9efe745065",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92009_n18000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "9b944d3230f9834bf86e4e22ef85ea72377e913ff33433846920b6eb0bdfc83b"
+    },
+    "s92009_n27000_ce": {
+      "checkpoint_sha256": "c9366188bc3af4ef32b7df54ae3e6d3a522b23fa691f027b9b975bdaa899fa10",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92009_n27000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "6e2d476158def90fb5f55ff94468ff6f2571d05f3491b0e4a9c22c82a54b797f"
+    },
+    "s92009_n27000_full_dcr": {
+      "checkpoint_sha256": "93f7c2fa28f8f9abc08e76215bb3cc452a602782b6f37f3ff2359f21935b1a31",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92009_n27000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "a52105686df2a6c2d06a784a7a59f25d394928f36102f03f7b24c027f518afb5"
+    },
+    "s92009_n27000_plain_fisher": {
+      "checkpoint_sha256": "0519ef7b103d0f4ec936b4623317a2b0226ff235af82658afec174a5aa09cfe8",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92009_n27000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "d068f2ab20a5c7a36f8d7cda445285bde0063fd4f3b8840ca2576a8c0afdb7f9"
+    },
+    "s92009_n27000_ratio_dcr": {
+      "checkpoint_sha256": "7925d459c7d79d6242becc9045260dcc326f53cee2d00f9cddb86f52dd9a9246",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92009_n27000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "680ce970f63716b3f40aa84e929ec97179bbc67a24b7f1d4045ee04f4ed0f9f3"
+    },
+    "s92009_n4500_ce": {
+      "checkpoint_sha256": "e9edda7d78717b5a3dedd02f2c7426f9e7c8bd1917e53e702b7d584c568551c8",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92009_n4500",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "6c4cc11d1a0f9551868eafd2047390286dc8356c5decb451b8a578e29fbe30f3"
+    },
+    "s92009_n4500_full_dcr": {
+      "checkpoint_sha256": "1f0c259f224d459ddc518f7981655fe30c7e90e5baf58f908c6d13fb010067ad",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92009_n4500",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "74a439274a2284ee2265f91c20a8675d98306ffab6e5bceb831ec3a62c7e4e89"
+    },
+    "s92009_n4500_plain_fisher": {
+      "checkpoint_sha256": "b7f43bbc9b675aadfc739eeda04671402eed37655e5395a4ee821e6bec7651d1",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92009_n4500",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "c4161728a1f7f8b8f916a45cdf7f5ffbc4ebf0080c694f1ca78b792b4bfd1803"
+    },
+    "s92009_n4500_ratio_dcr": {
+      "checkpoint_sha256": "d56bac4e56f3a81bcdd55bf92fea07e6000922afb2966ba260c4e3b8511961bc",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92009_n4500",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "0b589e38c669f0a8e16ce898b94bb014d70a583ad5ff3651af23836f35dcc1a4"
+    },
+    "s92009_n9000_ce": {
+      "checkpoint_sha256": "06393712ab5124dc2c68432c6b4c2cfdadac0b0d1eefcf5b65efcf180a11f5fe",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92009_n9000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "3ffa64d0b9a55d5579398349b9499eaaaf12bd5cf2f60ea8fd217594869c3ac9"
+    },
+    "s92009_n9000_full_dcr": {
+      "checkpoint_sha256": "09555589979430cfaefe9255a23dd62e150044d705ef4b08e12f8ce6389b9b6d",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92009_n9000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "3db5f9990eb7f8af2d3755ccff745453aacb60fbbc8184c80a0ae6845a0509e6"
+    },
+    "s92009_n9000_plain_fisher": {
+      "checkpoint_sha256": "d1e8b340ed8a468b2abd8022ca3f43096fc31748ca88dcecd531b3aea29b0870",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92009_n9000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "a7d6686df0e19c6598a65eadb6d2eb50a7b713aef4965443e364a2a34177157f"
+    },
+    "s92009_n9000_ratio_dcr": {
+      "checkpoint_sha256": "ea2435524e96a537f410579df4c8e4ed8aef0a21ee92683b329fff8c4d43efcc",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92009_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92009_n9000",
+        "probe_steps": 0,
+        "seed": 92009,
+        "seed_index": 8,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "2b9961c6a5141a352c6368a8ea1a202f888e6441f3009855f1b74fd6d93478ed"
+    },
+    "s92010_n18000_ce": {
+      "checkpoint_sha256": "661bca9cf2c2590fe7e508012ec92f9fd8c1c9e47a23f5f6f567113a48172ca4",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n18000_ce",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92010_n18000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "df432b35ad8f7ef97acb2186d716eaa8e0126bf7e7cf34078a00973db1bb7bf5"
+    },
+    "s92010_n18000_full_dcr": {
+      "checkpoint_sha256": "1d859c0e23b594c0e5c751b97148bdb7e5b7802c93ceeb1c48861cc0d040f20f",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n18000_full_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92010_n18000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "9b34c5c0256fac3525dffc3f22d3e192a1633b4b917d327879fade88aa37dcdb"
+    },
+    "s92010_n18000_plain_fisher": {
+      "checkpoint_sha256": "eead6a7051f8b274bcec975f9d11c7c12ea1f4932a422f279ae3a1f28beb39ba",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n18000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92010_n18000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 36000
+      },
+      "training_receipt_sha256": "1fa5fb078fe4d780e80c1af9cfbf31a57b434270b88f9115efc7ec5ca90add9d"
+    },
+    "s92010_n18000_ratio_dcr": {
+      "checkpoint_sha256": "93867fd230d92fc3e3945ca5e3b43a3d9255e533833e8a5adbf8a3e640def21b",
+      "job": {
+        "backbone_steps": 36000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n18000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 18000,
+        "label_fraction": 0.4,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92010_n18000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 180,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 35820
+      },
+      "training_receipt_sha256": "9a54a545aa7ba06c871be7032717ad66f3a8381436abcc936956917692c19da7"
+    },
+    "s92010_n27000_ce": {
+      "checkpoint_sha256": "a70ee723f6caa51487a7ccc2049ee0bb463013b21a44567f1e4339d089055f06",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n27000_ce",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92010_n27000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "842a9bfa9391960067a407b2a362e33e41b2bf986813d91c96d6a32a526637a4"
+    },
+    "s92010_n27000_full_dcr": {
+      "checkpoint_sha256": "919ecc37109ce3d0b79f522ed674be6dd72541c6307d80334029c2d3d7c05ac6",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n27000_full_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92010_n27000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "e41165961de9595325b50a0cad4eda9a6c75ca98291369ce652884b8fa8d55c6"
+    },
+    "s92010_n27000_plain_fisher": {
+      "checkpoint_sha256": "026649293a61ae9a5f3f935fe4a188af6963470db19559fb5f83c77b0a3b9755",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n27000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92010_n27000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 54000
+      },
+      "training_receipt_sha256": "ff82562afa1c6ea0b6052d3f391539ff6dd6c5548d552cc7937304cd40bacd56"
+    },
+    "s92010_n27000_ratio_dcr": {
+      "checkpoint_sha256": "8aecabe05bf702ee8cee1a60a851cfb6384322df4dbbadd65be5bf37af8a0631",
+      "job": {
+        "backbone_steps": 54000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n27000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 27000,
+        "label_fraction": 0.6,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92010_n27000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 270,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 53730
+      },
+      "training_receipt_sha256": "964d97d9ee9a333e436b4c36d5fc04f43b21005ec607879382856ca5b4d9e95d"
+    },
+    "s92010_n4500_ce": {
+      "checkpoint_sha256": "e3cbeeb6f04375743f40da417b46ee5b1d76482bcb55b1f0c96376b9bdb4d66e",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n4500_ce",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92010_n4500",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "cec3500063a11d7234334a7ba3b59ee36bb1109199964b646f9d5547b1a7a92b"
+    },
+    "s92010_n4500_full_dcr": {
+      "checkpoint_sha256": "b850d486ed450e0b9f56b94241b490d66e87b0ccc9e691e52a3e2e50dd4d3cda",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n4500_full_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92010_n4500",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "a15eef1df77b4ee407d56ae1b73ae170dbcd5194a7502658776e49b00b3cb90a"
+    },
+    "s92010_n4500_plain_fisher": {
+      "checkpoint_sha256": "c763900c4393de3abf295affb3fb6f345fd3913ce5e6e4a3888e0b85e1cd124d",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n4500_plain_fisher",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92010_n4500",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 9000
+      },
+      "training_receipt_sha256": "72323bfdd6eadaa5fbe2b9a61cbf1afc38d807832a4a8d8d40d60f284254796a"
+    },
+    "s92010_n4500_ratio_dcr": {
+      "checkpoint_sha256": "2eef6cfc8448a038242842b1f33c76479be0148d23925598577cc85b7ee4ac3a",
+      "job": {
+        "backbone_steps": 9000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n4500_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 4500,
+        "label_fraction": 0.1,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92010_n4500",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 45,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 8955
+      },
+      "training_receipt_sha256": "5743dbe17b3518aaded8b541cdf5384ef830c1499d10c984fb4959a6ae70bb87"
+    },
+    "s92010_n9000_ce": {
+      "checkpoint_sha256": "bf7827636e2fefab48fedca22793ff513c0eab3c9c912a928f64fdab9b8c132e",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n9000_ce",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ce",
+        "pair_id": "s92010_n9000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "ff70b7da6564f0410c5c52ab70f69a29155f1629602ea194564e0984bc7f8761"
+    },
+    "s92010_n9000_full_dcr": {
+      "checkpoint_sha256": "3f052ac56a178483f5c7ef7e324fca757fa857d1a1b9f91b151919d4e32a0bb4",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n9000_full_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "full_dcr",
+        "pair_id": "s92010_n9000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "17890bef4158c11eed4c7faa8acf9cd5cdfcb3efa1bc2449ccffe5a36677b07d"
+    },
+    "s92010_n9000_plain_fisher": {
+      "checkpoint_sha256": "8f5055a355f126fa179af45890f6d3bbc48435923bdff61b73029b373cc462ee",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n9000_plain_fisher",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "plain_fisher",
+        "pair_id": "s92010_n9000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 200,
+        "treatment_steps": 18000
+      },
+      "training_receipt_sha256": "d1d938b3cc97df0d69939f0c1748293b940f95ddbb9bb0eaf4816184df90be9b"
+    },
+    "s92010_n9000_ratio_dcr": {
+      "checkpoint_sha256": "3efec6f6daebd710e1075540c00e3041eeefc5b051cec33408772d8b49f76f90",
+      "job": {
+        "backbone_steps": 18000,
+        "config": {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        },
+        "id": "s92010_n9000_ratio_dcr",
+        "kind": "treatment",
+        "label_count": 9000,
+        "label_fraction": 0.2,
+        "max_seconds": 7200,
+        "method": "ratio_dcr",
+        "pair_id": "s92010_n9000",
+        "probe_steps": 0,
+        "seed": 92010,
+        "seed_index": 9,
+        "steps_per_epoch": 90,
+        "total_backbone_epochs": 200,
+        "treatment_epochs": 199,
+        "treatment_steps": 17910
+      },
+      "training_receipt_sha256": "8844710bd71aab903808e26a8e22254316deafff021c164a822703bfda30fa1d"
+    }
+  },
+  "original_training_root": "/mnt/caenl/active/caenl-cifar100-focused-confirmation-v1",
+  "prior_official_test_accessed": true,
+  "prior_release_receipt_sha256": "66ab36a531ab1b1a9c85fe4d2a8aab7af09644b674dec2621cda8491a0060451",
+  "schema_version": 1,
+  "source_binding_sha256": "f0d8c393ae2fa8fb48271c333d4b55146733db2d5e8aaea855854ce2a49ac6b1",
+  "source_manifest_sha256": "2d920804e8ccd7b5e7d133afe5db88407e1783ead5c0e69c9d4c984a3ce81aba",
+  "status": "EXPLICIT_OFFICIAL_TEST_RELEASE_AUTHORIZED",
+  "training_enabled": false,
+  "training_results_sha256": "d99ffaffd79010ec9856c268852961d144c338cc79061afe9a2e8630174c1c32"
+}

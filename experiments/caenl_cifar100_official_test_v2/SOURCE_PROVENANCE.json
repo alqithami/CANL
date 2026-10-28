@@ -1,0 +1,39 @@
+{
+  "public_test_adaptations": [
+    {
+      "changes": [
+        "Resolve sibling frozen confirmation source relative to repository.",
+        "Resolve exact evaluator sources in source/.",
+        "Write test-only validation reports outside immutable source trees."
+      ],
+      "file": "test_release.py",
+      "original_sha256": "85efbe5892c18abc1f5e3f902e3130dd1f1a88ce8a801c2bd36ce99989e677be",
+      "public_sha256": "308c40c7bc8ae18b780d04e9211bae9f736116838b349aa1433159a41da9c619",
+      "scientific_or_runtime_evaluator_changes": false
+    },
+    {
+      "changes": [
+        "Resolve sibling frozen confirmation source relative to repository.",
+        "Resolve exact evaluator sources in source/.",
+        "Write test-only validation reports outside immutable source trees."
+      ],
+      "file": "test_release_v2.py",
+      "original_sha256": "b2bba951bd7e6a52a694b3f6e8ea9bf8e93ce7e59085d63156025e273cb42c28",
+      "public_sha256": "30022752656200957db8ec5e2e8869a01ba59ab5931275442aee65610627db6b",
+      "scientific_or_runtime_evaluator_changes": false
+    }
+  ],
+  "runtime_evaluator_sources": {
+    "release_and_evaluate.py": {
+      "byte_identical": true,
+      "original_sha256": "a56a0be8d7ad2dcb87c530dc33868159bd9e0ba7802d46b0974d9c378ae31a2d",
+      "public_sha256": "a56a0be8d7ad2dcb87c530dc33868159bd9e0ba7802d46b0974d9c378ae31a2d"
+    },
+    "release_and_evaluate_v2.py": {
+      "byte_identical": true,
+      "original_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0",
+      "public_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0"
+    }
+  },
+  "runtime_note": "Original evaluators retain their pinned deployment roots and safety guards; public synthetic tests and CPU reconstruction work without that host layout. No claim of a newly portable GPU runner is made."
+}

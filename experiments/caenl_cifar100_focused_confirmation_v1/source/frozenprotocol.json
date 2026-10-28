@@ -1,0 +1,213 @@
+{
+  "all_candidate_results_retained": true,
+  "allowed_shard_counts": [
+    1,
+    2,
+    5,
+    10
+  ],
+  "anchor_batches": 16,
+  "architecture": "resnet18_cifar_stem",
+  "automatic_next_stage": false,
+  "automatic_retry": false,
+  "automatic_test_release": false,
+  "backbone_learning_rate_schedule": "cosine_to_zero_over_own_training_stage",
+  "batch_size": 100,
+  "batches_per_epoch_by_budget": {
+    "18000": 180,
+    "27000": 270,
+    "4500": 45,
+    "9000": 90
+  },
+  "classes": 100,
+  "classes_per_batch": 10,
+  "classifier_probe_learning_rate_schedule": "step_decay_at60_75_90_factor0.2",
+  "configuration_selection": "One unchanged selected configuration per focused method, fixed by the bound completed development results",
+  "confirmation_enabled": true,
+  "confirmation_reselection_permitted": false,
+  "created_utc": "2026-10-26T08:50:48.141468+00:00",
+  "dcr_prefix_counted_inside200": true,
+  "decision_basis": "Verified development selection and explicit focused-scope amendment, before any confirmation outcome or official-test access",
+  "development_enabled": false,
+  "development_results_sha256": "1a88058c67e352052182eebe7cea21f11837a19dfb1406cb9f48ecec719f7e08",
+  "development_review_sha256": "ee148a964dedd09c43564d4ca7b2f1a31aabd2154a612055ba974487f7ff9baf",
+  "development_selection_rule": "mean_final_development_accuracy_over_three_seeds_per_method_tie_lower_total_treatment_cost_then_candidate_index",
+  "development_size": 5000,
+  "development_source_manifest_sha256": "3c7e255c16091f226407b0401501311a68abb548f98eebe78315b37a5e4b7e42",
+  "equivalence_or_label_savings_claim_enabled": false,
+  "evaluation": "final_epoch_development_diagnostics_only_no_selection",
+  "examples_per_class": 10,
+  "feature_dim": 512,
+  "geometry": {
+    "between_floor_fraction": 0.5,
+    "feature_norm_epsilon": 1e-06,
+    "huber_delta": 0.25,
+    "scatter_epsilon": 1e-06,
+    "target_ratio_fraction": 0.9
+  },
+  "initialization": "Fresh raw ResNet18 state for every seed-budget pair, recorded pair-specific seed; common across all four methods at that pair; DCR branches alone share the one-epoch CE prefix and frozen targets",
+  "interpretation_limits": [
+    "All six development treatments and their negative findings are retained; the earlier six-method confirmation proposal is not executed or declared completed",
+    "Four development-selected recipes are frozen unchanged, one per method across all seeds and budgets",
+    "This confirms neither SupCon nor NONL comparisons, active acquisition, annotation savings, robustness or mechanism",
+    "AULC uses paired independent seeds, not budgets as independent replicates; primary family has three contrasts",
+    "Ten seeds have limited sensitivity to small effects; see the separately bound power assessment",
+    "Development diagnostics are final-epoch records only and cannot select models, epochs or configurations again",
+    "Official-test labels remain sealed; a separate explicit release record and complete model verification are required before scientific analysis",
+    "No automatic retries, expanded grids, dropped incomplete pairs or replacement seeds are allowed"
+  ],
+  "label_counts": [
+    4500,
+    9000,
+    18000,
+    27000
+  ],
+  "label_fractions": [
+    0.1,
+    0.2,
+    0.4,
+    0.6
+  ],
+  "label_sampling": "One identity-only uniform permutation of the 45000 pool per seed; nested prefixes4500/9000/18000/27000 shared by all four focused methods",
+  "max_wall_seconds": 345600,
+  "methods": {
+    "ce": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 1,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200
+    },
+    "full_dcr": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 1,
+          "floor_weight": 0.01,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.1,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200,
+      "separation_weight_policy": "fixed_0.01_not_tuned",
+      "shared_ce_prefix_epochs_included": 1
+    },
+    "plain_fisher": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 1,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.01,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200
+    },
+    "ratio_dcr": {
+      "augmentation": "reflect_pad4_random_crop32_horizontal_flip",
+      "configs": [
+        {
+          "candidate_index": 0,
+          "floor_weight": 0,
+          "learning_rate": 0.1,
+          "momentum": 0.9,
+          "ratio_weight": 0.03,
+          "weight_decay": 0.0005
+        }
+      ],
+      "epochs": 200,
+      "shared_ce_prefix_epochs_included": 1
+    }
+  },
+  "official_test_access": false,
+  "ordinary_epochs": 200,
+  "overall_max_seconds": 345600,
+  "pairing": "Within each seed-budget pair all four methods share label identities, raw initialization, acquired-only balanced minibatch IDs and single-view augmentation streams; per-budget epochs have45/90/180/270updates. Label prefixes are nested across budgets, with fresh trajectories at each budget.",
+  "physical_optimizer_updates": {
+    "total": 4674150
+  },
+  "pilot_source_binding_sha256": "a5b69520bf0c7d462dd24f090fbf9b6eae1cd02b4b65bf90defc4297fae22e05",
+  "planned_counts": {
+    "backbone_treatment_branches": 160,
+    "materialized_job_count": 200,
+    "shared_DCR_CE_preparations": 40,
+    "supcon_classifier_fits": 0,
+    "training_stages_total": 200
+  },
+  "power_assessment_record": "POWER_AND_DEVELOPMENT_ASSESSMENT.json",
+  "power_assessment_required_for_launch": true,
+  "practical_reference_pp": 0.5,
+  "precision": "float32_no_AMP_no_TF32",
+  "pretrained": false,
+  "primary_contrasts": [
+    "ratio_dcr_minus_ce",
+    "ratio_dcr_minus_full_dcr",
+    "ratio_dcr_minus_plain_fisher"
+  ],
+  "primary_endpoint": "seed_level_normalized_trapezoidal_test_accuracy_AULC_weights0.1_0.3_0.4_0.2_after_separate_test_release",
+  "primary_test": "two_sided_exact_paired_sign_flip_Holm_three_contrasts",
+  "protocol_amendment": {
+    "confirmed_claims_against_excluded_comparators_enabled": false,
+    "excluded_development_outcomes_retained": true,
+    "excluded_from_confirmation": [
+      "supcon",
+      "nonl"
+    ],
+    "new_scope": "Four-method160treatments,threeprimarycontrasts; all ten seeds and all four label budgets retained",
+    "previous_proposal": "Six-method240treatments,fiveprimarycontrasts; this earlier proposal is not executed or declared completed",
+    "reason": "Development favored the simple Fisher comparator over ratio DCR; focused confirmation retains that negative comparator and tests the central CE/full/Fisher objections within finite measured compute. Full six-method confirmation would be dominated by adapted SupCon/NONL training cost.",
+    "timing": "Before any confirmation preparation, training or official-test access"
+  },
+  "rawinitprep_max_seconds": 3600,
+  "recipe_label": "focused_four_method_supervised_geometry_confirmation_selected_configs200_total_epochs",
+  "regular_job_max_seconds": 7200,
+  "resume_supported": false,
+  "sampler": "balanced_classes_and_distinct_examples_within_each_batch_repetition_between_batches_allowed_acquired_prefix_only",
+  "schema": 1,
+  "scientific_claims_enabled": false,
+  "seeds": [
+    92001,
+    92002,
+    92003,
+    92004,
+    92005,
+    92006,
+    92007,
+    92008,
+    92009,
+    92010
+  ],
+  "select_per_confirmation_budget": false,
+  "selection_frozen": true,
+  "selection_sha256": "6ff37b79ff64d563e2d326492d6ee688c2e291e724851d43614c38bc64b0908e",
+  "sensitivity_test": "paired_t_separate_Holm_three_contrasts",
+  "shard_ownership": "seed_index_modulo_shard_count_all_four_budgets_kept_together",
+  "shared_prefix_learning_rate_schedule": "constant_one_epoch",
+  "shared_prefix_optimizer": {
+    "learning_rate": 0.1,
+    "momentum": 0.9,
+    "weight_decay": 0.0005
+  },
+  "split_seed": 91000,
+  "stage": "CONFIRMATION_TRAINING_ONLY",
+  "standard_train_batchnorm": true,
+  "study_id": "caenl-cifar100-focused-confirmation-v1",
+  "supcon_job_max_seconds": 64800,
+  "support_policy": "UNSUPPORTED_CLASS_SUPPORT_if_any_class_has_fewer_than10_acquired_examples_preserve_draw_and_stop_no_reseed",
+  "test_release_requires_separate_explicit_record": true,
+  "total_job_training_epochs": 200,
+  "train_pool_size": 45000,
+  "treatment_optimizer_reset_after_prefix": true,
+  "warmup_epochs": 1,
+  "warmup_max_seconds": 1800
+}

@@ -12,6 +12,17 @@ The [206-run numerical release](results/caenl-solidification-v1/) includes all e
 
 The [revised preprint and clean arXiv source](manuscripts/arxiv/) incorporate these verified findings. The paper supports a classification scatter-ratio intervention under the tested protocol; it does not claim a universal adaptive, robustness, cross-task or total-cost improvement.
 
+
+The [focused CIFAR-100 confirmation](results/caenl-cifar100-focused-v1/) adds 160
+verified final models and all 54 six-method development outcomes. It establishes
+no adjusted primary AULC advantage of ratio DCR over CE, full DCR or the specified
+Fisher recipe. Ratio DCR has 11.40% higher paired recorded job time than CE
+without an established AULC gain. Every test score and the nonmonotone budget
+outcomes remain released. [CPU reconstruction](analysis/cifar100_focused/)
+preserves the complete three-contrast exact-primary and separate sensitivity
+families. This uniform-label study establishes neither active-learning gains,
+annotation savings, equivalence, robustness nor mechanism.
+
 ## Choose a workflow
 
 | Goal | Entry point |
@@ -105,4 +116,5 @@ The [deployment guide](docs/RUN_ON_IBM.md) describes dependencies, the dataset c
 Configuration files can describe planned or exploratory experiments as well as completed ones. Use the [experiment map](docs/REPRODUCIBILITY.md) to identify the corresponding implementation and available result records.
 
 Licensed datasets, reference-caption text, and model checkpoints must be obtained separately. Third-party notices remain applicable. See [contribution guidance](CONTRIBUTING.md) and [software citation metadata](CITATION.cff).
+
 

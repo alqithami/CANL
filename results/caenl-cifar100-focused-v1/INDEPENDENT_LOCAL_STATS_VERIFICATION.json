@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "score_records": 160,
+  "paired_seeds": 10,
+  "aulc_recomputed_by_adjacent_trapezoids": true,
+  "sign_flip_recomputed_by_1024_explicit_sign_vectors": true,
+  "both_holm_families_recomputed": true,
+  "all_unadjusted_t_intervals_recomputed": true,
+  "scope": "Independent score-level numerical verification; prediction/provenance verification remains separate."
+}

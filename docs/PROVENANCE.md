@@ -44,3 +44,27 @@ The diagnostic review archive SHA-256 is `21a4c69c69f6915c031e2d20961e84795ebbda
 The [CPU reconstruction](../analysis/completed/) repeats all eight primary comparisons, both distinct Holm procedures where recorded, 15 descriptive common-clean-correct contrasts, all 30 timing rows and all 58 audio endpoints/selection. The original code and frozen protocols were not edited on the experiment hosts. Diagnostic clean-logit replay records exact agreement for 30 frozen models. Audio clean child-process audits reload final checkpoints and reproduce saved development-probe logits/NLL bitwise, and recompute saved-caption metrics against original references. They do not regenerate all test captions or establish external reproduction. Primary audio metrics use recomputed pycocoevalcap/PTB scores; all native-score discrepancies remain released (maximum CIDEr-D absolute discrepancy below 0.001). All 40 confirmation outcomes are retained.
 
 The raw-source study saves a complete initial model per seed and asserts paired tensor identities, without assigning a cause to the older initialization mismatch. It uses about 98% official-split coverage rather than the older available mirror subset. Prior AudioCaps exposure and possible AST pretraining overlap remain. Data authenticity, causal mediation and universal generalization are not established by digest verification. Large model binaries, licensed raw audio/images and reference-caption text are not redistributed.
+
+## Focused CIFAR-100 confirmation and test release, 28 October 2026
+
+The [separate release](../results/caenl-cifar100-focused-v1/) contains 160 official-test
+scores, 40 paired method-seed cost rows, all 54 development outcomes and all three
+planned contrasts. All 200 training receipts/checkpoints, 4,674,150 updates and
+467,415,000 image views were verified. Every final model, prediction-array and
+receipt binding and saved accuracy numerator was independently checked before
+publication. The full test-review SHA-256 is
+`31d06166a908d4ea0006c00aac5af31f327d3ea3fe937ce300bc5b1a0edbc949`
+(494 payloads). Public CPU reconstruction repeats score-level AULC, all 1,024 exact
+sign patterns, both Holm families and unadjusted intervals. Raw prediction arrays,
+datasets and checkpoints are excluded, so public arithmetic is distinct from
+model re-execution.
+
+The first test loader stopped after opening the pinned test member because it
+required unique filenames. There were zero model attempts or scores. The versioned
+correction retains all 10,000 rows with 9,999 unique filename strings, uses row
+indices as identities and preserves the original two-hour deadline. No duplicate-image
+inference, untouched-prior-test claim, score retry or retuning is made. An earlier
+training interruption continued only 11 unstarted stages with all 189 completed
+receipts, 1,399 artifact hashes and the original 96-hour deadline preserved. Original
+receipt/source bytes and normalized public training objects are distinguished in
+`PROVENANCE.json`.

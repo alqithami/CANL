@@ -1,0 +1,529 @@
+{
+  "status": "DEVELOPMENT_ASSESSED_CONFIRMATION_AMENDMENT_RECOMMENDED",
+  "created_utc": "2026-10-26T08:50:27.117957+00:00",
+  "input_results_sha256": "1a88058c67e352052182eebe7cea21f11837a19dfb1406cb9f48ecec719f7e08",
+  "input_source_binding_sha256": "f87d689d762d9daf44bdb7e403c32c791770a4fd505ac79358bf52804ff4ce90",
+  "input_freeze_sha256": "896b2906e620b7f83494d4f1cf2c7083eba9d822555ab01d0112221c58773c16",
+  "development_scope": {
+    "label_fraction_of_training_pool": 0.2,
+    "training_labels": 9000,
+    "development_labels": 5000,
+    "development_seeds": [
+      91011,
+      91012,
+      91013
+    ],
+    "candidate_configurations_per_method": 3,
+    "methods": 6,
+    "completed_treatments": 54,
+    "completed_supcon_classifier_fits": 9,
+    "completed_shared_prefixes": 3,
+    "pipeline_hours": 42.36118295111383,
+    "official_test_accessed": false,
+    "selected_configuration_per_confirmation_budget": false
+  },
+  "all_six_selected_development_results": [
+    {
+      "method": "ce",
+      "selected_candidate_index": 1,
+      "mean_final_development_accuracy_percent": 54.04666666666666,
+      "seed_scores": {
+        "91011": 53.48,
+        "91012": 55.04,
+        "91013": 53.62
+      },
+      "selected_configuration": {
+        "candidate_index": 1,
+        "learning_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 0.0005
+      },
+      "total_selected_candidate_cost_over_three_seeds_seconds": 1196.785257436335,
+      "mean_selected_treatment_seconds": 398.92841914544505,
+      "retained_in_amended_confirmation": true
+    },
+    {
+      "method": "full_dcr",
+      "selected_candidate_index": 1,
+      "mean_final_development_accuracy_percent": 54.120000000000005,
+      "seed_scores": {
+        "91011": 53.7,
+        "91012": 54.42,
+        "91013": 54.24
+      },
+      "selected_configuration": {
+        "candidate_index": 1,
+        "floor_weight": 0.01,
+        "learning_rate": 0.1,
+        "momentum": 0.9,
+        "ratio_weight": 0.1,
+        "weight_decay": 0.0005
+      },
+      "total_selected_candidate_cost_over_three_seeds_seconds": 1351.9022011980414,
+      "mean_selected_treatment_seconds": 450.6340670660138,
+      "retained_in_amended_confirmation": true
+    },
+    {
+      "method": "nonl",
+      "selected_candidate_index": 1,
+      "mean_final_development_accuracy_percent": 46.346666666666664,
+      "seed_scores": {
+        "91011": 46.84,
+        "91012": 46.08,
+        "91013": 46.12
+      },
+      "selected_configuration": {
+        "candidate_index": 1,
+        "learning_rate": 0.0390625,
+        "momentum": 0.9,
+        "temperature": 0.1,
+        "weight_decay": 0.0001
+      },
+      "total_selected_candidate_cost_over_three_seeds_seconds": 11333.432971574366,
+      "mean_selected_treatment_seconds": 3777.810990524789,
+      "retained_in_amended_confirmation": false
+    },
+    {
+      "method": "plain_fisher",
+      "selected_candidate_index": 1,
+      "mean_final_development_accuracy_percent": 56.07333333333333,
+      "seed_scores": {
+        "91011": 55.48,
+        "91012": 55.58,
+        "91013": 57.16
+      },
+      "selected_configuration": {
+        "candidate_index": 1,
+        "floor_weight": 0,
+        "learning_rate": 0.1,
+        "momentum": 0.9,
+        "ratio_weight": 0.01,
+        "weight_decay": 0.0005
+      },
+      "total_selected_candidate_cost_over_three_seeds_seconds": 1315.4551869519055,
+      "mean_selected_treatment_seconds": 438.4850623173018,
+      "retained_in_amended_confirmation": true
+    },
+    {
+      "method": "ratio_dcr",
+      "selected_candidate_index": 0,
+      "mean_final_development_accuracy_percent": 54.95333333333334,
+      "seed_scores": {
+        "91011": 54.4,
+        "91012": 54.62,
+        "91013": 55.84
+      },
+      "selected_configuration": {
+        "candidate_index": 0,
+        "floor_weight": 0,
+        "learning_rate": 0.1,
+        "momentum": 0.9,
+        "ratio_weight": 0.03,
+        "weight_decay": 0.0005
+      },
+      "total_selected_candidate_cost_over_three_seeds_seconds": 1332.5242949724197,
+      "mean_selected_treatment_seconds": 444.1747649908066,
+      "retained_in_amended_confirmation": true
+    },
+    {
+      "method": "supcon",
+      "selected_candidate_index": 0,
+      "mean_final_development_accuracy_percent": 50.06666666666666,
+      "seed_scores": {
+        "91011": 50.06,
+        "91012": 50.44,
+        "91013": 49.7
+      },
+      "selected_configuration": {
+        "base_temperature": 0.07,
+        "candidate_index": 0,
+        "learning_rate": 0.05,
+        "momentum": 0.9,
+        "temperature": 0.05,
+        "weight_decay": 0.0001
+      },
+      "total_selected_candidate_cost_over_three_seeds_seconds": 34187.666158892214,
+      "mean_selected_treatment_seconds": 11395.888719630739,
+      "retained_in_amended_confirmation": false
+    }
+  ],
+  "selected_development_contrasts": [
+    {
+      "target": "ratio_dcr",
+      "control": "ce",
+      "retained_in_amended_confirmation_primary_family": true,
+      "seed_differences_pp": [
+        0.9200000000000017,
+        -0.4200000000000017,
+        2.220000000000006
+      ],
+      "mean_difference_pp": 0.9066666666666686,
+      "sample_seed_difference_sd_pp": 1.3200505040843489,
+      "positive_seed_differences": 2,
+      "negative_seed_differences": 1,
+      "n_development_seeds": 3,
+      "ten_seed_illustrative_unadjusted_95pct_t_interval_halfwidth_pp": 0.944307244326796,
+      "ten_seed_illustrative_MDE80pct_pp": {
+        "new_three_contrast_first_Holm_threshold": 1.6150423580720463,
+        "original_five_contrast_first_Holm_threshold": 1.758349657107624,
+        "unadjusted_alpha005": 1.3147721124584668
+      },
+      "ten_seed_model_power_if_true_difference_0_5pp": {
+        "first_Holm_threshold_amended_three": 0.08489854467223894,
+        "first_Holm_threshold_original_five": 0.05710787594007345,
+        "unadjusted_alpha005": 0.18881964935030493
+      },
+      "ten_seed_model_power_if_true_difference_1pp": {
+        "first_Holm_threshold_amended_three": 0.35510261463701176,
+        "first_Holm_threshold_original_five": 0.27260406265195275,
+        "unadjusted_alpha005": 0.5702519172724124
+      },
+      "power_scope": "Illustrative normal independent paired-difference model for the 20% development-budget endpoint only; not validated AULC, exact sign-flip, joint Holm-family or selected-model confirmation power."
+    },
+    {
+      "target": "ratio_dcr",
+      "control": "full_dcr",
+      "retained_in_amended_confirmation_primary_family": true,
+      "seed_differences_pp": [
+        0.6999999999999957,
+        0.19999999999999574,
+        1.6000000000000014
+      ],
+      "mean_difference_pp": 0.8333333333333309,
+      "sample_seed_difference_sd_pp": 0.7094598884597618,
+      "positive_seed_differences": 3,
+      "negative_seed_differences": 0,
+      "n_development_seeds": 3,
+      "ten_seed_illustrative_unadjusted_95pct_t_interval_halfwidth_pp": 0.5075170307188681,
+      "ten_seed_illustrative_MDE80pct_pp": {
+        "new_three_contrast_first_Holm_threshold": 0.868002979939296,
+        "original_five_contrast_first_Holm_threshold": 0.9450233515649821,
+        "unadjusted_alpha005": 0.706623021898552
+      },
+      "ten_seed_model_power_if_true_difference_0_5pp": {
+        "first_Holm_threshold_amended_three": 0.3048718160374113,
+        "first_Holm_threshold_original_five": 0.2296918044649228,
+        "unadjusted_alpha005": 0.511734935169505
+      },
+      "ten_seed_model_power_if_true_difference_1pp": {
+        "first_Holm_threshold_amended_three": 0.9065978363493946,
+        "first_Holm_threshold_original_five": 0.8494022002158705,
+        "unadjusted_alpha005": 0.9764634875826159
+      },
+      "power_scope": "Illustrative normal independent paired-difference model for the 20% development-budget endpoint only; not validated AULC, exact sign-flip, joint Holm-family or selected-model confirmation power."
+    },
+    {
+      "target": "ratio_dcr",
+      "control": "plain_fisher",
+      "retained_in_amended_confirmation_primary_family": true,
+      "seed_differences_pp": [
+        -1.0799999999999983,
+        -0.9600000000000009,
+        -1.3199999999999932
+      ],
+      "mean_difference_pp": -1.1199999999999974,
+      "sample_seed_difference_sd_pp": 0.18330302779822968,
+      "positive_seed_differences": 0,
+      "negative_seed_differences": 3,
+      "n_development_seeds": 3,
+      "ten_seed_illustrative_unadjusted_95pct_t_interval_halfwidth_pp": 0.13112708682079632,
+      "ten_seed_illustrative_MDE80pct_pp": {
+        "new_three_contrast_first_Holm_threshold": 0.22426577872666162,
+        "original_five_contrast_first_Holm_threshold": 0.24416551872716177,
+        "unadjusted_alpha005": 0.18257006707897286
+      },
+      "ten_seed_model_power_if_true_difference_0_5pp": {
+        "first_Holm_threshold_amended_three": 0.9999981632649443,
+        "first_Holm_threshold_original_five": 0.9999877487364346,
+        "unadjusted_alpha005": 0.9999999872058026
+      },
+      "ten_seed_model_power_if_true_difference_1pp": {
+        "first_Holm_threshold_amended_three": 1.0000000000000009,
+        "first_Holm_threshold_original_five": 1.0000000000000009,
+        "unadjusted_alpha005": 1.0000000000000009
+      },
+      "power_scope": "Illustrative normal independent paired-difference model for the 20% development-budget endpoint only; not validated AULC, exact sign-flip, joint Holm-family or selected-model confirmation power."
+    },
+    {
+      "target": "ratio_dcr",
+      "control": "supcon",
+      "retained_in_amended_confirmation_primary_family": false,
+      "seed_differences_pp": [
+        4.339999999999996,
+        4.18,
+        6.140000000000001
+      ],
+      "mean_difference_pp": 4.886666666666666,
+      "sample_seed_difference_sd_pp": 1.0883626846476024,
+      "positive_seed_differences": 3,
+      "negative_seed_differences": 0,
+      "n_development_seeds": 3,
+      "ten_seed_illustrative_unadjusted_95pct_t_interval_halfwidth_pp": 0.7785677626634351,
+      "ten_seed_illustrative_MDE80pct_pp": {
+        "new_three_contrast_first_Holm_threshold": 1.3315792321674456,
+        "original_five_contrast_first_Holm_threshold": 1.4497340423246121,
+        "unadjusted_alpha005": 1.0840107265499452
+      },
+      "ten_seed_model_power_if_true_difference_0_5pp": {
+        "first_Holm_threshold_amended_three": 0.12317052693772339,
+        "first_Holm_threshold_original_five": 0.08515735763111779,
+        "unadjusted_alpha005": 0.2553579554899705
+      },
+      "ten_seed_model_power_if_true_difference_1pp": {
+        "first_Holm_threshold_amended_three": 0.5202748449080287,
+        "first_Holm_threshold_original_five": 0.4227221765210183,
+        "unadjusted_alpha005": 0.7346307647257274
+      },
+      "power_scope": "Illustrative normal independent paired-difference model for the 20% development-budget endpoint only; not validated AULC, exact sign-flip, joint Holm-family or selected-model confirmation power."
+    },
+    {
+      "target": "ratio_dcr",
+      "control": "nonl",
+      "retained_in_amended_confirmation_primary_family": false,
+      "seed_differences_pp": [
+        7.559999999999995,
+        8.54,
+        9.720000000000006
+      ],
+      "mean_difference_pp": 8.606666666666667,
+      "sample_seed_difference_sd_pp": 1.0815421089043853,
+      "positive_seed_differences": 3,
+      "negative_seed_differences": 0,
+      "n_development_seeds": 3,
+      "ten_seed_illustrative_unadjusted_95pct_t_interval_halfwidth_pp": 0.7736886167028287,
+      "ten_seed_illustrative_MDE80pct_pp": {
+        "new_three_contrast_first_Holm_threshold": 1.3232344614956786,
+        "original_five_contrast_first_Holm_threshold": 1.4406488164319244,
+        "unadjusted_alpha005": 1.0772174237555852
+      },
+      "ten_seed_model_power_if_true_difference_0_5pp": {
+        "first_Holm_threshold_amended_three": 0.12474270138130074,
+        "first_Holm_threshold_original_five": 0.08632999826361366,
+        "unadjusted_alpha005": 0.2579676681615916
+      },
+      "ten_seed_model_power_if_true_difference_1pp": {
+        "first_Holm_threshold_amended_three": 0.5262995293406609,
+        "first_Holm_threshold_original_five": 0.42847378215197646,
+        "unadjusted_alpha005": 0.739891914971222
+      },
+      "power_scope": "Illustrative normal independent paired-difference model for the 20% development-budget endpoint only; not validated AULC, exact sign-flip, joint Holm-family or selected-model confirmation power."
+    }
+  ],
+  "main_findings": [
+    "Ratio-only DCR is descriptively 0.907 percentage points above the independently selected CE configuration at the 20% development budget, but the three paired differences include one negative seed.",
+    "Plain Fisher is the strongest selected development treatment, averaging 56.073%, and exceeds ratio DCR in every development seed by 0.96\u20131.32 percentage points.",
+    "Selected ratio DCR averages 0.833 percentage points above selected full DCR. Independently selected coefficient strengths differ, so this is a comparison of selected treatments, not isolated causal attribution to the separation safeguard.",
+    "Selected ratio DCR is 4.887 and 8.607 percentage points above adapted SupCon and NONL in development. These are tuned development results under the declared architecture/batch/sampler/learning-rate adaptations, not comparisons establishing superiority to unchanged canonical author recipes.",
+    "Selected DCR is slower and less accurate than selected Fisher at this development point. This is descriptive development evidence, not a confirmed Pareto-domination claim."
+  ],
+  "practical_cost_comparison_development": {
+    "ratio_DCR_over_CE_selected_treatment_percent": 11.34197105893957,
+    "ratio_DCR_over_Fisher_selected_treatment_percent": 1.2975818705056597,
+    "cost_scope": "Complete selected development treatment duration as recorded, with shared CE-prefix cost attributed to each DCR treatment. Durations compare complete treatments, not matched-compute losses."
+  },
+  "power_and_precision": {
+    "decision": "Freeze ten distinct confirmation seeds as a finite precision-limited comparison, not as an 80%-powered design for a 0.5-point AULC effect.",
+    "confirmation_seeds": [
+      92001,
+      92002,
+      92003,
+      92004,
+      92005,
+      92006,
+      92007,
+      92008,
+      92009,
+      92010
+    ],
+    "n_independent_paired_seeds": 10,
+    "practical_AULC_reference_pp": 0.5,
+    "is_equivalence_or_noninferiority_margin": false,
+    "reliable_AULC_power_estimate_available": false,
+    "reasons": [
+      "Development has only three independently sampled/initialized seeds at one training-label budget.",
+      "All selected development outcomes were used for hyperparameter selection; selected means and variances can be optimistic and unstable.",
+      "No development curves at 10%, 40% or 60% were measured. AULC variances and cross-budget covariances are therefore unknown.",
+      "Different seeds share the same fixed development and eventual test source. Seed replication quantifies algorithm/data-subset variation conditional on those source splits; it is not ten independent benchmark populations.",
+      "The proposed primary test is exact sign flip with Holm, while the numeric planning scenarios here concern a normal paired-t model. They are not certified primary-test or joint-family power."
+    ],
+    "model_scenario_definition": {
+      "model": "Ten independent normally distributed paired differences at a single 20% budget, conditional on the observed selected three-seed sample SD as the true future SD. This assumption is illustrative and unverified.",
+      "power_calculation": "Deterministic integration over chi-square variance in the noncentral-t representation; two-sided t rejection threshold.",
+      "first_Holm_threshold_new_family": 0.016666666666666666,
+      "first_Holm_threshold_original_family": 0.01,
+      "unadjusted_threshold_upper_scenario": 0.05,
+      "MDE80_factors_times_hypothetical_true_SD": {
+        "new_three_contrast_first_Holm_threshold": 1.2234701271466262,
+        "original_five_contrast_first_Holm_threshold": 1.3320321091254768,
+        "unadjusted_alpha005": 0.996001371455448
+      }
+    },
+    "exact_primary_test_resolution": {
+      "two_sided_minimum_raw_p_with10_nonzero_differences": 0.001953125,
+      "maximum_first_step_Holm_adjusted_minimum_p_three_tests": 0.005859375,
+      "assumption": "Independent seed differences must be jointly invariant under independent sign flips under the null. Pairing alone does not establish this assumption.",
+      "zero_differences": "Zero differences reduce the effective sign-permutation resolution."
+    },
+    "precision_intervals": "Unadjusted 95% paired-t intervals are sensitivity/descriptive uncertainty intervals, not simultaneous family intervals and not an equivalence analysis.",
+    "no_optional_seed_extension_after_test_results": true
+  },
+  "confirmation_amendment": {
+    "original_proposal": {
+      "methods": [
+        "ce",
+        "ratio_dcr",
+        "full_dcr",
+        "plain_fisher",
+        "supcon",
+        "nonl"
+      ],
+      "primary_contrasts": [
+        [
+          "ratio_dcr",
+          "ce"
+        ],
+        [
+          "ratio_dcr",
+          "full_dcr"
+        ],
+        [
+          "ratio_dcr",
+          "plain_fisher"
+        ],
+        [
+          "ratio_dcr",
+          "supcon"
+        ],
+        [
+          "ratio_dcr",
+          "nonl"
+        ]
+      ],
+      "primary_family_size": 5,
+      "backbone_treatment_branches": 240,
+      "supcon_classifier_fits": 40,
+      "shared_DCR_prefixes": 40,
+      "training_stages": 320,
+      "physical_optimizer_updates": 16959150
+    },
+    "amended_plan": {
+      "methods": [
+        "ce",
+        "ratio_dcr",
+        "full_dcr",
+        "plain_fisher"
+      ],
+      "confirmation_seeds": [
+        92001,
+        92002,
+        92003,
+        92004,
+        92005,
+        92006,
+        92007,
+        92008,
+        92009,
+        92010
+      ],
+      "label_fractions": [
+        0.1,
+        0.2,
+        0.4,
+        0.6
+      ],
+      "label_counts": [
+        4500,
+        9000,
+        18000,
+        27000
+      ],
+      "AULC_weights": [
+        0.1,
+        0.3,
+        0.4,
+        0.2
+      ],
+      "primary_contrasts": [
+        [
+          "ratio_dcr",
+          "ce"
+        ],
+        [
+          "ratio_dcr",
+          "full_dcr"
+        ],
+        [
+          "ratio_dcr",
+          "plain_fisher"
+        ]
+      ],
+      "primary_test": "two_sided_exact_paired_sign_flip",
+      "primary_adjustment": "Holm_across_three_contrasts",
+      "sensitivity_test": "paired_t_with_separate_Holm_across_three_contrasts",
+      "backbone_treatment_branches": 160,
+      "supcon_classifier_fits": 0,
+      "shared_DCR_prefixes": 40,
+      "training_stages": 200,
+      "physical_optimizer_updates": 4674150,
+      "single_image_views": 467415000,
+      "proposed_global_cap_hours": 96,
+      "proposed_regular_job_cap_hours": 2,
+      "proposed_shared_prefix_cap_minutes": 30,
+      "same_selected_config_at_all_budgets": true,
+      "new_tuning_enabled": false,
+      "source_and_checkpoint_mutation_enabled": false,
+      "official_test_release_is_separate": true
+    },
+    "rationale": [
+      "The amendment is made after development and before any confirmation outcomes or official-test access; its timing must be disclosed.",
+      "All six-method development candidates and negative/inconclusive findings remain preserved. The original six-method confirmation proposal is archived and is not represented as completed by the amended run.",
+      "The amendment retains Fisher, the strongest observed comparator, and preserves CE and full DCR. It therefore retains the comparisons most directly challenging DCR novelty and usefulness rather than removing an unfavorable competitor.",
+      "Adapted SupCon and NONL consume about 90% of projected confirmation compute, while their development means are below all four retained methods. They remain descriptive development comparisons only.",
+      "The narrowed study can test independent transfer relative to CE and the ordinary geometric control and compare selected ratio/full treatments. It cannot yield confirmed claims against SupCon, NONL, unchanged canonical recipes, active acquisition, robustness or the separate audio objective.",
+      "If a broad confirmed six-method benchmark is later desired, it requires a separately frozen completion of the omitted family before its outcomes or test release; it must not be silently added after inspecting the amended confirmation results."
+    ],
+    "required_implementation_change": "Use a new explicit protocol ID and forked four-method analyzer contract. The saved six-method analyzer deliberately rejects a four-method grid and must not be bypassed or falsely reported as the unchanged original analysis."
+  },
+  "compute_projection": {
+    "basis": "Selected measured development treatment cost at 9000 labels over three seeds. Scale to ten seeds and summed label counts58500 per seed, with linear updates per acquired label; count one physical DCR prefix once.",
+    "scale_from_selected_three_seed_candidate_total": 21.666666666666668,
+    "method_hours_before_shared_prefix_correction": {
+      "ce": 7.202874234570536,
+      "full_dcr": 8.13644843313636,
+      "nonl": 68.21047621780869,
+      "plain_fisher": 7.917091402951283,
+      "ratio_dcr": 8.01982214566734,
+      "supcon": 205.75910188222167
+    },
+    "shared_prefix_double_attribution_correction_hours": 0.06790347263837854,
+    "all_six_method_projected_L40S_hours": 305.17791084371754,
+    "four_method_projected_L40S_hours": 31.208332743687144,
+    "hours_removed_by_amendment": 273.9695781000304,
+    "fraction_compute_removed": 0.8977372488808044,
+    "full_six_method_single_host_days": 12.715746285154898,
+    "four_method_single_host_days": 1.300347197653631,
+    "is_ETA_guarantee": false,
+    "exclusions_and_uncertainties": [
+      "Host contention, I/O, final package/evaluation overhead and fixed per-job preparation can change elapsed time.",
+      "The projection assumes unchanged recipes, label-count-dependent batch counts, hardware and precision.",
+      "The confirmation population spans four label budgets, while runtime measurements are at one budget."
+    ],
+    "cost_cap_rationale": "The proposed96-hour global cap is about3.1 times the projected four-method duration and is a finite operational ceiling, not an expected runtime or a mechanism to extend training."
+  },
+  "decision_boundaries": [
+    "A positive ratio-versus-CE mean alone does not establish novelty over ordinary scatter regularization. A negative or unresolved Fisher contrast must remain prominent.",
+    "AULC significance alone does not establish a 0.5-point practically useful effect; report effect estimates and unadjusted sensitivity intervals together with adjusted primary p-values.",
+    "Nonsignificance is not equivalence, noninferiority or evidence of no cost to using DCR.",
+    "No resampling of unsupported label draws, changing coefficients, dropping unfavorable budgets or extending seeds after official-test outcomes is permitted.",
+    "Confirmation may falsify the hoped-for DCR-specific advantage. That is a useful result and must not trigger an undeclared search until the ranking turns positive.",
+    "This independent CIFAR stage compares fixed classification objectives. It does not test the adaptive feedback controller versus tuned fixed coefficients or establish a policy-level acquisition advantage.",
+    "DCR includes a shared CE prefix and optimizer reset. The selected full/ratio coefficients differ. These complete treatment comparisons do not isolate the nonlinear gate, frozen reference, safeguard or optimizer-state mechanism."
+  ],
+  "prior_canonical_results_sha256": "6aec533f4e54310db0382c7910f1b72a64ae9426555576db203f9dea8958caab",
+  "input_results_provenance": {
+    "authoritative_path": "development_review/RESULTS.json",
+    "authoritative_member": "RESULTS.json",
+    "origin": "Recovered original member bytes from the verified development review archive",
+    "prior_canonical_equivalence": "Earlier tool-captured JSON was reserialized and has different bytes; parsed objects were independently checked equal. Numerical assessment is unchanged."
+  }
+}

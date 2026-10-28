@@ -1,0 +1,16 @@
+{
+  "deadline_extended": false,
+  "model_score_retries": 0,
+  "models_or_configurations_changed": false,
+  "prior_locked_analysis_spec_sha256": "6fb70f0405bbd0f9fcbe0fc2cdf77f81168916f5da9f32287552b1d538815ea6",
+  "prior_model_attempts": 0,
+  "prior_model_receipts": 0,
+  "prior_model_scores": 0,
+  "prior_official_test_accessed": true,
+  "prior_output": "/mnt/caenl/active/caenl-cifar100-focused-testrelease-v1/output",
+  "prior_release_receipt_sha256": "66ab36a531ab1b1a9c85fe4d2a8aab7af09644b674dec2621cda8491a0060451",
+  "prior_run_request_sha256": "f3bc1924460030aaff029c622026860837ca39b5fed2aa1d7a1040b5b9129ac8",
+  "prior_status_sha256": "7401136f3ef4d648a51b018a4933da18334890244774aea22178f7ca3e7b1c4e",
+  "statistical_decisions_changed": false,
+  "validation_amendment": "Filename uniqueness is not a CIFAR100 row-identity requirement. The pinned test member has10000 rows and9999 unique filenames. Keep every original row; use row indices0..9999 as identities. No duplicate-image inference."
+}

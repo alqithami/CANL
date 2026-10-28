@@ -1,0 +1,20 @@
+{
+  "status": "PASSED",
+  "synthetic_only": true,
+  "real_dataset_accessed": false,
+  "real_gpu_accessed": false,
+  "checks": [
+    "Only explicit release fields change; unchanged analysis contract validates",
+    "Original two-hour start/deadline and prior accessed release bytes preserved exactly",
+    "New release binds prior access and proves zero model attempts/receipts/scores",
+    "Any prior model attempt evidence blocks input-validation recovery",
+    "Full160-model mocked orchestration reaches frozen three-contrast analysis",
+    "First and only synthetic test access occurs after immutable release and locked protocol",
+    "Complete 40-record descriptive cost family validates",
+    "Independent per-example accuracy/CE recomputation rejects score tampering",
+    "Existing release evidence refuses any replay",
+    "Compact review CRC and every payload hash verified",
+    "Duplicate filename regression retains all10000 rows and original order"
+  ],
+  "evaluator_sha256": "ded98e2e50eb32df42cfacb0ebf1d3c71a7afe2e4c145e2f9f7fc6188ebbeac0"
+}

@@ -1,0 +1,62 @@
+{
+  "analysis": {
+    "confidence_level": 0.95,
+    "endpoint": "normalized_trapezoidal_AULC_accuracy_percent",
+    "primary_adjustment": "Holm",
+    "primary_contrasts": [
+      [
+        "ratio_dcr",
+        "ce"
+      ],
+      [
+        "ratio_dcr",
+        "full_dcr"
+      ],
+      [
+        "ratio_dcr",
+        "plain_fisher"
+      ]
+    ],
+    "primary_test": "two_sided_exact_paired_sign_flip",
+    "sensitivity_adjustment": "Holm",
+    "sensitivity_test": "paired_t"
+  },
+  "confirmation_seeds": [
+    92001,
+    92002,
+    92003,
+    92004,
+    92005,
+    92006,
+    92007,
+    92008,
+    92009,
+    92010
+  ],
+  "label_counts": [
+    4500,
+    9000,
+    18000,
+    27000
+  ],
+  "label_fractions": [
+    0.1,
+    0.2,
+    0.4,
+    0.6
+  ],
+  "locked": false,
+  "methods": [
+    "ce",
+    "ratio_dcr",
+    "full_dcr",
+    "plain_fisher"
+  ],
+  "note": "Frozen before training. locked must remain false until a separate verified official-test release binds all complete models; statistical decisions cannot be changed at release.",
+  "protocol_id": "caenl-cifar100-focused-confirmation-v1",
+  "schema_version": 1,
+  "source_binding_sha256": "FILLED_FROM_BOUND_TRAINING_SOURCE_DURING_PREPARATION",
+  "stage": "confirmation",
+  "test_release_receipt_sha256": null,
+  "test_release_required": true
+}

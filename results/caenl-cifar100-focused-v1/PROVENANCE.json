@@ -1,0 +1,88 @@
+{
+  "completed_model_receipts": 160,
+  "completed_training_review_sha256": "65c4eb166014f8ce32420361df91320cb94285e838c104929193cb736113094f",
+  "confirmation_treatments": 160,
+  "cost_boundaries": {
+    "physical_sum_job_hours": 31.192231823517425,
+    "pipeline_elapsed_hours_including_interruption": 40.41701284606631,
+    "ratio_vs_ce_mean_paired_job_overhead_percent": 11.39926886082897,
+    "scope": "Per method-seed sum over four budgets of recorded model training and job times; DCR includes its attributed shared prefix. Prefix attribution appears in both DCR methods; not physical total. Excludes pipeline downtime, recovery, data/preparation, test inference and transfer."
+  },
+  "data_and_artifacts_not_distributed": [
+    "raw datasets and test labels",
+    "prediction arrays",
+    "checkpoint binaries",
+    "operational logs/PIDs/authentication details"
+  ],
+  "development_outcomes": 54,
+  "exact_public_files": [
+    "RESULTS_INPUT.json",
+    "ANALYSIS.json",
+    "LOCKED_ANALYSIS_SPEC.json",
+    "RESULTS.json",
+    "TEST_RELEASE_RECEIPT.json",
+    "INPUT_VALIDATION_RECOVERY.json",
+    "TEST_DATA_MANIFEST.json",
+    "INDEPENDENT_LOCAL_STATS_VERIFICATION.json",
+    "INDEPENDENT_STATISTICS.json",
+    "models/*/RECEIPT.json",
+    "development/RESULTS.json",
+    "development/SELECTION.json"
+  ],
+  "inference_limits": [
+    "Separate four-method prospective amendment retains all six-method development outcomes; SupCon/NONL not confirmed.",
+    "Ratio and fullDCR use different selected ratio strengths, so their contrast is not a causal floor ablation.",
+    "DCR resets SGD after its shared one-epoch prefix; CE/Fisher continuous200epoch recipes differ.",
+    "Uniform-label supervised experiment, not an active-acquisition study.",
+    "No equivalence, annotation savings, robustness, causal mechanism or universal Fisher-method superiority claim.",
+    "Exact signflip inference is conditional on independent paired seed differences and sign exchangeability.",
+    "Same official test set across seeds; no third-party implementation replication."
+  ],
+  "input_loader_amendment": {
+    "all_original_test_rows_retained": 10000,
+    "duplicate_image_inference_enabled": false,
+    "identity_rule": "Original row indices0..9999; filename strings are not unique row IDs.",
+    "original_two_hour_deadline_preserved": true,
+    "prior_model_attempts": 0,
+    "prior_model_receipts": 0,
+    "prior_model_scores": 0,
+    "prior_test_member_opened": true,
+    "reason": "The pinned official test member has10000 rows but9999 unique filename strings. Filename uniqueness was an overstrict metadata check.",
+    "record_sha256": "533c3a974659d5d19480b6a22c0dfe2dc9f7364fc9eb54b4729360516be3f325",
+    "training_models_recipes_analysis_decisions_changed": false
+  },
+  "locked_analysis_spec_sha256": "da19af1c6fc18d50651c8b8065330118b3183f562cc51e7e8568d3bcb0b08fbe",
+  "normalized_public_files": [
+    "TRAINING_RECORDS.json",
+    "MODEL_BINDINGS.json"
+  ],
+  "official_test_review_payload_count": 494,
+  "official_test_review_sha256": "31d06166a908d4ea0006c00aac5af31f327d3ea3fe937ce300bc5b1a0edbc949",
+  "original_test_release_receipt_sha256": "1f3bbe7bb091b6dcce56a985c85082e49fd0bfe0049f0ad1ebd6506dc565d836",
+  "physical_image_views": 467415000,
+  "physical_optimizer_updates": 4674150,
+  "release_date": "2026-10-28",
+  "schema_version": 1,
+  "shared_training_preparations": 40,
+  "source_archive_sha256": "85cd44d02ba6437773c5bbd22e183051d648de2e7d6b014e1ef29b855ba677a7",
+  "source_binding_sha256": "f0d8c393ae2fa8fb48271c333d4b55146733db2d5e8aaea855854ce2a49ac6b1",
+  "source_manifest_sha256": "2d920804e8ccd7b5e7d133afe5db88407e1783ead5c0e69c9d4c984a3ce81aba",
+  "study_id": "caenl-cifar100-focused-confirmation-v1",
+  "test_examples_per_model": 10000,
+  "training_freeze_sha256": "0c330280a7dd84d0b208f646003e498bcfbf3b1d231056bd2023220cc0d03d3a",
+  "training_interruption": {
+    "completed_receipts_verified_before_continuation": 189,
+    "original_completed_artifact_hashes_unchanged": 1399,
+    "original_start_and96hour_deadline_preserved": true,
+    "partial_or_completed_training_replayed": false,
+    "scope": "Coordinator stopped between completed jobs on a GPU exclusivity guard; only11 never-attempted jobs were continued."
+  },
+  "training_recovery_review_sha256": "acc94183cc198e80e2fe9697811a9d3031ded023301c5b7c72def9150af787c3",
+  "verification": {
+    "all_160_official_test_prediction_arrays_receipts_and_accuracy_numerators_verified": true,
+    "all_160_saved_accuracy_values_independently_recomputed": true,
+    "all_training_receipts_and_checkpoint_hashes_verified": true,
+    "independent_adjacent_trapezoid_AULC_and_1024_pattern_signflip_and_both_Holm_families": true,
+    "public_reconstruction_scope": "Released-score arithmetic and metadata/hash bindings, without training or regenerating predictions."
+  }
+}

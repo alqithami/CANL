@@ -376,3 +376,26 @@ None rejects after primary multiplicity correction. Full is numerically lower; i
 Wider coverage and tuned fixed control address limitations of the earlier comparison, while prior benchmark exposure, possible AST pretraining overlap, acoustic near-duplicates and upstream authenticity remain unresolved. This is spectral audio regularization, not the classification common-label scatter ablation or a test of one unchanged objective across modalities. No video result is claimed.
 
 The [new CPU reconstruction](../analysis/completed/) verifies every new primary contrast, all 15 descriptive intersection contrasts, timing summaries and all audio outcomes. [Diagnostic records](../results/caenl-diagnostics-v1/) and [raw-source audio records](../results/caenl-audiocaps-raw-v1/) retain negative and inconclusive measurements. Statistical reconstruction remains distinct from independent training, attack generation or caption regeneration.
+
+## Focused CIFAR-100 confirmation, completed 28 October 2026
+
+The separate study retains all 54 six-method development outcomes and confirms
+four selected recipes with ten new seeds at four nested uniform-label budgets,
+for 160 final models and 40 shared preparations. Mean normalized accuracy AULC
+is 58.6276 for CE, 58.7472 for ratio DCR, 58.7216 for full DCR and 57.1147 for
+Fisher. Ratio DCR minus these controls is +0.1196, +0.0256 and +1.6325 pp; primary
+Holm-adjusted exact p-values are 1.0, 1.0 and 0.36328125. No comparison establishes
+superiority. Paired-t sensitivity remains a separate family, and nonrejection
+does not establish equivalence. Ratio DCR's recorded job time is 11.40% higher
+than CE on average across paired seeds without an established AULC gain.
+
+The independent unit is one paired seed. Normalized trapezoidal AULC uses weights
+0.1, 0.3, 0.4 and 0.2 over the 0.1–0.6 fraction of the 45k training pool. The 5k
+development labels are additional to the gradient-label budget. Independently
+selected strengths and the DCR prefix/SGD reset mean this compares selected
+recipes rather than isolating a causal floor effect. Mean accuracy need not
+increase with budget; all seed outcomes remain released. No active-acquisition,
+annotation-saving, robustness or mechanism claim follows. See the
+[complete numerical release](../results/caenl-cifar100-focused-v1/) and
+[CPU reconstruction](../analysis/cifar100_focused/). Earlier ImageNet families
+remain separate.

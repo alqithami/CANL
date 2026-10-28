@@ -1,0 +1,35 @@
+{
+  "amendment": "Focused four-method confirmation before any confirmation outcome; original six-method proposal not enabled",
+  "authorization": "User requested proceed after verified development completed; scope is assessment, freeze and independent confirmation training",
+  "automatic_test_release": false,
+  "development_results_sha256": "1a88058c67e352052182eebe7cea21f11837a19dfb1406cb9f48ecec719f7e08",
+  "global_training_stages": 200,
+  "global_treatments": 160,
+  "label_counts": [
+    4500,
+    9000,
+    18000,
+    27000
+  ],
+  "methods": [
+    "ce",
+    "ratio_dcr",
+    "full_dcr",
+    "plain_fisher"
+  ],
+  "official_test_access": false,
+  "seeds": [
+    92001,
+    92002,
+    92003,
+    92004,
+    92005,
+    92006,
+    92007,
+    92008,
+    92009,
+    92010
+  ],
+  "selection_sha256": "6ff37b79ff64d563e2d326492d6ee688c2e291e724851d43614c38bc64b0908e",
+  "status": "CONFIRMATION_TRAINING_ENABLED"
+}

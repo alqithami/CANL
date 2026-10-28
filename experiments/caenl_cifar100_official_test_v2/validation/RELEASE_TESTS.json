@@ -1,0 +1,16 @@
+{
+  "status": "PASSED",
+  "synthetic_only": true,
+  "real_dataset_accessed": false,
+  "real_gpu_accessed": false,
+  "checks": [
+    "Only explicit release fields change; unchanged analysis contract validates",
+    "Full160-model mocked orchestration reaches frozen three-contrast analysis",
+    "First and only synthetic test access occurs after immutable release and locked protocol",
+    "Complete 40-record descriptive cost family validates",
+    "Independent per-example accuracy/CE recomputation rejects score tampering",
+    "Existing release evidence refuses any replay",
+    "Compact review CRC and every payload hash verified"
+  ],
+  "evaluator_sha256": "a56a0be8d7ad2dcb87c530dc33868159bd9e0ba7802d46b0974d9c378ae31a2d"
+}

@@ -1,0 +1,26 @@
+{
+  "files": {
+    "ANALYSIS_SPEC.json": "6f821f84e5b652319dd296a17aa038d9486086537b2133cd3c908369e27e0e92",
+    "CONFIRMATION_ENABLE.json": "bd580d8a467f8c59400f8e06c22d8976bc5dd3b6afcdcd6c0f8bd71ce7284457",
+    "DEVELOPMENT_RESULTS.json": "1a88058c67e352052182eebe7cea21f11837a19dfb1406cb9f48ecec719f7e08",
+    "POWER_AND_DEVELOPMENT_ASSESSMENT.json": "04f58ad86fec368b99faf7ba2f454cf783662ff35e596e81ad5eafc10d66cce9",
+    "README_CONFIRMATION.md": "a2bbf85d575783f3f433c1a2eefb89f3a4b352aa15bf652c7962d90b65240ade",
+    "SELECTION.json": "6ff37b79ff64d563e2d326492d6ee688c2e291e724851d43614c38bc64b0908e",
+    "SOURCES.json": "34ddfca0ca6c7dbeaaf402e9b96c4f30a2ae5b26f49e16f8083ea3e7fd5823e9",
+    "analyze.py": "05d0a547a76c065495ca07ec01cb17287a9331738f805064ee1695edfee7e8d6",
+    "confirmation.py": "6b5f6174258d8f1171e5a20592f24dd4f7d201c51a3f19208f3f936f244cd64d",
+    "data_core.py": "2bee36e0ebcb14949b2852d49e099e7ab3a9b5e7ff9b2640aac7383e1358ba36",
+    "frozenprotocol.json": "97042ae0b69d6c9d56cbafc6812797e37a19bc7b04aacee857801e51812b6e8f",
+    "methods.py": "0e46dfc22385277dc70e0cd575f1d6d80ff78893eb1dd00bd4a6279b59f87403",
+    "test_analysis.py": "3240826008f9c4a0ea25796a9ff78b1ef609e826bed4101c4baf2fb3f9906f5c",
+    "test_confirmation.py": "bf5e32166858d4744428fa33361eb7ce2f8b627621eceb658fe05a5114db9830",
+    "test_methods.py": "11bf699b82bc12dcdcf0f36501b41be8f55a95787778c21ddf8d56c7af9f8f7d",
+    "vendor/caenl_reference/aligned.py": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+    "vendor/nc_by_design/LICENSE": "c5422b90a8441aec617053dcc0a3be1d7c79de18b23c612bcfc1beb34559b925",
+    "vendor/nc_by_design/losses.py": "4eaffe922b3ab0fd6cd483816cce63fb3c27ea44cd1728038e8c5f32818887d1",
+    "vendor/supcontrast/LICENSE": "4e5cba8d82ff479683e749ed7716105c075f3200ef64ae7e9284472b33db06ad",
+    "vendor/supcontrast/losses.py": "a432e24bdff118aa0ab3013a4c85a4b099871ebef554177054d91fe6fca616db"
+  },
+  "schema": 1,
+  "study": "caenl-cifar100-focused-confirmation-v1"
+}

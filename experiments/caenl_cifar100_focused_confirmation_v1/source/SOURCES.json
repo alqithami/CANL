@@ -1,0 +1,53 @@
+{
+  "checked_utc": "2026-10-23",
+  "purpose": "Pinned reference losses only; these files do not supply a complete training recipe.",
+  "files": [
+    {
+      "repository": "HobbitLong/SupContrast",
+      "commit": "66a8fe53880d6a1084b2e4e0db0a019024d6d41a",
+      "source_path": "losses.py",
+      "local_path": "vendor/supcontrast/losses.py",
+      "git_blob_sha1": "3a11ca74a2c3e000f869e6514787a108397415de",
+      "sha256": "a432e24bdff118aa0ab3013a4c85a4b099871ebef554177054d91fe6fca616db",
+      "bytes": 4137,
+      "url": "https://github.com/HobbitLong/SupContrast/blob/66a8fe53880d6a1084b2e4e0db0a019024d6d41a/losses.py"
+    },
+    {
+      "repository": "HobbitLong/SupContrast",
+      "commit": "66a8fe53880d6a1084b2e4e0db0a019024d6d41a",
+      "source_path": "LICENSE",
+      "local_path": "vendor/supcontrast/LICENSE",
+      "git_blob_sha1": "0d7cffb144721e6ebe4f49fd239d4c1713f6686c",
+      "sha256": "4e5cba8d82ff479683e749ed7716105c075f3200ef64ae7e9284472b33db06ad",
+      "bytes": 1323,
+      "url": "https://github.com/HobbitLong/SupContrast/blob/66a8fe53880d6a1084b2e4e0db0a019024d6d41a/LICENSE"
+    },
+    {
+      "repository": "pakoromilas/nc_by_design",
+      "commit": "4ee84352e42194b60cfa505f62ebc369942230c7",
+      "source_path": "losses.py",
+      "local_path": "vendor/nc_by_design/losses.py",
+      "git_blob_sha1": "1ab6421cc43c02af6672ed1929c5bcf3836a2584",
+      "sha256": "4eaffe922b3ab0fd6cd483816cce63fb3c27ea44cd1728038e8c5f32818887d1",
+      "bytes": 9207,
+      "url": "https://github.com/pakoromilas/nc_by_design/blob/4ee84352e42194b60cfa505f62ebc369942230c7/losses.py"
+    },
+    {
+      "repository": "pakoromilas/nc_by_design",
+      "commit": "4ee84352e42194b60cfa505f62ebc369942230c7",
+      "source_path": "LICENSE",
+      "local_path": "vendor/nc_by_design/LICENSE",
+      "git_blob_sha1": "3fc8d28d68b49435f220babdc52c2b031bc674d3",
+      "sha256": "c5422b90a8441aec617053dcc0a3be1d7c79de18b23c612bcfc1beb34559b925",
+      "bytes": 1364,
+      "url": "https://github.com/pakoromilas/nc_by_design/blob/4ee84352e42194b60cfa505f62ebc369942230c7/LICENSE"
+    },
+    {
+      "source_path": "/workspace/scratch/ec90c653fde9/caenl_revision_20261023/repository/experiments/caenl_solidification_v1/engine/aligned.py",
+      "local_path": "vendor/caenl_reference/aligned.py",
+      "sha256": "e1396e4b3d66dcf68e6406f74eda53464f0c660d5c4c41eb61a7b1a0e8bd3f83",
+      "bytes": 5482,
+      "note": "Byte-exact local original engine reference supplied in the prior campaign repository; no upstream commit identity inferred."
+    }
+  ]
+}

@@ -48,3 +48,18 @@ Run `python3 results/caenl-solidification-v1/reconstruct_stats.py` from the repo
 
 [Plotting code and instructions](../analysis/plots/README.md) rebuild the existing numerical visualizations from their recorded data. The generated graphics remain local. Both the statistical and plotting workflows use the released numerical inputs.
 
+## Focused CIFAR-100 release
+
+Install `analysis/cifar100_focused/requirements.txt`, then run
+`python3 -B analysis/cifar100_focused/reproduce.py --output reproduced-cifar100-focused`
+from the repository root. The output must be new. The workflow checks all public
+numeric digests, the original 20-file source manifest, complete 160-test/54-development
+coverage, and model-receipt/checkpoint declarations. It recomputes the three primary
+AULC/sign-flip/Holm contrasts and the separate paired-t family, then exports every
+curve, seed and cost row and a column-sized figure.
+
+This repeats released-score arithmetic, not training or inference. Exact training
+and evaluator sources and separately adapted public synthetic tests are under
+`experiments/caenl_cifar100_focused_confirmation_v1/` and
+`experiments/caenl_cifar100_official_test_v2/`. Original fixed-root and GPU guards
+remain explicit; no new generally portable GPU launcher is claimed.

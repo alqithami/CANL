@@ -1,0 +1,357 @@
+{
+  "AULC_normalization_interval": [
+    0.1,
+    0.6
+  ],
+  "AULC_unit": "accuracy percentage points",
+  "AULC_weights": [
+    0.1,
+    0.3,
+    0.4,
+    0.2
+  ],
+  "annotation_savings_claim": "NOT_ESTABLISHED_BY_THIS_ANALYSIS; requires a separately predeclared target, performance margin, and interpolation protocol",
+  "automatic_experiment_launch": false,
+  "confidence_intervals": "Two-sided 95% paired-t intervals, unadjusted; not simultaneous intervals",
+  "costs": {
+    "costs_cover": "all four budget stages, once per method-seed trajectory",
+    "descriptive_only": true,
+    "fields": {
+      "end_to_end_seconds": {
+        "method_mean_seconds": {
+          "ce": 2592.3884142659604,
+          "full_dcr": 2923.2786248117686,
+          "plain_fisher": 2845.7889516830446,
+          "ratio_dcr": 2887.9116338528693
+        },
+        "ratio_dcr_over_controls": {
+          "ce": {
+            "mean_paired_overhead_percent": 11.39926886082897,
+            "seed_overhead_percent": [
+              12.665306353823901,
+              11.313440606331259,
+              11.482188329306275,
+              11.15383994638437,
+              11.110589143878812,
+              11.346221224289032,
+              11.284222350789118,
+              11.357663426355025,
+              11.228004503966215,
+              11.051212723165671
+            ]
+          },
+          "full_dcr": {
+            "mean_paired_overhead_percent": -1.209961665843109,
+            "seed_overhead_percent": [
+              0.01981859677244735,
+              -1.1092768402693798,
+              -1.3146412694201803,
+              -1.4765074035133274,
+              -1.2708674542223575,
+              -1.277130510360236,
+              -1.4498682028869947,
+              -1.2359306776679735,
+              -1.2527819738670787,
+              -1.7324309229960089
+            ]
+          },
+          "plain_fisher": {
+            "mean_paired_overhead_percent": 1.480372658957958,
+            "seed_overhead_percent": [
+              2.9668843668434697,
+              1.3857498750114328,
+              1.4029906209218845,
+              1.0694883327457827,
+              1.0924380514244492,
+              1.4541767180385134,
+              1.379798931639975,
+              1.3665543448396322,
+              1.1877905819333234,
+              1.497854766181117
+            ]
+          }
+        }
+      },
+      "training_seconds": {
+        "method_mean_seconds": {
+          "ce": 2586.316624376178,
+          "full_dcr": 2910.8325790837407,
+          "plain_fisher": 2839.756010914594,
+          "ratio_dcr": 2875.4959447562696
+        },
+        "ratio_dcr_over_controls": {
+          "ce": {
+            "mean_paired_overhead_percent": 11.180752030964065,
+            "seed_overhead_percent": [
+              12.439918281369478,
+              11.094187303288926,
+              11.266804576337597,
+              10.937364913425785,
+              10.891130190454579,
+              11.127391306383029,
+              11.066995689695002,
+              11.141653851848531,
+              11.007868647447872,
+              10.83420554938983
+            ]
+          },
+          "full_dcr": {
+            "mean_paired_overhead_percent": -1.2140784412411079,
+            "seed_overhead_percent": [
+              0.01961662035883105,
+              -1.1139649617076586,
+              -1.3193004780275963,
+              -1.4821190056949818,
+              -1.2755231490667152,
+              -1.2817282657476836,
+              -1.455669142364635,
+              -1.2415359101996537,
+              -1.2571810891225166,
+              -1.7333790308384667
+            ]
+          },
+          "plain_fisher": {
+            "mean_paired_overhead_percent": 1.258759136139691,
+            "seed_overhead_percent": [
+              2.7376045263076243,
+              1.163891406798112,
+              1.1823550709949782,
+              0.8493612407598716,
+              0.8698522908204609,
+              1.2333170318687081,
+              1.1608579018894227,
+              1.1456849188060891,
+              0.9643809602541742,
+              1.2802860128974691
+            ]
+          }
+        }
+      }
+    },
+    "overhead_computed": true,
+    "provided": true,
+    "scope": "Per method-seed sum over four budgets of recorded model training and job times; DCR includes its attributed shared prefix. Prefix attribution appears in both DCR methods; not physical total. Excludes pipeline downtime, recovery, data/preparation, test inference and transfer."
+  },
+  "equivalence_claim": "NOT_TESTED; a nonsignificant difference does not establish equivalence or noninferiority",
+  "independent_unit": "paired seed",
+  "label_counts": [
+    4500,
+    9000,
+    18000,
+    27000
+  ],
+  "label_fractions": [
+    0.1,
+    0.2,
+    0.4,
+    0.6
+  ],
+  "methods": {
+    "ce": {
+      "mean_AULC": 58.627599999999994,
+      "mean_accuracy_percent_by_budget": [
+        34.987,
+        53.919000000000004,
+        65.265,
+        64.23600000000002
+      ],
+      "seed_AULC": [
+        58.596000000000004,
+        58.906000000000006,
+        60.53300000000001,
+        55.64,
+        58.546,
+        59.42400000000001,
+        57.903999999999996,
+        58.096000000000004,
+        59.645,
+        58.986000000000004
+      ],
+      "seed_SD_AULC": 1.3015148609729124
+    },
+    "full_dcr": {
+      "mean_AULC": 58.7216,
+      "mean_accuracy_percent_by_budget": [
+        35.05,
+        54.1,
+        64.96700000000001,
+        64.99900000000001
+      ],
+      "seed_AULC": [
+        59.263999999999996,
+        58.465,
+        60.773,
+        58.136,
+        59.21900000000001,
+        58.322,
+        58.467999999999996,
+        57.706,
+        58.29900000000001,
+        58.564
+      ],
+      "seed_SD_AULC": 0.857482257671972
+    },
+    "plain_fisher": {
+      "mean_AULC": 57.11469999999999,
+      "mean_accuracy_percent_by_budget": [
+        36.03,
+        55.587,
+        62.948,
+        58.282
+      ],
+      "seed_AULC": [
+        51.947,
+        59.451,
+        61.072,
+        52.517,
+        59.124,
+        59.184000000000005,
+        57.918000000000006,
+        57.239000000000004,
+        55.198,
+        57.497
+      ],
+      "seed_SD_AULC": 3.0140856748864246
+    },
+    "ratio_dcr": {
+      "mean_AULC": 58.74720000000001,
+      "mean_accuracy_percent_by_budget": [
+        34.806,
+        53.698,
+        65.155,
+        65.476
+      ],
+      "seed_AULC": [
+        59.272,
+        58.606,
+        58.115,
+        57.489000000000004,
+        59.75300000000001,
+        60.222,
+        57.162000000000006,
+        59.36600000000001,
+        59.017,
+        58.47
+      ],
+      "seed_SD_AULC": 0.9724064993612493
+    }
+  },
+  "multiplicity": "Holm across all three exact primary contrasts; separate Holm family for all three paired-t sensitivity contrasts",
+  "n_paired_seeds": 10,
+  "planned_contrasts": [
+    {
+      "control": "ce",
+      "exact_sign_flip_p_Holm": 1.0,
+      "exact_sign_flip_p_raw": 0.7734375,
+      "paired_t_sensitivity": {
+        "ci95_unadjusted_pp": [
+          -0.7911259937151341,
+          1.0303259937151337
+        ],
+        "degrees_of_freedom": 9,
+        "mean_difference_pp": 0.11959999999999979,
+        "p_Holm_separate_sensitivity_family": 1.0,
+        "p_raw": 0.7731515158651101,
+        "seed_difference_sd_pp": 1.273107152686775,
+        "t_statistic": 0.29707507915414944,
+        "zero_variance_limit": false
+      },
+      "seed_differences_pp": [
+        0.6759999999999948,
+        -0.30000000000000426,
+        -2.4180000000000064,
+        1.8490000000000038,
+        1.2070000000000078,
+        0.7979999999999947,
+        -0.7419999999999902,
+        1.2700000000000031,
+        -0.6280000000000001,
+        -0.5160000000000053
+      ],
+      "target": "ratio_dcr"
+    },
+    {
+      "control": "full_dcr",
+      "exact_sign_flip_p_Holm": 1.0,
+      "exact_sign_flip_p_raw": 0.955078125,
+      "paired_t_sensitivity": {
+        "ci95_unadjusted_pp": [
+          -0.9394019538629521,
+          0.9906019538629536
+        ],
+        "degrees_of_freedom": 9,
+        "mean_difference_pp": 0.025600000000000733,
+        "p_Holm_separate_sensitivity_family": 1.0,
+        "p_raw": 0.9534579175077246,
+        "seed_difference_sd_pp": 1.3489797132153858,
+        "t_statistic": 0.06001150892577375,
+        "zero_variance_limit": false
+      },
+      "seed_differences_pp": [
+        0.008000000000002672,
+        0.14099999999999824,
+        -2.6580000000000013,
+        -0.6469999999999985,
+        0.5339999999999989,
+        1.8999999999999986,
+        -1.3059999999999903,
+        1.6600000000000037,
+        0.7179999999999964,
+        -0.0940000000000012
+      ],
+      "target": "ratio_dcr"
+    },
+    {
+      "control": "plain_fisher",
+      "exact_sign_flip_p_Holm": 0.36328125,
+      "exact_sign_flip_p_raw": 0.12109375,
+      "paired_t_sensitivity": {
+        "ci95_unadjusted_pp": [
+          -0.5436168119083238,
+          3.8086168119083244
+        ],
+        "degrees_of_freedom": 9,
+        "mean_difference_pp": 1.6325000000000003,
+        "p_Holm_separate_sensitivity_family": 0.37175524454272335,
+        "p_raw": 0.12391841484757445,
+        "seed_difference_sd_pp": 3.0420015432094845,
+        "t_statistic": 1.697046568483406,
+        "zero_variance_limit": false
+      },
+      "seed_differences_pp": [
+        7.324999999999996,
+        -0.8449999999999989,
+        -2.9570000000000007,
+        4.972000000000001,
+        0.6290000000000049,
+        1.0379999999999967,
+        -0.7560000000000002,
+        2.1270000000000024,
+        3.8190000000000026,
+        0.972999999999999
+      ],
+      "target": "ratio_dcr"
+    }
+  ],
+  "primary_family_size": 3,
+  "primary_test": "two_sided_exact_paired_sign_flip",
+  "protocol_id": "caenl-cifar100-focused-confirmation-v1",
+  "protocol_sha256": "da19af1c6fc18d50651c8b8065330118b3183f562cc51e7e8568d3bcb0b08fbe",
+  "seeds": [
+    92001,
+    92002,
+    92003,
+    92004,
+    92005,
+    92006,
+    92007,
+    92008,
+    92009,
+    92010
+  ],
+  "sign_flip_assumption": "Paired seed differences are independent across seeds and jointly invariant to independent sign flips under the null",
+  "source_binding_sha256": "f0d8c393ae2fa8fb48271c333d4b55146733db2d5e8aaea855854ce2a49ac6b1",
+  "stage": "confirmation",
+  "status": "CONFIRMATION_ANALYSIS_COMPLETE",
+  "verification_scope": "Checks complete confirmation grid and locked protocol/source/receipt binding declarations; does not independently recompute prediction files"
+}
