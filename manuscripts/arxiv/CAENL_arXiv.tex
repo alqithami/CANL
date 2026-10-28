@@ -1,4 +1,4 @@
-% CÆNL preprint, 23 October 2026.
+% CÆNL preprint, 28 October 2026.
 % Compile with pdfLaTeX; references and workflow artwork are embedded.
 \documentclass[10pt,a4paper,twocolumn]{article}
 \usepackage[margin=19mm,columnsep=7mm]{geometry}
@@ -84,7 +84,7 @@
 with Objective-Aligned Representation Control}
 \author{Saad Alqithami\\[2pt]
 \small \href{mailto:alqithami@gmail.com}{alqithami@gmail.com}}
-\date{23 October 2026}
+\date{28 October 2026}
 \begin{document}
 \twocolumn[\begin{@twocolumnfalse}
 \maketitle
@@ -111,6 +111,10 @@ tests. With acquired labels held constant, the scatter-ratio penalty
 alone improves accuracy by 2.120 points. Common-label ablations support
 the scatter intervention, while comparisons with tuned fixed
 regularization leave the additional value of feedback unresolved.
+A separate 160-model CIFAR-100 confirmation over four uniform label
+budgets establishes no Holm-adjusted AULC superiority of ratio-only
+DCR over CE, full DCR or a selected Fisher trace-ratio control;
+nonrejection does not establish equivalence.
 Completed diagnostics evaluate 30 frozen classifiers at five
 AutoAttack radii and establish no robust-accuracy advantage at the
 prespecified $2/255$ endpoint. A separate 58-run raw-source AudioCaps
@@ -119,8 +123,8 @@ seeds; none of its five adjusted CIDEr-D comparisons rejects. Earlier
 spectral studies yield a small fixed-regularization C4 loss reduction
 and worse CIFAR-10 diffusion FID. Short cached-data timings quantify
 feedback overhead without establishing whole-job efficiency. The results support the
-evaluated scatter-based classification intervention and delineate the
-task dependence of geometry-informed regularization.
+evaluated ImageNet-100 scatter intervention while limiting its broader
+predictive, adaptive and cross-task interpretation.
 
 \end{abstract}
 
@@ -212,7 +216,10 @@ We compare acquisition rules and regularization controls in six-seed
 ImageNet-100 studies and a separate 104-run control study. A subsequent
 206-run study filters exact-content duplicates before training and adds
 common-label component replay, a matched contrastive-feature comparator,
-and a full-label reference with matched optimizer steps. A completed
+and a full-label reference with matched optimizer steps. A separate
+CIFAR-100 study selects six development recipes and confirms four
+fixed recipes over ten new seeds and four uniform label budgets,
+retaining all three inconclusive AULC contrasts. A completed
 30-checkpoint, 150-suite study evaluates smaller-radius robustness and
 practical training-path cost. Separate spectral studies cover language,
 diffusion, and audio, with an additional 58-run raw-source AudioCaps study
@@ -233,6 +240,14 @@ intervention from evidence for adaptive superiority. The earlier
 acquisition, controller, and robustness studies remain complementary;
 their designs and statistical families are distinguished in
 Section~\ref{sec:study_sequence}.
+
+The separate CIFAR-100 confirmation tests whether selected fixed
+recipes show broader predictive utility beyond the ImageNet-100
+acquisition setting. It establishes no adjusted AULC superiority of
+ratio-only DCR over CE, full DCR or the specified Fisher control.
+This result adds a dataset while qualifying the scope of the positive
+ImageNet-100 findings. It compares complete supervised recipes;
+it does not test acquisition or identify an isolated safeguard effect.
 
 The other tasks assess a separate spectral objective rather than the
 supervised class-scatter loss. Fixed spectral regularization produces a
@@ -1459,9 +1474,10 @@ and coefficient control developed in Sections~\ref{sec:framework}
 and~\ref{sec:theory}. Classification studies compare acquisition rules
 and regularization treatments at matched annotation budgets, then test
 feedback against independently selected constant and scheduled strengths.
-The final classification study additionally holds acquired labels fixed
+The content-filtered ImageNet-100 study additionally holds acquired labels fixed
 to isolate training components and uses an inventory filtered for exact
-content identities before any of its training.
+content identities before any of its training. A separate CIFAR-100
+study compares selected supervised recipes under uniform label draws.
 Separate language, diffusion, and audio studies evaluate the spectral
 variants under their task-specific protocols.
 
@@ -1511,6 +1527,15 @@ practical-cost diagnostics are complete. The latter evaluates 30 frozen
 ResNet-50 checkpoints and 150 attack suites, without retraining or
 changing the original 17-contrast analysis. Its three primary comparisons
 form a separate inferential family.
+
+A fourth classification study uses CIFAR-100, with 54 development
+treatments across six recipes and three seeds. Before confirmation
+preparation, its scope is explicitly amended to four selected recipes,
+ten independent seeds and four uniform label budgets: 160 treatment
+trajectories and 40 shared preparations. Its three-contrast primary AULC
+family remains separate from every ImageNet-100 family. The original
+six-method proposal and all development outcomes are retained; excluded
+development comparators are not declared confirmed.
 
 Engineering checks verify implementation behavior and are not counted
 as predictive-performance experiments. The original ImageNet-100
@@ -1754,6 +1779,62 @@ checked. It reuses labels, not features or gradients. These contrasts
 isolate training interventions conditional on entropy's label sequence.
 They complement the end-to-end comparisons, whose acquired sets may
 diverge, rather than decomposing those pipeline effects automatically.
+
+\subsection{Separate CIFAR-100 recipe confirmation}
+\label{sec:cifar100_design}
+
+A separate CIFAR-100 study~\cite{krizhevsky2009cifar} compares selected
+supervised recipes without active acquisition. The original training set
+is partitioned into a 45,000-image gradient pool and 5,000 labeled
+development images. Each seed supplies one identity-only uniform
+permutation; nested prefixes contain 4,500, 9,000, 18,000 and 27,000
+training labels, corresponding to 10\%, 20\%, 40\% and 60\% of the pool.
+The 5,000 development labels are additional to each training budget.
+
+Development evaluates cross-entropy (CE), ratio-only DCR, full DCR, the
+specified Fisher trace-ratio control, and adapted SupCon and NONL
+recipes: three configurations per method on three seeds at 9,000
+training labels, totaling 54 treatments. Before confirmation preparation,
+a scope amendment reduces projected computation by retaining CE,
+ratio-only DCR, full DCR and Fisher,
+including Fisher's strongest selected development mean. This focused
+four-method study does not complete the earlier six-method proposal;
+SupCon/NONL development outcomes remain available without confirmed
+comparisons against them. One selected configuration per retained method
+is frozen across all confirmation budgets.
+
+Ten new seeds, 92001--92010, share label identities, raw initialization,
+balanced minibatches and augmentation streams within each seed--budget
+pair. A fresh CIFAR-stem ResNet-18 is trained at each budget, using
+standard training BatchNorm and its final 512-dimensional features.
+Minibatches contain ten classes and ten distinct acquired examples per
+class. Crop/flip augmentation and cosine learning-rate decay are fixed.
+These choices differ from the ImageNet-100 implementation.
+
+Every treatment receives 200 backbone epochs. CE and Fisher train
+continuously; DCR branches share one CE prefix epoch, freeze calibration
+targets, reset SGD, then train for 199 epochs. The prefix counts inside
+their 200-epoch allocation. Selected ratio weights are 0.03 for ratio-only
+DCR and 0.10 for full DCR; the latter adds separation weight 0.01.
+Fisher adds an unthresholded stabilized within/between trace ratio at
+weight 0.01 to CE on the same normalized features. This names a specific
+control, not every Fisher-style method. All use learning rate 0.1,
+momentum 0.9 and weight decay $5\times10^{-4}$.
+
+The completed matrix contains 160 treatments, 40 shared preparations and
+4,674,150 physical optimizer updates. Final checkpoints are verified
+before a separately recorded release of all 10,000 official test images.
+The primary endpoint is seed-level normalized trapezoidal test-accuracy
+AULC, with weights $(0.1,0.3,0.4,0.2)$ over the four budgets. Three
+two-sided exact paired sign-flip contrasts compare ratio-only DCR with
+CE, full DCR and Fisher, with Holm correction across all three.
+Paired-$t$ sensitivity tests receive a separate Holm correction;
+95\% intervals are individual and unadjusted. Seed inference is
+conditional on this dataset and the stated symmetry assumptions.
+Different selected weights and the SGD reset preclude isolated causal
+attribution to the separation safeguard or penalty alone. This design
+does not test feedback, active acquisition, annotation savings, robustness
+or geometric mediation.
 
 \subsection{Acquisition baselines and matched comparisons}
 
@@ -2380,7 +2461,8 @@ not third-party replication of GPU execution.
 
 We first report the completed 206-run content-filtered study, separating
 end-to-end treatment effects from common-label component effects.
-The earlier 104-run control comparisons, coefficient dynamics, and
+The separate CIFAR-100 recipe confirmation then tests the scope of
+predictive utility under uniform label draws. The earlier 104-run control comparisons, coefficient dynamics, and
 duplicate sensitivity follow, then the six-seed acquisition, control,
 and adversarial studies. Spectral task results and computational
 measurements complete the evaluation. Each study retains its own
@@ -2511,8 +2593,72 @@ the acquired sets are shared. It does not establish mediation by the
 measured scatter statistic, isolate normalization, or assign all gains
 in freely evolving acquisition pipelines to one component. Reduced
 objectives were evaluated at strengths selected for the complete
-objective, and these component effects have not been repeated on a
-second dataset.
+objective. Section~\ref{sec:cifar100_results} adds a separate dataset
+comparison of independently selected recipes, rather than repeating
+this equal-strength factorial component design.
+
+\subsection{Separate CIFAR-100 recipe confirmation}
+\label{sec:cifar100_results}
+
+Table~\ref{tab:cifar100_summary} and Figure~\ref{fig:cifar100_confirmation}
+retain all 160 official-test evaluations from the frozen four-recipe
+matrix. Mean normalized AULC is 58.6276 for CE, 58.7472 for ratio-only
+DCR, 58.7216 for full DCR and 57.1147 for Fisher. Ratio-only DCR minus
+CE is $+0.1196$ percentage points, minus full DCR is $+0.0256$, and
+minus Fisher is $+1.6325$. Their primary Holm-adjusted exact
+$p$-values are 1.000, 1.000 and 0.36328. None establishes superiority.
+The separately corrected paired-$t$ sensitivity family likewise has no
+rejection. All three contrasts, their raw tests and individual intervals
+appear in Appendix~\ref{app:cifar100_confirmation}.
+
+\begin{table}[tbp]
+\centering\footnotesize
+\setlength{\tabcolsep}{2pt}
+\caption{Separate CIFAR-100 official-test confirmation. Mean $\pm$ sample SD over ten paired seeds. AULC is normalized over 4,500--27,000 acquired training labels; 5,000 labeled development images are additional.}
+\label{tab:cifar100_summary}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr@{}}
+\toprule
+Recipe & AULC & 27k-label top-1 (\%) \\
+\midrule
+CE & $58.628\pm1.302$ & $64.236\pm6.038$ \\
+Ratio DCR & $58.747\pm0.972$ & $65.476\pm4.629$ \\
+Full DCR & $58.722\pm0.857$ & $64.999\pm2.619$ \\
+Fisher & $57.115\pm3.014$ & $58.282\pm8.473$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{figure_cifar100_confirmation.pdf}
+\caption{Separate CIFAR-100 official-test confirmation. Curves show
+mean top-1 accuracy over ten seeds at each uniform training-label
+budget; bars show sample seed SD, not confidence intervals. The
+additional 5,000 development labels are excluded from the horizontal
+axis. Every budget and seed is retained, including nonmonotonic
+trajectories. The primary endpoint combines all four points into AULC;
+the 27,000-label endpoint is descriptive.}
+\label{fig:cifar100_confirmation}
+\end{figure}
+
+Ratio-only DCR has lower mean accuracy than CE at the first three
+budgets and a higher mean at 27,000 labels. The latter difference does
+not replace the prespecified AULC endpoint. CE and Fisher have lower
+mean accuracy at 27,000 than at 18,000 labels, with substantial
+between-seed variability. These observed trajectories are retained
+without monotonic smoothing, checkpoint reselection or post-hoc budget
+exclusion; the records do not identify their cause.
+
+This confirmation therefore supplies no established general AULC gain
+for the selected ratio-only DCR recipe. It also establishes neither
+equivalence nor absence of a useful effect: the unadjusted paired
+interval for ratio-only DCR minus CE is $[-0.791,+1.030]$ points.
+The positive Fisher contrast has interval $[-0.544,+3.809]$ and remains
+inconclusive despite its larger mean. Different selected ratio weights
+and the DCR optimizer reset prevent treating the full-versus-ratio
+comparison as an isolated safeguard ablation. The uniform supervised
+design does not establish active-learning gains, annotation savings,
+robustness or a geometric mechanism.
 
 \subsection{Earlier 104-run tuned-control and transfer study}
 \label{sec:feedback_results}
@@ -3664,15 +3810,29 @@ Rejected initialization attempts and verification are separate.
 No universal sub-10\% or end-to-end overhead claim follows.
 
 
+\paragraph{Separate CIFAR-100 recipe cost.}
+Across the four budgets, ratio-only DCR uses a mean 11.18\% more
+recorded training time and 11.40\% more recorded job time than CE,
+computed as paired seed-wise overheads. Its job-time overhead versus
+Fisher is 1.48\%. DCR method costs include their attributed shared
+prefix; physical campaign totals count each shared prefix only once.
+These timers exclude preparation, the preserved inter-job interruption,
+test evaluation and transfer. Development selection is additional,
+and the timings do not establish lifetime tuning or total-cost savings.
+The overhead accompanies no established primary AULC gain in this study.
+
 \section{Discussion and limitations}\label{sec:discussion}
 
 The central question is whether representation geometry can guide
 regularization during active learning, and whether adapting its
 coefficient improves on a separately selected constant. The combined aligned-DCR and MACC-Lite treatment improves
-final-budget classification over entropy acquisition alone. The tuned
+final-budget classification over entropy acquisition alone within the
+ImageNet-100 protocols. The tuned
 constant attains slightly higher mean accuracy, with inconclusive paired
-differences. These findings support geometry-informed regularization
-under the evaluated protocol and motivate a separate assessment of the
+differences. The separate CIFAR-100 study establishes no adjusted
+AULC superiority of ratio-only DCR over CE, full DCR or Fisher.
+These findings support a conditional ImageNet-100 regularization
+benefit while limiting its broader predictive interpretation and motivate a separate assessment of the
 coefficient policy. Their interpretation connects the measured gains to the formulation
 in Sections~\ref{sec:geometry}--\ref{sec:framework}, the analysis in
 Section~\ref{sec:theory}, and the distinct task protocols.
@@ -3703,6 +3863,18 @@ later tuned-control results concern different comparators. Together they
 show why coefficient selection must be controlled when attributing a
 benefit to adaptation. Lite's advantage over the selected schedule is
 also not established in the new 17-contrast family.
+
+The CIFAR-100 test directly qualifies a broader recipe claim. Its
+selected ratio-only DCR mean is close to CE and full DCR in normalized
+AULC, and all three primary contrasts are inconclusive. Fisher had the
+highest selected development mean, yet its confirmation curve is not
+uniformly strongest; retaining that comparator and all budgets avoids
+turning the development ranking into a confirmation conclusion.
+The additional dataset does not establish an active-learning benefit,
+adaptive superiority or a causal role for thresholding, the floor or
+normalization. Its fixed-recipe comparisons also differ in optimizer
+reset and selected penalty weights. The measured overhead over CE
+therefore has no established AULC benefit to offset it in this study.
 
 The formulation contributes an explicit connection between the measured
 quantity and the intervention: the supervised scatter residual enters
@@ -3768,6 +3940,9 @@ No universal acquisition ranking or equal-performance 40\% annotation saving \\
 Scatter components &
 Ratio-only benefit under common entropy labels; complete fixed DCR exceeds separation-only &
 Separation increment, feedback increment, interaction, normalization, and geometry mediation remain unresolved \\
+CIFAR-100 fixed recipes &
+Ratio-only DCR shows no adjusted AULC superiority over CE, full DCR or Fisher in ten-seed, four-budget confirmation &
+Nonrejection is not equivalence; selected weights and optimizer reset preclude an isolated safeguard or mechanism claim \\
 MACC-Lite &
 Final-budget gains over entropy on two backbones; earlier gains over specified 0.03 controls &
 No established superiority to the tuned constant, equivalence, or isolated causal benefit of adaptation \\
@@ -3793,8 +3968,8 @@ No equivalence or full-original-benchmark comparability is established \\
 \subsection{Limits of classification and statistical inference}
 \label{sec:classification_limits}
 
-The classification evidence covers two ResNet backbones on one
-100-class subset, with a class-balanced sampler and frozen
+The ImageNet-100 classification evidence covers two ResNet backbones
+on one 100-class subset, with a class-balanced sampler and frozen
 post-initialization BatchNorm statistics. Matching these choices
 supports comparison within the protocol, but does not establish the
 best training recipe for every method. In particular, UHerding-Margin
@@ -3803,6 +3978,16 @@ holdout temperature calibration, and warm-start training. Its ranking
 cannot be generalized to uncertainty-weighted coverage methods under
 their original or independently optimized protocols. ImageNet-1K and
 ViT performance remain unevaluated.
+
+The separate CIFAR-100 study adds a second dataset but changes the
+stem, feature layer, BatchNorm treatment, label-draw design and training
+recipe. It is not a direct transfer of the active-learning protocol or
+the same factorial component ablation. Its 5,000 development labels are
+additional to the reported gradient-label budgets. Finite development
+grids do not establish globally optimized competitors, and confirmation
+does not extend to the omitted SupCon or NONL recipes. Ten paired seeds
+have limited sensitivity to small AULC effects; the inconclusive result
+does not establish equivalence, non-inferiority or annotation savings.
 
 The endpoint also matters. Mixed early-budget ordering on ResNet-50
 shows that a final-budget gain is not a uniform improvement throughout
@@ -3832,8 +4017,12 @@ absence, and it does not create a previously untouched benchmark.
 Statistical interpretation must retain the distinction between study
 families. The original six-seed exact tests have the resolution limit
 derived in Section~\ref{sec:statistics}; their nonrejection does not
-independently demonstrate absent effects. The two ten-seed families permit
-rejection and retain both test types. Paired-$t$ inference remains
+independently demonstrate absent effects. The two ten-seed ImageNet-100 families permit
+rejection and retain both test types. The CIFAR-100 primary family
+separately corrects all three exact AULC contrasts; its paired-$t$
+sensitivity family is corrected separately. Seed uncertainty is
+conditional on the shared dataset, rather than uncertainty across
+independently sampled datasets. Paired-$t$ inference remains
 conditional on small-sample assumptions, and neither procedure provides
 study-wide error control across the full sequence of experiments.
 The later comparisons were specified before execution, but were informed
@@ -3878,8 +4067,9 @@ studies. Higher coverage alone does not authenticate recordings or
 justify extrapolation to other audio tasks.
 
 Across these studies, a geometric target is a modeling choice whose
-usefulness depends on its relationship to the task loss. The positive
-classification result, small fixed C4 effect, adverse diffusion result,
+usefulness depends on its relationship to the task loss. The ImageNet-100
+classification benefit, inconclusive CIFAR-100 recipe comparisons,
+small fixed C4 effect, adverse diffusion result,
 and inconclusive audio contrasts motivate task-specific validation of
 that relationship. None supplies evidence of a universal cross-task
 gain, and the spectral outcomes cannot directly validate or invalidate
@@ -3888,13 +4078,16 @@ the different aligned classification objective.
 \subsection{Directions for further research}
 \label{sec:future_directions}
 
-Common-label component replay now narrows the source of the classification
-benefit to a supported scatter intervention under this protocol.
-Further mechanistic work should distinguish the role of normalization
+Common-label component replay narrows the ImageNet-100 benefit to
+a supported scatter intervention under that protocol. The separate
+CIFAR-100 recipe confirmation establishes no adjusted AULC gain,
+so broader utility remains an empirical question. Further tests
+should hold optimizer conventions fixed, distinguish normalization
 and target choice, retune reduced objectives under matched search
-budgets, and test whether measured geometric changes mediate predictive
-outcomes. Replication on independent image datasets is needed to assess
-whether the present component effects generalize beyond ImageNet-100.
+budgets, and test whether geometric changes mediate prediction.
+Additional datasets and architectures can assess scope; this requires
+a matched component design rather than treating complete-recipe
+comparisons as isolated causal ablations.
 
 The practical value of feedback also warrants a test beyond backbone
 transfer on the same subset. Predefined comparisons on new datasets,
@@ -3936,6 +4129,17 @@ Appendix~\ref{app:solidification}. The completed diagnostic and raw-source
  \href{https://github.com/alqithami/CANL/tree/51412af5df877a8b87746bd7a8a9422192895132}{\texttt{51412af}}.
  They accompany this version in the numerical supplement; its release
  manifest records the immutable revision and public-file checksums.
+The CIFAR-100 release is pinned to revision
+\href{https://github.com/alqithami/CANL/tree/b7997451606151344a155625127ed15db956ada2/results/caenl-cifar100-focused-v1}{\texttt{b799745}}
+in \path{results/caenl-cifar100-focused-v1}. Its manifest binds the frozen
+training and evaluation sources, all selected recipes, model receipts,
+160 official-test score records and the locked three-contrast analysis.
+Prediction-level verification recomputes accuracies from saved arrays
+and checks their receipt hashes; statistical reconstruction independently
+recomputes all seed AULCs and planned tests. These checks do not constitute
+independent GPU inference or training replication. The operational
+continuation and evaluator correction remain part of the provenance.
+
 Historical studies and later variants remain separate; licensed raw data
 and large checkpoints are excluded. Appendix~\ref{app:provenance} documents
 the retained evidence, the audio initialization workaround that limits
@@ -3960,8 +4164,8 @@ condition makes gradient interaction explicit, and the constructive
 counterexample shows that identical clean geometry and logits can coexist
 with arbitrarily small robust radii when input sensitivity is unconstrained.
 
-The principal empirical finding is a classification benefit from the
-evaluated scatter intervention, supported by complementary acquisition,
+The principal positive empirical finding is an ImageNet-100
+classification benefit from the evaluated scatter intervention, supported by complementary acquisition,
 tuned-control, and common-label experiments. The completed 206-run study
 retains the original formulation while filtering exact-content duplicates
 before training. At 60\% annotations, Lite with DCR exceeds entropy
@@ -3986,6 +4190,15 @@ equal-performance annotation-saving claim. Thus the evidence supports
 the specified representation intervention more directly than a general
 claim of superior adaptive control.
 
+A separate CIFAR-100 confirmation evaluates 160 final models across
+four uniform label budgets and ten new paired seeds. None of the three
+prespecified AULC contrasts establishes ratio-only DCR superiority over
+CE, full DCR or the selected Fisher trace-ratio control after Holm
+correction. This is an inconclusive comparison, not equivalence, and its
+recorded overhead over CE has no established primary predictive gain.
+The result restricts broad claims for the selected recipes while
+preserving the positive ImageNet-100 component evidence and its scope.
+
 The complementary experiments define the scope of this finding.
 Earlier acquisition comparisons show that the benefit can be obtained
 without geometric acquisition, whereas learned Full MACC adds no
@@ -4002,12 +4215,12 @@ generative task it is intended to improve.
 
 The study provides a specified representation-control mechanism,
 conditional analytical results, and a controlled empirical decomposition
-of its classification benefit. Tuned fixed DCR is the simplest supported
-regularized reference under the tested conditions; bounded feedback is
+of the ImageNet-100 classification benefit. Tuned fixed DCR is the
+simplest supported regularized reference in those comparisons; bounded feedback is
 an interpretable alternative whose distinct predictive and total-cost
-utility remains to be established. Independent datasets, broader
-architectures, and matched tuning budgets are needed to test that
-utility beyond the present benchmark. Robustness mechanisms require
+utility remains to be established. Broader architectures, matched
+component ablations and adequately powered cross-dataset tests are
+needed to assess utility beyond these protocol-specific findings. Robustness mechanisms require
 input-sensitivity evidence beyond clean scatter measurements. The
 released implementations and numerical records support scrutiny of
 both the positive findings and the negative or inconclusive comparisons,
@@ -4027,20 +4240,92 @@ Formal analysis, Investigation, Project administration, Resources,
 Software, Validation, Visualization, Writing -- original draft,
 Writing -- review and editing.
 
-\section*{Declaration of generative AI and AI-assisted technologies
-in the manuscript preparation process}
-ChatGPT (OpenAI) was used to assist with manuscript organization and
-editing, mathematical exposition, programming and debugging,
-interpretation of saved experimental artifacts, reference checking,
-and preparation of the LaTeX/TikZ and Matplotlib figures.
-Numerical figures use recorded experimental measurements or stated
-statistical summaries; schematics describe the implemented workflow.
-The scope of saved-result verification is documented in
-Appendix~\ref{app:provenance}. The author is responsible for the
-scientific design, interpretation, and content of this work.
-
 \FloatBarrier
 \appendix
+
+\section{Focused CIFAR-100 confirmation}
+\label{app:cifar100_confirmation}
+
+This record is separate from the ImageNet-100 studies. Its six-method
+development screen contains 54 treatments at 9,000 training labels;
+the prospectively amended confirmation contains four selected recipes,
+ten new seeds and four budgets. The numerical release retains every
+development candidate and all 160 official-test confirmation scores.
+No SupCon or NONL confirmation result is inferred from development.
+
+Table~\ref{tab:cifar100_contrasts} reports all three primary contrasts,
+including raw and Holm-adjusted exact tests. Individual paired-$t$
+intervals are not simultaneous intervals and do not define primary
+rejection. Table~\ref{tab:cifar100_sensitivity} retains the separately
+corrected sensitivity family. Table~\ref{tab:cifar100_seed_aulc} gives
+every paired seed AULC; no budget is treated as an independent replicate.
+The sign-symmetry and independent-seed assumptions remain necessary.
+All four budgets enter the normalized trapezoid rule, including lower
+accuracy at larger label budgets. No monotonic correction, winning-budget
+selection or seed replacement is applied.
+
+\begin{table}[tbp]
+\centering\footnotesize
+\setlength{\tabcolsep}{2pt}
+\caption{All three prespecified CIFAR-100 AULC contrasts. Differences and individual, unadjusted paired-$t$ 95\% intervals are in percentage points. Primary exact sign-flip $p$-values receive Holm correction across these three contrasts. $R$: ratio DCR; $C$: CE; $D$: full DCR; $F$: Fisher.}
+\label{tab:cifar100_contrasts}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+Contrast & $\Delta$ & 95\% CI & Exact $p$ & Holm $p$ \\
+\midrule
+$R-C$ & $+0.120$ & $[-0.791,+1.030]$ & $0.77344$ & $1$ \\
+$R-D$ & $+0.026$ & $[-0.939,+0.991]$ & $0.95508$ & $1$ \\
+$R-F$ & $+1.633$ & $[-0.544,+3.809]$ & $0.12109$ & $0.36328$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[tbp]
+\centering\footnotesize
+\setlength{\tabcolsep}{2pt}
+\caption{CIFAR-100 paired-$t$ sensitivity analysis. Holm correction is separate from the primary exact-test family. Abbreviations follow Table~\ref{tab:cifar100_contrasts}.}
+\label{tab:cifar100_sensitivity}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr@{}}
+\toprule
+Contrast & Raw $p$ & Holm $p$ \\
+\midrule
+$R-C$ & $0.77315$ & $1$ \\
+$R-D$ & $0.95346$ & $1$ \\
+$R-F$ & $0.12392$ & $0.37176$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[tbp]
+\centering\footnotesize
+\setlength{\tabcolsep}{2pt}
+\caption{CIFAR-100 normalized AULC by independent confirmation seed. Every entry combines all four training-label budgets. All values use official-test accuracy percentages.}
+\label{tab:cifar100_seed_aulc}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+Seed & CE & Ratio DCR & Full DCR & Fisher \\
+\midrule
+92001 & $58.596$ & $59.272$ & $59.264$ & $51.947$ \\
+92002 & $58.906$ & $58.606$ & $58.465$ & $59.451$ \\
+92003 & $60.533$ & $58.115$ & $60.773$ & $61.072$ \\
+92004 & $55.640$ & $57.489$ & $58.136$ & $52.517$ \\
+92005 & $58.546$ & $59.753$ & $59.219$ & $59.124$ \\
+92006 & $59.424$ & $60.222$ & $58.322$ & $59.184$ \\
+92007 & $57.904$ & $57.162$ & $58.468$ & $57.918$ \\
+92008 & $58.096$ & $59.366$ & $57.706$ & $57.239$ \\
+92009 & $59.645$ & $59.017$ & $58.299$ & $55.198$ \\
+92010 & $58.986$ & $58.470$ & $58.564$ & $57.497$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+These outcomes compare selected complete recipes. In particular, the
+ratio weights differ between ratio-only and full DCR, and the DCR
+branches reset SGD after their shared CE prefix. The evidence therefore
+does not isolate the separation safeguard, establish a collapse-mediated
+effect, or test feedback and active acquisition. Each nominal training
+budget also requires the additional 5,000 labeled development examples.
+\FloatBarrier
 
 \section{Supplementary results and development analysis}
 \label{app:classification_details}
@@ -4680,6 +4965,27 @@ and 4,995 validation images. Its exact-content separation does not
 retrospectively change the earlier inventories or certify upstream
 authenticity.
 
+\paragraph{CIFAR-100 confirmation and test release.}
+The archive, training-source manifest, acquired identities, initial
+states and final checkpoints are checksum-bound. Training reads only
+the original training member; all 200 completed stages are verified
+before the separate official-test release. A GPU-exclusivity guard
+stopped training between jobs. An operational continuation executes only
+the eleven unstarted stages, preserving completed artifacts, frozen
+recipes and the original 96-hour deadline. The original runtime records
+and the coordinator-identity successor are retained.
+
+The official \path{cifar-100-python/test} member contains 10,000 rows but
+9,999 unique filename strings. An initial evaluator incorrectly required
+unique filenames and stopped before scoring any model. The corrected
+loader retains every serialized row, using row indices as identities;
+it changes no example, model or statistical choice and preserves the
+original evaluation deadline. Both evaluator versions and the correction
+record are retained. Prediction arrays, model receipts and the locked
+analysis contract support numerical reconstruction. Filename metadata
+does not establish content uniqueness; these integrity checks do not
+constitute independent training replication.
+
 C4 training uses \path{en/c4-train.00000-of-01024.json.gz}, and controller
 feedback and development use
 \path{en/c4-validation.00000-of-00008.json.gz}. Final unused-shard
@@ -4701,6 +5007,16 @@ reported comparisons.
 
 \subsection{Verification of saved results and execution records}
 \label{app:record_verification}
+
+For CIFAR-100, all 200 training receipts and their checkpoint/history
+bindings are checked before test release. Saved prediction arrays from
+all 160 official-test evaluations are verified against their receipts,
+and every accuracy is recomputed. An independent score-level check
+reconstructs the four-budget seed AULCs, all three sign-flip tests,
+Holm adjustments and paired-$t$ sensitivity results. Model hashes remain
+unchanged across evaluation. This verifies retained artifacts and
+statistical arithmetic; it does not supply independently repeated GPU
+inference or training.
 
 Verification of the initial classification study reconstructs
 metrics from saved validation, feedback, and attack arrays. Checks of

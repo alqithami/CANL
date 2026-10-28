@@ -1,10 +1,16 @@
 {
-  "date": "2026-10-23",
-  "evidence_repository": "https://github.com/alqithami/CANL",
-  "evidence_commit": "51412af5df877a8b87746bd7a8a9422192895132",
-  "original_archives": {
-    "solidification": "37b1d7d55f2bab65582f2109583381cf83433686c6a0517fd24f7364483565db",
-    "diagnostics": "21a4c69c69f6915c031e2d20961e84795ebbda1051849e7994e5179fb8ca6430",
-    "audiocaps_raw": "ba7873743f506f333057c8c77616b520173be1292e2e0cfbee8c899211bf22e1"
+  "prepared_date": "2026-10-28",
+  "numerical_release_commit": "b7997451606151344a155625127ed15db956ada2",
+  "files": {
+    "AI_USE_DECLARATION.txt": "2ddb08ba03ae06ac6e74189ac2810fb0428ddc5d8b01cb0b65c95802a12323af",
+    "CAENL_arXiv.pdf": "4995e93f95a3c49a55fa2c31fbc0c87750823c24ffe39eb4f341512b664b0175",
+    "CAENL_arXiv.tex": "70242f3fb007c44e8d728ab4651c8568e82adbdbbd5d6dd301bfe86b165c5612",
+    "CAENL_arXiv_metadata.json": "3557c437e736f96c146317746ac7358a2e0588493aff5734f6cff5b437353e28",
+    "CAENL_arXiv_source.zip": "bacde4de0c07a7aca29e5e900f99c981c20fd71760ce76bee713c950737c148d",
+    "CAENL_arXiv_submission_fields.txt": "172427da524eccfc436c9c65ab4ce75e101ce2d49bc01993c09821791f5cd1bf",
+    "CAENL_arXiv_validation.json": "1cc001f8e4a687ebd2373207009930b7336edafb7f18c66a08e22df6f3f4dad1",
+    "CAENL_arXiv_version_notes.txt": "ba3d648eebfd72f91f2b4dd79f337aad0298adb5910ea0579241f650bc744e6a",
+    "CAENL_numerical_supplement.zip": "b15db846b93c4620f1a68187caeeea6fde9ff0786d48c1532aa841ac7185237d",
+    "README.md": "f1c84ed80a39dc51e3e6e112d3be75d981373d48992c1af0e60463f335784628"
   }
 }
